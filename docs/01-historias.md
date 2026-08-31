@@ -39,6 +39,8 @@
 2. Dado que tengo muchas playlists, cuando la lista es larga, entonces puedo desplazarme y ver todas.
 3. Dado que no tengo playlists creadas por mí, cuando cargo la lista, entonces veo un mensaje claro de que no hay playlists propias.
 4. Dado que selecciono playlists, cuando son varias, entonces veo un contador de seleccionadas.
+5. Dado que tengo muchas playlists y no quiero elegirlas una a una, cuando pulso "Seleccionar todo", entonces se marcan todas las playlists disponibles.
+6. Dado que todas están seleccionadas, cuando pulso "Quitar selección", entonces se desmarcan todas.
 
 ---
 
@@ -81,6 +83,15 @@
 **Criterios de aceptación:**
 1. Dado que una canción no se encuentra, cuando termina la migración, entonces aparece en una lista de "no encontradas".
 2. Dado que hay canciones no encontradas, cuando amplío la lista, entonces veo el título y el artista de cada una.
+
+### H7b — Buscar alternativas para las canciones no encontradas — DESEABLE
+
+> Como María, quiero que la app intente resolver automáticamente las canciones que no encontró, para no tener que buscarlas yo manualmente.
+
+**Criterios de aceptación:**
+1. Dado que una canción no se encontró por ISRC, cuando la re-busco, entonces la app la intenta encontrar por título y artista.
+2. Dado que igualmente no hay coincidencia, cuando agota la búsqueda automática, entonces la deja en la lista de "no encontradas" y me avisa.
+3. Dado que la app encuentra una alternativa probable, cuando la valida, entonces me informa qué alternativa eligió y la migra.
 
 ---
 
@@ -197,10 +208,10 @@
 ## HUECOS DETECTADOS (fuera del alcance actual, anotados para el Paso 3 MVP)
 
 - **Migración inversa (de otras plataformas hacia Spotify o entre ellas)**: El problema solo contempla Spotify → destino. La migración entre plataformas no-Spotify no está definida.
-- **Resolución de "no encontrado" por usuario**: Cuando una canción/álbum/artista no se encuentra por ISRC o por nombre, hay una historia (H7) para mostrarlo, pero no hay historia sobre cómo el usuario podría proponer alternativas manualmente. Confirmar si entra o no en MVP.
+- **Playlists colaborativas: regla de COPIA, no traslado**: Las playlists colaborativas se copiarán igual que las propias, pero **nunca se mueven ni se borran de Spotify**. La app solo lee de Spotify (OAuth de lectura), no elimina nada del origen. Los colaboradores originales no se ven afectados. Confirmar si las colaborativas entran en el MVP.
 - **Límite de tasa (rate limits) de las APIs**: No hay historia específica sobre manejar los límites de peticiones por segundo de Spotify/TIDAL. H13 lo bordea pero no lo define.
+- **Selección manual de alternativas para no encontradas**: H7b resuelve las no encontradas de forma automática, pero no hay historia para que el usuario elija manualmente una alternativa entre varias candidatas. DESEABLE post-MVP.
 - **Privacidad de los datos**: No hay historia sobre qué pasa con los tokens OAuth (dónde se guardan, se revocan, caducan). Importante para RGPD y seguridad.
-- **Migración de playlists colaborativas**: Hay historia para playlists propias, pero no está claro qué pasa con las playlists colaborativas (de otras personas) que María tiene guardadas.
 
 ---
 
