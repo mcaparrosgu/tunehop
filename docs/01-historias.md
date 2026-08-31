@@ -165,13 +165,42 @@
 
 ---
 
+## BLOQUE H2 — Migración de colecciones completas (álbumes, artistas, gustos)
+
+### H16 — Migrar álbumes guardados — DESEABLE
+
+> Como María, quiero migrar también los álbumes que tengo guardados en Spotify, para no perder mi colección de álbumes favoritos al cambiar de plataforma.
+
+**Criterios de aceptación:**
+1. Dado que tengo álbumes guardados en Spotify, cuando elijo migrar álbumes, entonces se crean/marcan esos álbumes en la plataforma destino.
+2. Dado que migro varios álbumes, cuando termina, entonces veo cuántos se migraron y cuáles no se encontraron.
+
+### H17 — Migrar artistas seguidos — DESEABLE
+
+> Como María, quiero migrar también los artistas que sigo en Spotify, para seguir sus novedades en la nueva plataforma sin perder mi lista de favoritos.
+
+**Criterios de aceptación:**
+1. Dado que sigo artistas en Spotify, cuando elijo migrar artistas, entonces se siguen/marcan esos artistas en la plataforma destino.
+2. Dado que migro varios artistas, cuando termina, entonces veo cuántos se migraron y cuáles no se encontraron.
+
+### H18 — Migrar canciones guardadas (Liked Songs) — DESEABLE
+
+> Como María, quiero migrar también mi lista completa de canciones guardadas ("Me gusta") de Spotify, para no perder esa colección que he construido durante años.
+
+**Criterios de aceptación:**
+1. Dado que tengo canciones guardadas en Spotify, cuando elijo migrar "Mis gustos", entonces se crea una playlist o se marcan en la plataforma destino.
+2. Dado que la lista de "Me gusta" es muy larga, cuando la migro, entonces veo el progreso y cuántas quedan.
+3. Dado que hay canciones guardadas que no existen en el destino, cuando termina, entonces veo cuáles no se encontraron.
+
+---
+
 ## HUECOS DETECTADOS (fuera del alcance actual, anotados para el Paso 3 MVP)
 
-- **Migración de "me gusta"/liked songs**: El documento del problema no menciona migrar los "Me gusta" de Spotify (la lista gigante de canciones guardadas). Solo playlists. Confirmar si entra o no en MVP.
 - **Migración inversa (de otras plataformas hacia Spotify o entre ellas)**: El problema solo contempla Spotify → destino. La migración entre plataformas no-Spotify no está definida.
-- **Datos de artista/álbum completos**: El problema menciona informar cuando "no encuentra una canción/álbum/artista", pero las historias de búsqueda se centran en canciones (track). Falta aclarar si se migran también álbumes y artistas como unidades, o solo las canciones que los componen.
+- **Resolución de "no encontrado" por usuario**: Cuando una canción/álbum/artista no se encuentra por ISRC o por nombre, hay una historia (H7) para mostrarlo, pero no hay historia sobre cómo el usuario podría proponer alternativas manualmente. Confirmar si entra o no en MVP.
 - **Límite de tasa (rate limits) de las APIs**: No hay historia específica sobre manejar los límites de peticiones por segundo de Spotify/TIDAL. H13 lo bordea pero no lo define.
 - **Privacidad de los datos**: No hay historia sobre qué pasa con los tokens OAuth (dónde se guardan, se revocan, caducan). Importante para RGPD y seguridad.
+- **Migración de playlists colaborativas**: Hay historia para playlists propias, pero no está claro qué pasa con las playlists colaborativas (de otras personas) que María tiene guardadas.
 
 ---
 
