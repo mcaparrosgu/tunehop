@@ -205,6 +205,18 @@
 
 ---
 
+## BLOQUE I — Eliminar Spotify
+
+### H19 — Instrucciones para eliminar la cuenta de Spotify — DESEABLE
+
+> Como María, quiero encontrar instrucciones claras para eliminar mi cuenta de Spotify después de haber migrado, para poder cerrar el ciclo sin complicaciones.
+
+**Criterios de aceptación:**
+1. Dado que he migrado mis playlists, cuando pulso "Eliminar mi cuenta de Spotify", entonces veo los pasos para solicitar la eliminación en Spotify.
+2. Dado que veo los pasos, cuando sigo las instrucciones, entonces la app explica claramente qué pasa con mis datos y cuánto tarda la eliminación.
+
+---
+
 ## HUECOS DETECTADOS (fuera del alcance actual, anotados para el Paso 3 MVP)
 
 - **Migración inversa (de otras plataformas hacia Spotify o entre ellas)**: El problema solo contempla Spotify → destino. La migración entre plataformas no-Spotify no está definida.
