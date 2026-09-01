@@ -29,3 +29,17 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **QUÉ SE ROMPIÓ** — Nada roto. Pero se detectó un punto de decisión importante: la alumna clarificó que ella vibe codea (yo construyo, ella aprende), lo que cambia la recomendación de stack de "lo más simple" a "lo más profesional".
 
 - **QUÉ QUEDA PENDIENTE** — (1) Registrar apps en Spotify Developer Dashboard y Deezer Developer Portal (T11, T21). (2) Configurar Redirect URIs en ambas plataformas (T63, T64). (3) El sistema de internacionalización: ¿next-intl? ¿i18next? Aún no se ha investigado.
+
+---
+
+## 2026-09-01 · Paso 10 — Hito 1 (setup) + decisión de naming
+
+- **QUÉ SE DECIDIÓ** — (1) Proyecto Next.js 16 + TypeScript + Tailwind creado y compilando (tareas T01-T04, Hito 1 cerrado). (2) La app pasa a llamarse **TuneHop**, antes **PlayMigrate**: rebranding ejecutado en 14 archivos, 56 sustituciones (commit 2b0dc75).
+
+- **ALTERNATIVAS DESCARTADAS** — Nombres evaluados con rúbrica de branding (semántica, sonoridad, distintivo, corto, colisión): PlayMigrate (49/100), Shift (60/100), TunePort (81), RelayTunes (79), SongSwitch, Melodio. También se consideró quedarse con PlayMigrate para no perder tiempo.
+
+- **POR QUÉ ESTA** — TuneHop tiene 2 sílabas, comunica categoría y acción a la vez (tune = música, hop = saltar de plataforma) con emoción ligera. "PlayMigrate" sonaba a herramienta de IT: "migrate" es lenguaje de departamento técnico y "Play" es el prefijo más saturado del mundo musical (Google Play, PlayStation...). "Shift" era potente pero genérico: sin dominio posible, sin registro de marca, y la competencia líder de nuestra categoría (SongShift) ya ocupa esa palabra. TuneHop pasó verificación: tunehop.com/.app sin sitio activo, ninguna app de migración conocida con ese nombre. Decisión de marca tomada con criterio de marketing, no improvisada.
+
+- **QUÉ SE ROMPIÓ** — create-next-app falló con "Could not create a project called 'Spotify' because of npm naming restrictions" (npm prohíbe mayúsculas en el nombre del paquete). Solución: generar el proyecto en /tmp con nombre válido y mover los archivos al repo. También: detener el servidor dev con pkill colgó la shell de opencode dos veces (cosmético, sin impacto). next-env.d.ts se regeneró automáticamente al compilar (Next 16 apunta a .next/types en build de producción) — comportamiento normal.
+
+- **QUÉ QUEDA PENDIENTE DE ENTENDER** — La alumna declara haber entendido todo lo de la sesión (generación del proyecto, instalación, estructura). Pendientes prácticos: (1) registrar el dominio tunehop.com; (2) T07 sustituirá la landing de bienvenida en inglés por la landing oficial de TuneHop.

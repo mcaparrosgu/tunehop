@@ -28,12 +28,16 @@ Pantalla oficial de Spotify/Deezer donde el usuario ve qué permisos pide tu app
 Pequeño archivo que un sitio web guarda en tu navegador para recordarte. Es como una pulsera de hospital con tu número: la llevas puesta mientras estás en el sitio.
 **Ejemplo real**: No usamos cookies en TuneHop. Los tokens viven en memoria de la sesión, no en cookies.
 
+### create-next-app
+Comando que genera un proyecto Next.js completo y configurado (TypeScript, Tailwind, carpetas, scripts). Es como pedir un piso ya amueblado en vez de construirlo ladrillo a ladrillo.
+**Ejemplo real**: `npx create-next-app@latest .` nos dio TuneHop funcionando con un solo comando.
+
 ### Crear playlist (API)
 Operación de la API de una plataforma musical que crea una playlist nueva con el nombre y las canciones que tú le indiques.
 **Ejemplo real**: Después de buscar las canciones de "Road Trip Mix" en Deezer, la app llama a Deezer API para crear esa playlist con esas canciones.
 
 ### Derecho de supresión (RGPD)
-Derecho del usuario a que borres todos sus datos personales que tengas. Debe ser tan fácil como提供 el servicio.
+Derecho del usuario a que borres todos sus datos personales que tengas. Debe ser tan fácil como cuando pidió el servicio.
 **Ejemplo real**: El botón "Eliminar mis datos y cerrar" de TuneHop. Un clic y todo se borra.
 
 ### Deezer
@@ -64,6 +68,14 @@ Código alfanumérico de 12 caracteres que identifica de forma única cada graba
 Lista de canciones que un usuario ha marcado como "me gusta" en Spotify. Puede contener miles de canciones de muchos artistas diferentes.
 **Ejemplo real**: María tiene 5.200 canciones guardadas en 8 años. En v2 se podrán migrar con un clic.
 
+### Layout raíz (layout.tsx)
+Plantilla que envuelve TODAS las pantallas de la app: idioma, fuentes, título de la pestaña. Es como el marco de un cuadro: rodea cualquier foto que pongas dentro.
+**Ejemplo real**: El título "TuneHop" de la pestaña del navegador se define en `metadata` dentro de `src/app/layout.tsx`.
+
+### Layout raíz (layout.tsx)
+Plantilla que envuelve todas las pantallas de la app. Es como el marco de un cuadro: rodea cualquier foto que pongas dentro. Su metadata controla el título de la pestaña del navegador.
+**Ejemplo real**: `src/app/layout.tsx` define el título "TuneHop" que ves en la pestaña del navegador en cada pantalla.
+
 ### Minimización (RGPD)
 Principio de que solo debes tratar los datos estrictamente necesarios para la finalidad. No más.
 **Ejemplo real**: TuneHop solo lee playlists y canciones. No lee el historial de escucha, no lee preferencias, no lee perfil social.
@@ -72,9 +84,25 @@ Principio de que solo debes tratar los datos estrictamente necesarios para la fi
 Versión más reducida de un producto que todavía tiene valor para el usuario. La versión que comprueba si la idea funciona sin construir todo.
 **Ejemplo real**: El MVP de TuneHop migra playlists de Spotify a Deezer. No migra álbumes, artistas ni Liked Songs (eso es v2).
 
+### npm ci
+(npm clean install) Comando que instala las dependencias EXACTAMENTE como están en package-lock.json, borrando lo que haya. Es como reproducir una receta congelada en vez de improvisar con lo que haya en la despensa.
+**Ejemplo real**: Tras clonar el repo, `npm ci` garantiza que todo el equipo tenga las mismas versiones exactas.
+
+### npm ci
+Comando que instala las dependencias EXACTAS que fija el package-lock.json. Es como reproducir una receta congelada en vez de improvisar con lo que haya en la despensa.
+**Ejemplo real**: `npm ci` después de clonar el repo de TuneHop para que todas las desarrolladoras tengan las mismas versiones.
+
 ### OAuth 2.0
 Protocolo estándar para autorizar una app a acceder a tus datos en otro servicio sin darle tu contraseña. Es como dar un permiso temporal.
 **Ejemplo real**: TuneHop usa OAuth 2.0 para que el usuario autorice a la app a leer sus playlists de Spotify sin compartir su contraseña.
+
+### package-lock.json
+Archivo que fija la versión EXACTA de cada dependencia y sus dependencias. Es como el recibo congelado de la compra: documenta qué se compró exactamente, no solo la receta.
+**Ejemplo real**: TuneHop tiene 1.788 líneas de lockfile; se sube a git para que todos instalen lo mismo.
+
+### package-lock.json
+Archivo que fija las versiones exactas de todas las dependencias instaladas. Es el recibo congelado de la compra: dice qué compramos y a qué precio exacto.
+**Ejemplo real**: Si una compañera instalara sin lockfile, podría obtener versiones distintas de Next.js y que la app se comporte diferente. Con él, todos tenemos lo mismo.
 
 ### PKCE (Proof Key for Code Exchange)
 Extensión de OAuth 2.0 que añade una capa extra de seguridad. Evita que alguien intercepte el código de autorización. Es como llevar doble cerradura.
@@ -110,6 +138,14 @@ Plataforma de streaming musical de alta fidelidad (HiFi). Paga mejor que Spotify
 ### Token (OAuth)
 Credencial temporal que una API te da tras autenticarte. Es como una pulsera de un evento: te identifica y te da acceso, pero expira.
 **Ejemplo real**: El access_token de Spotify dura 1 hora. TuneHop lo renueva automáticamente con el refresh_token.
+
+### Turbopack
+Motor de compilación de Next.js: traduce tu código TypeScript/React a lo que entiende el navegador. Es como el camarero que convierte tu pedido en platos en la cocina — el más rápido del local.
+**Ejemplo real**: "Next.js 16.3.4 (Turbopack)" aparece en cada `npm run build` de TuneHop.
+
+### Turbopack
+Motor de compilación de Next.js: traduce el código que escribes al formato que entiende el navegador (un "bundler"). Es como el camarero que convierte tu pedido en platos en la cocina — y este es el más rápido del local.
+**Ejemplo real**: "Next.js 16.3.4 (Turbopack)" aparece en la primera línea de cada `npm run build` de TuneHop.
 
 ### WCAG (Web Content Accessibility Guidelines)
 Guías internacionales para hacer la web accesible a personas con discapacidades. Niveles: A (básico), AA (estándar), AAA (máximo).
