@@ -1,10 +1,10 @@
-# PlayMigrate
+# TuneHop
 
 Migra tus playlists de Spotify a otras plataformas musicales con un clic.
 
 ## Qué es
 
-PlayMigrate es una aplicación web que permite a cualquier persona con cuenta de Spotify migrar sus playlists a plataformas que pagan mejor a los artistas (Deezer, próximamente TIDAL).
+TuneHop es una aplicación web que permite a cualquier persona con cuenta de Spotify migrar sus playlists a plataformas que pagan mejor a los artistas (Deezer, próximamente TIDAL).
 
 El proceso es simple:
 1. Conecta tu cuenta de Spotify
@@ -25,8 +25,8 @@ Tus datos se borran al cerrar la sesión. No guardamos nada.
 
 ```bash
 # Clonar el repositorio
-git clone https://github.com/tu-usuario/playmigrate.git
-cd playmigrate
+git clone https://github.com/tu-usuario/tunehop.git
+cd tunehop
 
 # Instalar dependencias
 npm install

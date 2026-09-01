@@ -1,6 +1,6 @@
 # Paso 2 — Historias de usuario
 
-> Producto: PlayMigrate — migra tus playlists de Spotify a plataformas éticas (Deezer, TIDAL).
+> Producto: TuneHop — migra tus playlists de Spotify a plataformas éticas (Deezer, TIDAL).
 > Usuario de referencia: María, no técnica, móvil y ordenador.
 
 ---

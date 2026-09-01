@@ -7,7 +7,7 @@
 
 ## 1. OBJETIVO
 
-PlayMigrate es una aplicación web que permite a cualquier persona con cuenta de Spotify migrar sus playlists, álbumes guardados, artistas seguidos y canciones guardadas a plataformas musicales alternativas (Deezer en el MVP, TIDAL en v2). El proceso es en un clic: conectar, seleccionar, migrar. La app busca las canciones por código universal (ISRC) para garantizar coincidencia exacta, con fallback a nombre y artista. Muestra progreso en tiempo real y un resumen detallado al terminar. Respeta la privacidad del usuario: no guarda datos después de la sesión. No es un reproductor de música, no es una red social, no es un gestor de playlists. Es una herramienta de migración simple, rápida y transparente.
+TuneHop es una aplicación web que permite a cualquier persona con cuenta de Spotify migrar sus playlists, álbumes guardados, artistas seguidos y canciones guardadas a plataformas musicales alternativas (Deezer en el MVP, TIDAL en v2). El proceso es en un clic: conectar, seleccionar, migrar. La app busca las canciones por código universal (ISRC) para garantizar coincidencia exacta, con fallback a nombre y artista. Muestra progreso en tiempo real y un resumen detallado al terminar. Respeta la privacidad del usuario: no guarda datos después de la sesión. No es un reproductor de música, no es una red social, no es un gestor de playlists. Es una herramienta de migración simple, rápida y transparente.
 
 ---
 
@@ -26,7 +26,7 @@ PlayMigrate es una aplicación web que permite a cualquier persona con cuenta de
 ### Pantalla 1 — Landing
 
 **Qué ve María:**
-- Título de la app: "PlayMigrate"
+- Título de la app: "TuneHop"
 - Subtítulo: "Migra tus playlists de Spotify a otras plataformas musicales"
 - Botón grande: "Connect Spotify"
 - Texto de privacidad visible: "Tus datos se borran al cerrar la sesión. No guardamos nada."
@@ -43,15 +43,15 @@ PlayMigrate es una aplicación web que permite a cualquier persona con cuenta de
 ### Pantalla 2 — Consentimiento (antes de conectar)
 
 **Qué ve María:**
-- Checkbox obligatorio: "He leído la Política de Privacidad y acepto que PlayMigrate procese mis datos de Spotify para migrar mis playlists"
-- Aviso informativo: "Las playlists pueden contener datos personales. PlayMigrate no analiza ni almacena estos títulos más allá de la migración"
+- Checkbox obligatorio: "He leído la Política de Privacidad y acepto que TuneHop procese mis datos de Spotify para migrar mis playlists"
+- Aviso informativo: "Las playlists pueden contener datos personales. TuneHop no analiza ni almacena estos títulos más allá de la migración"
 - Botón "Conectar con Spotify" (desactivado si el checkbox no está marcado)
 
 **Qué hace María:**
 - Marca el checkbox
 - Pulsa "Conectar con Spotify"
 
-**Resultado:** Se abre la pantalla de autorización oficial de Spotify. Tras aceptar, vuelve a PlayMigrate (Pantalla 3).
+**Resultado:** Se abre la pantalla de autorización oficial de Spotify. Tras aceptar, vuelve a TuneHop (Pantalla 3).
 
 **Regla legal:** El botón "Conectar" solo se activa si el checkbox está marcado (RGPD Art. 7).
 
@@ -88,7 +88,7 @@ PlayMigrate es una aplicación web que permite a cualquier persona con cuenta de
 **Qué hace María:**
 - Pulsa "Connect Deezer"
 - Se abre la pantalla de autorización oficial de Deezer
-- Tras aceptar, vuelve a PlayMigrate
+- Tras aceptar, vuelve a TuneHop
 
 **Resultado:** Se abre la Pantalla 5.
 

@@ -51,7 +51,7 @@
 ## 3. ESTRUCTURA DEL PROYECTO
 
 ```
-playmigrate/
+tunehop/
 ├── src/
 │   ├── app/                    # Pantallas (Next.js App Router)
 │   │   ├── page.tsx            # Landing (Pantalla 1)
@@ -205,7 +205,7 @@ const clientId = process.env.SPOTIFY_CLIENT_ID;
 ## 8. FLUJO TÉCNICO COMPLETO (PASO A PASO)
 
 ```
-1. María entra en playmigrate.com
+1. María entra en tunehop.com
 2. Ve la Landing → pulsa "Connect Spotify"
 3. Marca checkbox de consentimiento → pulsa "Conectar con Spotify"
 4. Spotify muestra pantalla de autorización → María acepta

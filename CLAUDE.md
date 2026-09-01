@@ -1,12 +1,12 @@
-# PlayMigrate — Contexto del proyecto
+# TuneHop — Contexto del proyecto
 
 ## Qué es este proyecto
 
-PlayMigrate es una app web que migra playlists de Spotify a Deezer (MVP) usando OAuth e ISRC. Next.js + TypeScript, deploy en Vercel.
+TuneHop es una app web que migra playlists de Spotify a Deezer (MVP) usando OAuth e ISRC. Next.js + TypeScript, deploy en Vercel.
 
 ## Restricción principal del proyecto
 
-**PlayMigrate solo LEE de Spotify y solo ESCRIBE en Deezer.** Nunca modifica, borra ni mueve nada en Spotify. Las playlists se copian, nunca se trasladan.
+**TuneHop solo LEE de Spotify y solo ESCRIBE en Deezer.** Nunca modifica, borra ni mueve nada en Spotify. Las playlists se copian, nunca se trasladan.
 
 ## Seguridad y datos sensibles
 

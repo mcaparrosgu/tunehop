@@ -8,7 +8,7 @@
 
 ## HITO 1 — Setup del proyecto ✅
 
-**Qué ves cuando este hito termina**: Abres el navegador, escribes `localhost:3000`, y ves una pantalla con "PlayMigrate". El proyecto existe y funciona.
+**Qué ves cuando este hito termina**: Abres el navegador, escribes `localhost:3000`, y ves una pantalla con "TuneHop". El proyecto existe y funciona.
 
 | # | Tarea | Archivos | Cómo compruebo | Depende de |
 |---|---|---|---|---|
@@ -27,7 +27,7 @@
 |---|---|---|---|---|
 | T05 | Crear componente `Button.tsx` reutilizable | `src/components/Button.tsx` | Veo un botón azul que puedo pulsar | T02 |
 | T06 | Crear componente `Checkbox.tsx` reutilizable | `src/components/Checkbox.tsx` | Veo una casilla que puedo marcar/desmarcar | T02 |
-| T07 | Crear la Landing (Pantalla 1) | `src/app/page.tsx` | Veo: título "PlayMigrate", subtítulo, botón "Connect Spotify", texto de privacidad, enlace a Política de Privacidad | T02, T05 |
+| T07 | Crear la Landing (Pantalla 1) | `src/app/page.tsx` | Veo: título "TuneHop", subtítulo, botón "Connect Spotify", texto de privacidad, enlace a Política de Privacidad | T02, T05 |
 | T08 | Crear Política de Privacidad como página estática | `src/app/politica-privacidad/page.tsx` | Al pulsar el enlace, se abre la página con: datos tratados, finalidad, base legal, derechos, plazo, responsable | T07 |
 | T09 | Crear Pantalla 2 (Consentimiento) | `src/app/consentimiento/page.tsx` | Veo: checkbox con texto legal, aviso sobre títulos, botón desactivado | T02, T06 |
 | T10 | Verificar que el botón solo se activa con checkbox marcado | `src/app/consentimiento/page.tsx` | Sin marcar: botón gris. Con checkbox: botón azul | T09 |

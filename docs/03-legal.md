@@ -2,14 +2,14 @@
 
 **Fecha**: 31/08/2026
 **Estado**: ✅ Verificado con la alumna
-**Proyecto**: PlayMigrate — Migra tus playlists de Spotify a plataformas éticas
+**Proyecto**: TuneHop — Migra tus playlists de Spotify a plataformas éticas
 
 ---
 
 ## 1. QUÉ HACE ESTE SISTEMA EN TÉRMINOS LEGALES
 
 ### Finalidad
-PlayMigrate es una herramienta que permite a un usuario copiar sus playlists, álbumes guardados, artistas seguidos y canciones guardadas de Spotify a otra plataforma musical (Deezer o TIDAL).
+TuneHop es una herramienta que permite a un usuario copiar sus playlists, álbumes guardados, artistas seguidos y canciones guardadas de Spotify a otra plataforma musical (Deezer o TIDAL).
 
 ### Datos personales que tratamos
 
@@ -30,7 +30,7 @@ PlayMigrate es una herramienta que permite a un usuario copiar sus playlists, á
 - Contenido de audio (no reproducimos ni descargamos música)
 
 ### Quién responde (responsable del tratamiento)
-Tú, la desarrolladora del proyecto. PlayMigrate no tiene empresa propia; eres tú quien controla los datos. Si algún día constituyes una empresa, el responsable pasa a ser esa entidad.
+Tú, la desarrolladora del proyecto. TuneHop no tiene empresa propia; eres tú quien controla los datos. Si algún día constituyes una empresa, el responsable pasa a ser esa entidad.
 
 ### A quién afecta
 Cualquier persona con cuenta de Spotify que use la app para migrar sus playlists.
@@ -42,7 +42,7 @@ Cualquier persona con cuenta de Spotify que use la app para migrar sus playlists
 ### Veredicto: RIESGO MÍNIMO
 
 **Por qué no es alto riesgo:**
-- PlayMigrate NO es un sistema de inteligencia artificial.
+- TuneHop NO es un sistema de inteligencia artificial.
 - No usa LLMs, no genera contenido, no recomienda, no profiling.
 - Es una app **determinista**: OAuth → leer playlists → buscar por ISRC (código exacto) → crear playlist en destino.
 - La "búsqueda" es coincidencia técnica (ISRC = DNI de la canción), no análisis inteligente.
@@ -91,14 +91,14 @@ Procesamos los datos estrictamente necesarios para provide el servicio que el us
 ### Obligatorias para el lanzamiento (MVP)
 
 - [ ] **Política de privacidad** — Documento que explica qué datos tratamos, para qué, y cuánto se guardan. Debe estar accesible desde la app antes de conectar cuentas.
-- [ ] **Aviso de consentimiento** — Pantalla que aparece ANTES de conectar Spotify, con checkbox: "He leído la política de privacidad y acepto que PlayMigrate procese mis datos de Spotify para migrar mis playlists."
+- [ ] **Aviso de consentimiento** — Pantalla que aparece ANTES de conectar Spotify, con checkbox: "He leído la política de privacidad y acepto que TuneHop procese mis datos de Spotify para migrar mis playlists."
 - [ ] **Botón "Borrar mis datos"** — Funcionalidad que elimina todos los tokens y datos procesados del servidor. Debe estar visible en la app.
 - [ ] **HTTPS obligatorio** — Todo el tráfico entre el usuario y el servidor debe ser cifrado (Vercel y Railway lo hacen por defecto).
 - [ ] **No guardar datos después de la sesión** — Los tokens y datos de playlist se eliminan al cerrar la sesión o al completar la migración.
 
 ### Recomendadas (no bloqueantes para el MVP)
 
-- [ ] **Aviso sobre títulos de playlist** — Texto informativo: "Las playlists pueden contener datos personales (nombres propios, situaciones personales). PlayMigrate no analiza ni almacena estos títulos más allá de la migración."
+- [ ] **Aviso sobre títulos de playlist** — Texto informativo: "Las playlists pueden contener datos personales (nombres propios, situaciones personales). TuneHop no analiza ni almacena estos títulos más allá de la migración."
 - [ ] **Registro de incidentes** — Si hay una brecha de seguridad, documentar qué pasó, qué datos se vieron afectados, y notificar a la autoridad de control en 72 horas (Art. 33 RGPD).
 
 ---
@@ -115,7 +115,7 @@ Este documento NO cubre:
 
 ## RESUMEN PARA LA ALUMNA
 
-**PlayMigrate es riesgo mínimo bajo el AI Act** (no hay IA). Bajo el RGPD, tenemos obligaciones porque tratamos datos personales (email, tokens, nombres de playlist) de usuarios en la UE.
+**TuneHop es riesgo mínimo bajo el AI Act** (no hay IA). Bajo el RGPD, tenemos obligaciones porque tratamos datos personales (email, tokens, nombres de playlist) de usuarios en la UE.
 
 **Lo que DEBES tener para el lanzamiento:**
 1. Política de privacidad

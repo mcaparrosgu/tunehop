@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PlayMigrate",
+  title: "TuneHop",
   description:
     "Migra tus playlists de Spotify a otras plataformas musicales. Tus datos se borran al cerrar la sesión.",
 };

@@ -22,7 +22,7 @@
 
 **Escena de uso:**
 
-1. María entra en **playmigrate.com** desde su móvil.
+1. María entra en **tunehop.com** desde su móvil.
 2. Pulsar un botón grande que dice **"Conectar con Spotify"**.
 3. Spotify le pide permiso. María pulsa "Aceptar".
 4. La app carga todas sus playlists automáticamente.
