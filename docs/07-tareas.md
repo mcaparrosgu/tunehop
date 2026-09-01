@@ -1,21 +1,21 @@
 # Paso 8 — Tareas de Implementación
 
 **Fecha**: 31/08/2026
-**Estado**: ✅ Generadas
+**Estado**: ✅ En construcción — Hito 1 completado
 **Regla**: Cada tarea es implementable Y comprobable de forma aislada, en menos de 1 hora.
 
 ---
 
-## HITO 1 — Setup del proyecto
+## HITO 1 — Setup del proyecto ✅
 
 **Qué ves cuando este hito termina**: Abres el navegador, escribes `localhost:3000`, y ves una pantalla con "PlayMigrate". El proyecto existe y funciona.
 
 | # | Tarea | Archivos | Cómo compruebo | Depende de |
 |---|---|---|---|---|
-| T01 | Crear proyecto Next.js con TypeScript y Tailwind | `package.json`, `next.config.ts`, `tsconfig.json` | Abro `localhost:3000` y veo la pantalla de bienvenida | Ninguna |
-| T02 | Configurar estructura de carpetas | `src/app/`, `src/components/`, `src/lib/`, `src/types/`, `src/api/` | Veo todas las carpetas en el explorador | T01 |
-| T03 | Crear `.env.example` con variables de entorno | `.env.example` | El archivo lista: `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, `DEEZER_APP_ID`, `DEEZER_APP_SECRET` | T01 |
-| T04 | Verificar `.env.local` en `.gitignore` | `.gitignore` | `git status` no muestra `.env.local` | T01 |
+| ✅ T01 | Crear proyecto Next.js con TypeScript y Tailwind | `package.json`, `next.config.ts`, `tsconfig.json` | Abro `localhost:3000` y veo la pantalla de bienvenida | Ninguna |
+| ✅ T02 | Configurar estructura de carpetas | `src/app/`, `src/components/`, `src/lib/`, `src/types/`, `src/api/` | Veo todas las carpetas en el explorador | T01 |
+| ✅ T03 | Crear `.env.example` con variables de entorno | `.env.example` | El archivo lista: `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, `DEEZER_APP_ID`, `DEEZER_APP_SECRET` | T01 |
+| ✅ T04 | Verificar `.env.local` en `.gitignore` | `.gitignore` | `git status` no muestra `.env.local` | T01 |
 
 ---
 
