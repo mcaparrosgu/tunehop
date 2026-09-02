@@ -64,7 +64,7 @@ export default function Migrando() {
       // 2. Buscar en TIDAL por ISRC
       setProgress({ stage: "matching", message: "Buscando coincidencias en TIDAL...", current: 0, total: tracksWithISRC.length });
 
-      const tidalMatches: number[] = [];
+      const tidalMatches: string[] = [];
       const notFound: string[] = [];
 
       for (let i = 0; i < tracksWithISRC.length; i++) {
@@ -101,7 +101,7 @@ export default function Migrando() {
       }
 
       const createData = await createRes.json();
-      const playlistUuid = createData.uuid;
+      const playlistId = createData.id;
 
       // 4. Añadir tracks (ya se añaden al crear en la API, pero si hiciera falta batch)
       setProgress({ stage: "adding", message: "Finalizando...", current: 1, total: 1 });
@@ -115,7 +115,7 @@ export default function Migrando() {
           playlistName: `Migración Spotify - ${new Date().toLocaleDateString("es-ES")}`,
           added: tidalMatches.length,
           notFound: notFound.length,
-          tidalUrl: `https://tidal.com/playlist/${playlistUuid}`,
+          tidalUrl: `https://tidal.com/playlist/${playlistId}`,
         },
       });
 

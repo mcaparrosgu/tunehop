@@ -1,10 +1,10 @@
 import { cookies } from "next/headers";
 
-const TIDAL_AUTH_URL = "https://auth.tidal.com/v1/oauth2/authorize";
+const TIDAL_AUTH_URL = "https://login.tidal.com/authorize";
 const TIDAL_TOKEN_URL = "https://auth.tidal.com/v1/oauth2/token";
-const TIDAL_API = "https://api.tidal.com/v1";
+export const TIDAL_API = "https://openapi.tidal.com/v2";
 
-const USER_SCOPES = "playlist.create playlist.modify user.read";
+const USER_SCOPES = "user.read playlists.read playlists.write collection.read collection.write";
 const COOKIE_OPTIONS = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
