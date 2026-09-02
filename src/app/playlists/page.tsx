@@ -140,7 +140,10 @@ export default function Playlists() {
         {selected.size > 0 && (
           <div className="mt-6">
             <Button
-              href="/destino"
+              onClick={() => {
+                sessionStorage.setItem("selectedPlaylists", JSON.stringify(Array.from(selected)));
+                window.location.href = "/destino";
+              }}
               className="w-full text-lg py-4"
               disabled={selected.size === 0}
             >
