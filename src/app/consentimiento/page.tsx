@@ -20,7 +20,7 @@ export default function Consentimiento() {
         <label className="mt-6 flex cursor-pointer items-start gap-3">
           <Checkbox
             checked={aceptado}
-            onChange={(event) => setAceptado(event.target.checked)}
+            onChange={setAceptado}
             aria-label="Acepto la Política de Privacidad"
           />
           <span className="text-sm leading-relaxed text-zinc-700">
@@ -41,7 +41,7 @@ export default function Consentimiento() {
         </p>
 
         <div className="mt-6">
-          <Button href="/api/spotify/auth" disabled={!aceptado} className="w-full">
+          <Button href="/api/spotify/auth" external disabled={!aceptado} className="w-full">
             Conectar con Spotify
           </Button>
         </div>

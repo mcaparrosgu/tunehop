@@ -39,3 +39,6 @@ secrets/
 
 # Vercel
 .vercel/
+
+# TypeScript Build Info
+tsconfig.tsbuildinfo

@@ -6,6 +6,8 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   href?: string;
   /** Variante visual: "primary" (azul) o "outline" (borde gris). */
   variant?: "primary" | "outline";
+  /** Si es true, renderiza un enlace <a> nativo en lugar de <Link> (para OAuth externo). */
+  external?: boolean;
 };
 
 const primaryClasses =
@@ -14,10 +16,17 @@ const primaryClasses =
 const outlineClasses =
   "inline-flex items-center justify-center rounded-lg border border-zinc-300 bg-white px-6 py-3 font-semibold text-zinc-700 transition-colors hover:bg-zinc-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:pointer-events-none disabled:bg-zinc-50 disabled:text-zinc-300 disabled:border-zinc-200";
 
-export default function Button({ href, variant = "primary", className = "", children, ...props }: ButtonProps) {
+export default function Button({ href, variant = "primary", external = false, className = "", children, ...props }: ButtonProps) {
   const baseClasses = variant === "outline" ? outlineClasses : primaryClasses;
   // Mientras está desactivado, ignoramos el href: el botón no debe navegar.
   if (href && !props.disabled) {
+    if (external) {
+      return (
+        <a href={href} className={`${baseClasses} ${className}`}>
+          {children}
+        </a>
+      );
+    }
     return (
       <Link href={href} className={`${baseClasses} ${className}`}>
         {children}

@@ -11,16 +11,13 @@ export async function GET(request: Request) {
   const savedState = cookieStore.get("spotify_oauth_state")?.value;
   const verifier = cookieStore.get("spotify_pkce_verifier")?.value;
 
-  // Limpieza inmediata de cookies temporales de PKCE/state
   cookieStore.delete("spotify_oauth_state");
   cookieStore.delete("spotify_pkce_verifier");
 
-  // Manejo de errores de Spotify
   if (error) {
     return Response.redirect(`${process.env.NEXT_PUBLIC_APP_URL}/error?message=${encodeURIComponent(`Spotify: ${error}`)}`, 302);
   }
 
-  // Validaciones de seguridad
   if (!code || !state || !verifier) {
     return Response.redirect(`${process.env.NEXT_PUBLIC_APP_URL}/error?message=${encodeURIComponent("Faltan parámetros en el callback")}`, 302);
   }
@@ -32,10 +29,8 @@ export async function GET(request: Request) {
     const tokens = await exchangeCodeForTokens(code, verifier);
     await saveTokensToCookies(tokens);
   } catch (err) {
-    console.error("Spotify token exchange error:", err);
     return Response.redirect(`${process.env.NEXT_PUBLIC_APP_URL}/error?message=${encodeURIComponent("Error intercambiando código por tokens")}`, 302);
   }
 
-  // Éxito → redirigir a selección de playlists (Pantalla 3)
   return Response.redirect(`${process.env.NEXT_PUBLIC_APP_URL}/playlists`, 302);
 }
