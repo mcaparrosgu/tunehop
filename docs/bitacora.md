@@ -43,3 +43,17 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **QUÉ SE ROMPIÓ** — create-next-app falló con "Could not create a project called 'Spotify' because of npm naming restrictions" (npm prohíbe mayúsculas en el nombre del paquete). Solución: generar el proyecto en /tmp con nombre válido y mover los archivos al repo. También: detener el servidor dev con pkill colgó la shell de opencode dos veces (cosmético, sin impacto). next-env.d.ts se regeneró automáticamente al compilar (Next 16 apunta a .next/types en build de producción) — comportamiento normal.
 
 - **QUÉ QUEDA PENDIENTE DE ENTENDER** — La alumna declara haber entendido todo lo de la sesión (generación del proyecto, instalación, estructura). Pendientes prácticos: (1) registrar el dominio tunehop.com; (2) T07 sustituirá la landing de bienvenida en inglés por la landing oficial de TuneHop.
+
+---
+
+## 2026-09-03 · Paso 10 — Arreglo OAuth (Spotify + TIDAL) y decisión destino Deezer→TIDAL
+
+- **QUÉ SE DECIDIÓ** — (1) El destino de escritura pasa de **Deezer a TIDAL**: Deezer cerró el registro de nuevas apps (mediados de 2024) y es inviable para una app nueva. (2) TIDAL se integra contra la **API pública v2 (JSON:API)** en `openapi.tidal.com/v2`, no contra la v1 legacy `api.tidal.com/v1`. (3) El acceso a la app en desarrollo es siempre **`http://[::1]:3000`** (el relay de WSL sobre IPv6), nunca `127.0.0.1` ni `localhost` (prohibido como redirect URI por Spotify y origen distinto para cookies).
+
+- **ALTERNATIVAS DESCARTADAS** — (1) Seguir con Deezer: inviable (no acepta apps nuevas). (2) `next/link` para arrancar OAuth: rompe porque hace navegación RSC y pre-fetchea; sustituido por `<a>` nativo vía prop `external` en `Button`. (3) `127.0.0.1` como host: da `ERR_CONNECTION_REFUSED` en este WSL (solo reenvía IPv6). (4) `networkingMode=mirrored` en `.wslconfig`: recomendado a futuro pero no aplicado (requiere Windows 11 22H2+ y permiso de la usuaria).
+
+- **POR QUÉ ESTA** — La causa raíz del `State inválido (posible CSRF)` era doble: origen distinto entre cookies y callback (`[::1]` vs `localhost`) y `next/link` que no seguía bien el 302 a dominio externo. Con host consistente `[::1]` + `<a>` nativo, el flujo Spotify quedó verde ("funciona!"). Para TIDAL, la API v1 es privada y no soportada para terceros; las credenciales de developer.tidal.com exigen v2 JSON:API con scopes y rutas distintos.
+
+- **QUÉ SE ROMPIÓ** — El OAuth de Spotify daba `/error?message=State inválido (posible CSRF)` y `Faltan parámetros en el callback` por la inconsistencia de host y `next/link`. El tramo TIDAL estaba escrito contra la API equivocada (v1), por lo que nunca habría funcionado con credenciales de v2. El dev server moría al terminar la shell MCP (se resolvió con `exec setsid nohup ... &`). `docs/07-tareas.md` seguía en Deezer (pendiente de reescribir).
+
+- **QUÉ QUEDA PENDIENTE** — (1) Registrar el Redirect URI `http://[::1]:3000/api/tidal/callback` en developer.tidal.com (ACCION DE LA USUARIA). (2) Re-autorizar TIDAL (cambian los scopes) y probar el flujo end-to-end con una playlist pequeña de 2-3 tracks. (3) Reescribir `docs/07-tareas.md` (T21-T25 Deezer→TIDAL). (4) Decidir: commitear reestructuración CLAUDE.md→AGENTS.md, registrar tunehop.com, cuándo abordar logo/identidad (pregunta dos veces sin respuesta).

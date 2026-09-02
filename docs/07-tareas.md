@@ -62,17 +62,21 @@
 
 ---
 
-## HITO 5 — OAuth con Deezer
+## HITO 5 — OAuth con TIDAL (destino)
 
-**Qué ves cuando este hito termina**: Pulso "Connect Deezer", voy a Deezer, acepto, y vuelvo con la conexión establecida.
+> **Nota de 2026-09-03**: el destino pasó de Deezer a TIDAL. Deezer cerró el registro de
+> apps nuevas (2024). Este hito y los siguientes de escritura usan **TIDAL** (API v2).
+
+**Qué ves cuando este hito termina**: Pulso "Connect TIDAL", voy a TIDAL, acepto, y vuelvo con la conexión establecida.
 
 | # | Tarea | Archivos | Cómo compruebo | Depende de |
 |---|---|---|---|---|
-| T21 | Registrar app en Deezer Developer Portal | Deezer Portal (web externa) | Tengo `DEEZER_APP_ID` y `DEEZER_APP_SECRET` en `.env.local` | T03 |
-| T22 | Crear API Route `/api/deezer/auth` | `src/app/api/deezer/auth/route.ts` | Al llamar a la ruta, redirige a Deezer | T02 |
-| T23 | Crear API Route `/api/deezer/callback` | `src/app/api/deezer/callback/route.ts` | Tras aceptar en Deezer, la consola muestra el `access_token` | T22 |
-| T24 | Crear Pantalla 4 (Destino) | `src/app/destino/page.tsx` | Veo: "Elige destino", botón "Connect Deezer", "No se borra nada de Spotify", "TIDAL próximamente" | T02 |
-| T25 | Conectar botón "Connect Deezer" al flujo OAuth | `destino/page.tsx` | Pulso → Deezer → acepto → vuelvo | T20, T24 |
+| ✅ T21 | Registrar app en TIDAL Developer Portal | TIDAL Portal (web externa) | Tengo `TIDAL_CLIENT_ID` y `TIDAL_CLIENT_SECRET` en `.env.local` | T03 |
+| ✅ T22 | Crear API Route `/api/tidal/auth` | `src/app/api/tidal/auth/route.ts` | Al llamar a la ruta, redirige a `login.tidal.com/authorize` | T02 |
+| ✅ T23 | Crear API Route `/api/tidal/callback` | `src/app/api/tidal/callback/route.ts` | Tras aceptar en TIDAL, se guarda el token en cookie `tidal_user_tokens` | T22 |
+| ✅ T24 | Crear Pantalla 4 (Destino) | `src/app/destino/page.tsx` | Veo: "Elige plataforma destino", botón "Connect TIDAL", "No se borra nada de Spotify" | T02 |
+| ✅ T25 | Conectar botón "Connect TIDAL" al flujo OAuth | `destino/page.tsx` | Pulso → TIDAL → acepto → vuelvo (usa `<a>` nativo vía `external`) | T20, T24 |
+| 🧪 | Probar de punta a punta | Todo | Conecto TIDAL, migro 1 playlist pequeña de 2-3 tracks y aparece en TIDAL real | T19, T25 |
 
 ---
 

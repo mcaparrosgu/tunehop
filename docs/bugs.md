@@ -3,7 +3,7 @@
 > Documento vivo de roturas, causas raíz y decisiones técnicas. Cuando se rompe algo,
 > se añade una entrada aquí con el diagnóstico y la solución, para no repetir errores
 > y para que otro agente (p. ej. Opus5) pueda dar instrucciones precisas.
-> Ultima actualización: 2026-09-02.
+> Ultima actualización: 2026-09-03.
 
 ---
 
@@ -17,21 +17,27 @@ Landing → Consentimiento (checkbox) → /api/spotify/auth (nativo <a>)
 ```
 
 - **Spotify (leer): FUNCIONAL end-to-end** ✅ (confirmado por la usuaria).
-- **TIDAL (escribir): SIN probar de punta a punta** ⚠️ (riesgo, no bug confirmado).
+- **TIDAL (escribir): reescrito a API v2 (JSON:API), SIN probar de punta a punta aún** ⚠️.
 
 ---
 
 ## 2. Roturas abiertas
 
-### R1 — TIDAL como destino sin probar (riesgo alto, no bug confirmado)
-- **Estado**: El flujo completo TIDAL no está validado.
-- **Incógnitas de contrato de API (sin verificar contra docs reales)**:
-  - Añadir tracks: `src/lib/tidal.ts` envía `{ trackIds: [...] }` a `POST /playlists/{uuid}/tracks`. Dudoso si el body debe ser `{ trackIds: number[] }` o `{ trackIds: [{ id }] }`.
-  - Búsqueda ISRC: `GET /search/tracks?query=isrc:${isrc}` — sintaxis no confirmada.
-  - `getCurrentUserId`: se asume `user.userId`; TIDAL puede exponerlo distinto.
-  - Scopes pedidos `playlist.create playlist.modify user.read` sin validar.
-- **Precauciones conocidas**: Deezer cerró registro de apps (2024); TIDAL rate-limiteó a la usuaria antes → ya hay `200ms` entre búsquedas y `300ms` entre batches.
-- **Acción necesaria**: probar el flujo y ajustar el contrato real.
+### R1 — TIDAL apuntaba a la API privada v1 (RESUELTO 2026-09-03)
+- **Causa raíz**: `src/lib/tidal.ts` y `src/lib/tidal-auth.ts` llamaban a `https://api.tidal.com/v1` (API privada/legacy del cliente), pero las credenciales de developer.tidal.com son para la API pública v2 (`https://openapi.tidal.com/v2`, JSON:API). Contratos, rutas, bodies, scopes y tipos completamente distintos.
+- **Reescrito a v2 (commit `f77a458`)**:
+  - Autorización: `auth.tidal.com/v1/oauth2/authorize` → `login.tidal.com/authorize`.
+  - Scopes: `playlist.create playlist.modify user.read` → `user.read playlists.read playlists.write collection.read collection.write`.
+  - Base: `api.tidal.com/v1` → `openapi.tidal.com/v2`.
+  - Usuario: `GET /user` (userId nº) → `GET /users/me` (`data.id` string).
+  - Buscar ISRC: `search/tracks?query=isrc:X` → `GET /tracks?filter[isrc]=X&countryCode=US` (lotes con `filter[isrc]` repetido).
+  - Crear playlist: `POST /users/{id}/playlists {title}` → `POST /playlists?countryCode=US` JSON:API (`data.attributes.name/description`).
+  - Añadir tracks: `POST /playlists/{uuid}/tracks {trackIds:[nº]}` → `POST /playlists/{id}/relationships/items` body `{data:[{id,type:"tracks"}]}` con `Content-Type: application/vnd.api+json`; `409` = ya estaban ⇒ éxito.
+  - IDs de track y playlist pasan de `number` a `string`.
+  - Búsqueda por ISRC usa token de **usuario** (no client_credentials).
+  - `countryCode` configurable vía env `TIDAL_COUNTRY_CODE` (default `US`).
+- **Rutas ajustadas**: `create-playlist/route.ts` (uuid→id, ya no usa `getCurrentUserId`), `migrando/page.tsx` (lee `createData.id`, enlace `https://tidal.com/playlist/{id}`).
+- **Pendiente**: registrar Redirect URI `http://[::1]:3000/api/tidal/callback` en developer.tidal.com y probar el flujo end-to-end con playlist pequeña (scopes cambian ⇒ hay que re-autorizar).
 
 ### R2 — Inconsistencia de host Windows/WSL (causa raíz recurrente)
 - **Síntoma original**: `ERR_CONNECTION_REFUSED` en `127.0.0.1:3000`; `localhost` de Windows resuelve a `::1` y el relay de WSL **solo reenvía IPv6**, no IPv4 `127.0.0.1`.
