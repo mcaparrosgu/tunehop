@@ -43,9 +43,9 @@
 | T11 | Registrar app en Spotify Developer Dashboard | Spotify Dashboard (web externa) | Tengo `SPOTIFY_CLIENT_ID` y `SPOTIFY_CLIENT_SECRET` en `.env.local` | T03 |
 | ✅ T12 | Crear API Route `/api/spotify/auth` | `src/app/api/spotify/auth/route.ts` | Al llamar a la ruta, redirige a Spotify | T02 |
 | ✅ T13 | Crear API Route `/api/spotify/callback` | `src/app/api/spotify/callback/route.ts` | Tras aceptar en Spotify, la consola muestra el `access_token` | T12 |
-| T14 | Crear función `getSpotifyPlaylists()` | `src/lib/spotify.ts` | La función devuelve un array con nombre + nº de canciones | T13 |
+| ✅ T14 | Crear función `getSpotifyPlaylists()` | `src/lib/spotify.ts` | La función devuelve un array con nombre + nº de canciones | T13 |
 | T15 | Crear API Route `/api/spotify/playlists` | `src/app/api/spotify/playlists/route.ts` | Abro la ruta y veo un JSON con mis playlists | T14 |
-| T16 | Conectar botón "Conectar" al flujo OAuth completo | `page.tsx`, `consentimiento/page.tsx` | Pulso botón → checkbox → Spotify → acepto → vuelvo con playlists | T07, T09, T12 |
+| ✅ T16 | Conectar botón "Conectar" al flujo OAuth completo | `page.tsx`, `consentimiento/page.tsx` | Pulso botón → checkbox → Spotify → acepto → vuelvo con playlists | T07, T09, T12 |
 
 ---
 
