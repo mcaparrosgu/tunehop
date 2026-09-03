@@ -104,11 +104,21 @@ Landing → Consentimiento (checkbox) → /api/spotify/auth (nativo <a>)
 
 ---
 
-## 7. Pendientes de decisión
+## 7. Deuda técnica y pendientes (priorizados · actualizado 2026-09-03)
 
-- Probar el tramo TIDAL completo y validar contrato (sección 4).
-- Actualizar `docs/07-tareas.md` (Deezer → TIDAL).
-- Aplicar `networkingMode=mirrored` en `.wslconfig` (requiere Windows 11 22H2+ y aprobación) para depender de `127.0.0.1` y no `[::1]`.
-- Frontend/diseño/logo: decidir cuándo abordarlo.
-- Registrar dominio `tunehop.com` (decisión de branding, no bloqueante).
-- Commitear reestructuración CLAUDE.md → AGENTS.md y decidir sobre `ARREGLO-OAUTH.md`.
+> **Decisión de seguimiento**: continuar el proceso de los 20 pasos (Paso 10, siguiente hito).
+> Esta deuda se ataca dentro del proceso, no al margen. Prioridad P1 = antes de publicar, P2 = cuando toque, P3 = opcional.
+
+### P1 — Antes de publicar (validación y bloqueantes visibles)
+- **Test con playlist grande (50+ tracks)**: validar batching de ISRC y manejo de 429 de TIDAL. El `migrando/page.tsx` hace matching track-a-track (`fetch /api/tidal/search` por track); mejorable para usar `searchTrackByISRC`/`searchTracksByISRC` en **lotes** (`filter[isrc]` repetido, ~20/lote). Riesgo real de rate limit en playlists grandes.
+- **Revisar si sobrán scopes** `playlists.read` y `collection.read` en la petición de OAuth (TuneHop no lee playlists de TIDAL del usuario ni su colección; solo crea y añade). Menos scope = menor superficie.
+
+### P2 — Documentación (coherencia, no funcionalidad)
+- **`docs/07-tareas.md`**: HITO 6+ siguen en Deezer (`searchByISRC`, `migratePlaylist`, HITOs posteriores). Reescribirlos a TIDAL y marcar lo completado.
+- **Borrar `ARREGLO-OAUTH.md` y `ARREGLO-TIDAL.md`** (transitorios). TIDAL ya está verde.
+- **Decidir reestructuración `CLAUDE.md` → `AGENTS.md`** (sin commitear).
+
+### P3 — Opcional / decisiones de la usuaria
+- **Logo/identidad visual**: pregunta de la usuaria dos veces sin respuesta. Conviene responderla pronto (visible para quien pruebe la app).
+- **Registrar dominio `tunehop.com`** (decisión de branding, no bloqueante).
+- **Aplicar `networkingMode=mirrored`** en `.wslconfig` (Windows 11 22H2+ y aprobación) para depender de `127.0.0.1` y no de `[::1]`.
