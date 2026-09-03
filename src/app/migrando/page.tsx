@@ -126,7 +126,7 @@ export default function Migrando() {
         return;
       }
 
-      // 3. Crear playlist en TIDAL
+      // 3. Crear playlist en TIDAL (sin tracks aún)
       setProgress({ stage: "creating", message: "Creando playlist en TIDAL...", current: 0, total: 1 });
 
       const createRes = await fetch("/api/tidal/create-playlist", {
@@ -135,7 +135,6 @@ export default function Migrando() {
         body: JSON.stringify({
           title: `Migración Spotify - ${new Date().toLocaleDateString("es-ES")}`,
           description: `Migrada desde Spotify con TuneHop. ${tidalMatches.length} tracks encontrados.`,
-          trackIds: tidalMatches,
         }),
       });
 
@@ -151,8 +150,48 @@ export default function Migrando() {
       const createData = await createRes.json();
       const playlistId = createData.id;
 
-      // 4. Completado
-      setProgress({ stage: "adding", message: "Finalizando...", current: 1, total: 1 });
+      // 4. Añadir tracks en tandas de 20
+      const batchSize = 20;
+      const totalBatches = Math.ceil(tidalMatches.length / batchSize);
+      setProgress({ stage: "adding", message: `Añadiendo tracks... Tanda 1 de ${totalBatches}`, current: 0, total: tidalMatches.length });
+
+      let added = 0;
+      let failed = 0;
+
+      for (let batchIndex = 0; batchIndex < totalBatches; batchIndex++) {
+        const start = batchIndex * batchSize;
+        const batch = tidalMatches.slice(start, start + batchSize);
+
+        setProgress({
+          stage: "adding",
+          message: `Añadiendo tracks... Tanda ${batchIndex + 1} de ${totalBatches}`,
+          current: Math.min(start + batch.length, tidalMatches.length),
+          total: tidalMatches.length,
+        });
+
+        try {
+          const addRes = await fetch("/api/tidal/add-tracks", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ playlistId, trackIds: batch }),
+          });
+
+          if (addRes.ok) {
+            const addData = await addRes.json();
+            added += addData.added ?? 0;
+            failed += addData.failed ?? 0;
+          } else if (addRes.status === 401 || addRes.status === 403) {
+            setProgress({ stage: "error", message: "Sesión de TIDAL caducada. Reconéctate.", current: 0, total: 0, error: "TIDAL_TOKEN_EXPIRED" });
+            return;
+          }
+        } catch {
+          failed += batch.length;
+        }
+
+        if (batchIndex < totalBatches - 1) {
+          await sleep(300);
+        }
+      }
 
       setProgress({
         stage: "done",
@@ -161,7 +200,7 @@ export default function Migrando() {
         total: tracksWithISRC.length,
         result: {
           playlistName: `Migración Spotify - ${new Date().toLocaleDateString("es-ES")}`,
-          added: tidalMatches.length,
+          added,
           notFound: notFound.length,
           notFoundTracks: notFound,
           tidalUrl: `https://tidal.com/playlist/${playlistId}`,

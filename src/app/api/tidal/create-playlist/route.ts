@@ -1,5 +1,5 @@
 import { getValidUserAccessToken } from "@/lib/tidal-auth";
-import { createPlaylist, addTracksToPlaylistBatched } from "@/lib/tidal";
+import { createPlaylist } from "@/lib/tidal";
 
 export async function POST(request: Request) {
   const userToken = await getValidUserAccessToken();
@@ -7,11 +7,7 @@ export async function POST(request: Request) {
     return Response.json({ error: "No autenticado en TIDAL" }, { status: 401 });
   }
 
-  const { title, description, trackIds } = await request.json();
-
-  if (!trackIds || trackIds.length === 0) {
-    return Response.json({ error: "No hay tracks para añadir" }, { status: 400 });
-  }
+  const { title, description } = await request.json();
 
   try {
     const playlistId = await createPlaylist(userToken, title, description);
@@ -19,13 +15,7 @@ export async function POST(request: Request) {
       return Response.json({ error: "Error creando playlist en TIDAL" }, { status: 500 });
     }
 
-    const result = await addTracksToPlaylistBatched(userToken, playlistId, trackIds);
-
-    return Response.json({
-      id: playlistId,
-      added: result.added,
-      failed: result.failed,
-    });
+    return Response.json({ id: playlistId });
   } catch (err) {
     console.error("Create playlist error:", err);
     return Response.json({ error: "Error interno" }, { status: 500 });
