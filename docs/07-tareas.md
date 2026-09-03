@@ -34,31 +34,35 @@
 
 ---
 
-## HITO 3 — OAuth con Spotify
+## HITO 3 — OAuth con Spotify ✅
 
 **Qué ves cuando este hito termina**: Pulso "Connect Spotify", voy a Spotify, acepto, y vuelvo con mis playlists cargadas.
 
 | # | Tarea | Archivos | Cómo compruebo | Depende de |
 |---|---|---|---|---|
-| T11 | Registrar app en Spotify Developer Dashboard | Spotify Dashboard (web externa) | Tengo `SPOTIFY_CLIENT_ID` y `SPOTIFY_CLIENT_SECRET` en `.env.local` | T03 |
+| ✅ T11 | Registrar app en Spotify Developer Dashboard | Spotify Dashboard (web externa) | Tengo `SPOTIFY_CLIENT_ID` y `SPOTIFY_CLIENT_SECRET` en `.env.local` | T03 |
 | ✅ T12 | Crear API Route `/api/spotify/auth` | `src/app/api/spotify/auth/route.ts` | Al llamar a la ruta, redirige a Spotify | T02 |
-| ✅ T13 | Crear API Route `/api/spotify/callback` | `src/app/api/spotify/callback/route.ts` | Tras aceptar en Spotify, la consola muestra el `access_token` | T12 |
+| ✅ T13 | Crear API Route `/api/spotify/callback` | `src/app/api/spotify/callback/route.ts` | Tras aceptar en Spotify, vuelve a TuneHop con token en cookie | T12 |
 | ✅ T14 | Crear función `getSpotifyPlaylists()` | `src/lib/spotify.ts` | La función devuelve un array con nombre + nº de canciones | T13 |
-| T15 | Crear API Route `/api/spotify/playlists` | `src/app/api/spotify/playlists/route.ts` | Abro la ruta y veo un JSON con mis playlists | T14 |
-| ✅ T16 | Conectar botón "Conectar" al flujo OAuth completo | `page.tsx`, `consentimiento/page.tsx` | Pulso botón → checkbox → Spotify → acepto → vuelvo con playlists | T07, T09, T12 |
+| ✅ T15 | Crear API Route `/api/playlists` | `src/app/api/playlists/route.ts` | Abro la ruta y veo un JSON con mis playlists | T14 |
+| ✅ T16 | Conectar botón "Conectar" al flujo OAuth completo | `consentimiento/page.tsx` | Pulso botón nativo `<a>` → checkbox → Spotify → acepto → vuelvo con playlists | T07, T09, T12 |
+
+> **Nota de implementación**: T15 se implementó como `/api/playlists` (no `/api/spotify/playlists`) porque las rutas de Spotify se organizaron bajo `src/app/api/spotify/` y la de lectura de playlists quedó separada.
 
 ---
 
-## HITO 4 — Selección de playlists
+## HITO 4 — Selección de playlists ✅
 
 **Qué ves cuando este hito termina**: Veo mis playlists de Spotify con nombre, nº de canciones y checkbox. Puedo seleccionar y pulsar "Continuar".
 
 | # | Tarea | Archivos | Cómo compruebo | Depende de |
 |---|---|---|---|---|
-| T17 | Crear componente `PlaylistCard.tsx` | `src/components/PlaylistCard.tsx` | Veo tarjeta con nombre, nº canciones y checkbox | T02, T06 |
-| T18 | Crear componente `SelectAllButton.tsx` | `src/components/SelectAllButton.tsx` | Botón "Seleccionar todo" marca todas; "Quitar selección" desmarca todas | T02, T05 |
-| T19 | Crear Pantalla 3 (Selección) | `src/app/playlists/page.tsx` | Veo: título, botón seleccionar todo, lista de tarjetas, contador, botón "Continuar" | T15, T17, T18 |
-| T20 | Verificar que "Continuar" solo se activa con ≥1 seleccionada | `src/app/playlists/page.tsx` | Sin seleccionar: gris. Con 1+: azul | T19 |
+| ✅ T17 | Crear componente `PlaylistCard.tsx` | `src/components/PlaylistCard.tsx` | Veo tarjeta con nombre, nº canciones y checkbox | T02, T06 |
+| ✅ T18 | Crear componente `SelectAllButton.tsx` | `src/components/SelectAllButton.tsx` | Botón "Seleccionar todo" marca todas; "Quitar selección" desmarca todas | T02, T05 |
+| ✅ T19 | Crear Pantalla 3 (Selección) | `src/app/playlists/page.tsx` | Veo: título, botón seleccionar todo, lista de tarjetas, contador, botón "Continuar" | T15, T17, T18 |
+| ✅ T20 | Verificar que "Continuar" solo se activa con ≥1 seleccionada | `src/app/playlists/page.tsx` | Sin seleccionar: gris. Con 1+: azul. Guarda selección en `sessionStorage` y navega a `/destino` | T19 |
+
+> **Nota de implementación**: T17 y T18 se implementaron inline en `playlists/page.tsx` (no como componentes separados) porque la complejidad no justificaba archivos adicionales.
 
 ---
 
@@ -80,36 +84,48 @@
 
 ---
 
-## HITO 6 — Migración core
+## HITO 6 — Migración core ✅
 
-**Qué ves cuando este hito termina**: Selecciono 1 playlist, pulso "Migrar", veo la barra de progreso, y la playlist aparece en Deezer.
+> **Nota de 2026-09-03**: la migración se construyó contra TIDAL v2 (API pública JSON:API),
+> no contra Deezer. La arquitectura real difiere de la planificada: la lógica de migración
+> vive en `migrando/page.tsx` + `tidal.ts` (no en archivos separados `isrc.ts`/`migration.ts`).
+
+**Qué ves cuando este hito termina**: Selecciono 1 playlist, pulso "Migrar", veo la barra de progreso, y la playlist aparece en TIDAL.
 
 | # | Tarea | Archivos | Cómo compruebo | Depende de |
 |---|---|---|---|---|
-| T26 | Crear tipos TypeScript | `src/types/playlist.ts`, `track.ts`, `migration.ts` | Los archivos existen con las interfaces correctas | T02 |
-| T27 | Crear función `searchByISRC()` | `src/lib/isrc.ts` | Le paso un ISRC y devuelve el track de Deezer (o null) | T23, T26 |
-| T28 | Crear función `searchByNameFallback()` | `src/lib/isrc.ts` | Le paso título+artista y devuelve lista de resultados | T27 |
-| T29 | Crear función `migratePlaylist()` | `src/lib/migration.ts` | Le paso playlist + tokens → devuelve objeto Migration | T27, T28 |
-| T30 | Crear API Route `/api/migrate` | `src/app/api/migrate/route.ts` | Le paso datos → ejecuta migración → veo resultado | T29 |
-| T31 | Crear componente `ProgressBar.tsx` | `src/components/ProgressBar.tsx` | Veo barra que se llena con texto "1/3: Playlist - 12/24" | T02 |
-| T32 | Crear Pantalla 5 (Progreso) | `src/app/migrar/page.tsx` | Veo: "Migrando...", barra, nombre, contador, "Cancelar" | T31, T30 |
-| T33 | Crear componente `ErrorMessage.tsx` | `src/components/ErrorMessage.tsx` | Veo error con texto concreto: "Error API Deezer: rate limit" | T02 |
-| T34 | **PROBAR 1 playlist completa** | Todo | Selecciono 1 playlist → conecto Deezer → migro → aparece en Deezer real | T19, T25, T30, T32 |
+| ✅ T26 | Crear tipos TypeScript | interfaces en `src/lib/tidal.ts` | `TidalMatch`, `TidalTrackNode` con campos string (v2) | T02 |
+| ✅ T27 | Crear función `searchTrackByISRC()` | `src/lib/tidal.ts` | Le paso un ISRC, usa token de usuario, busca por `filter[isrc]` en TIDAL v2 | T23 |
+| ✅ T28 | Crear función `searchTracksByISRC()` | `src/lib/tidal.ts` | Le paso N ISRCs, busca en lotes de 20 con `filter[isrc]` múltiple | T27 |
+| ✅ T29 | Crear función `migratePlaylist()` | `src/app/migrando/page.tsx` (inline) | Le paso playlist + tokens → busca tracks → crea playlist → añade → devuelve resultado | T27 |
+| ✅ T30 | Crear API Route `/api/tidal/create-playlist` | `src/app/api/tidal/create-playlist/route.ts` | POST con `{title, description, trackIds}` → crea playlist + añade tracks en batches | T26 |
+| ✅ T31 | Crear componente `ProgressBar.tsx` | `src/app/migrando/page.tsx` (inline) | Veo barra con stages: fetching → matching → creating → adding → done | T02 |
+| ✅ T32 | Crear Pantalla 5 (Progreso) | `src/app/migrando/page.tsx` | Veo: "Migrando...", stages, contador, link "Ver en TIDAL" al terminar | T30, T31 |
+| ✅ T33 | Crear componente `ErrorMessage.tsx` | `src/app/error/page.tsx` | Veo error con mensaje concreto de TIDAL/Spotify | T02 |
+| ✅ T34 | **PROBAR 1 playlist completa** | Todo | Selecciono 1 playlist → conecto TIDAL → migro → aparece en TIDAL real (VERIFICADO 2026-09-03) | T19, T25, T30, T32 |
 
 ---
 
 ## HITO 7 — Resultado y errores
 
+> **Estado**: el flujo termina en `/migrando` con el estado "done" y link "Ver en TIDAL".
+> La Pantalla 6 dedicada (resumen detallado, ver detalle, migrar más, eliminar datos) **aún no existe**.
+> Este hito es el siguiente por construir en el proceso.
+
 **Qué ves cuando este hito termina**: Después de migrar veo un resumen claro, y si algo falla veo el error concreto.
 
 | # | Tarea | Archivos | Cómo compruebo | Depende de |
 |---|---|---|---|---|
-| T35 | Crear Pantalla 6 (Resultado) | `src/app/resultado/page.tsx` | Veo: resumen, ✅/⚠️ por playlist, no encontradas, "Ver detalle", "Migrar más", "Eliminar datos", "Abrir Deezer" | T02, T33 |
+| T35 | Crear Pantalla 6 (Resultado) | `src/app/resultado/page.tsx` | Veo: resumen, ✅/⚠️ por playlist, no encontradas, "Ver detalle", "Migrar más", "Eliminar datos", "Abrir TIDAL" | T02, T33 |
 | T36 | Crear pantalla de detalle de no encontradas | `src/app/resultado/detalle/page.tsx` | Al pulsar "Ver detalle": lista con título + artista + razón | T35 |
 | T37 | Manejar token caducado de Spotify | `src/lib/spotify.ts` | Si caduca: "Sesión caducada. Reconéctate." + botón | T14, T32 |
-| T38 | Manejar token caducado de Deezer | `src/lib/deezer.ts` | Si caduca: "Sesión caducada. Reconéctate." + botón | T23, T32 |
-| T39 | Manejar rate limit (pausa + reintentos) | `src/lib/migration.ts` | Espera 1s, reintenta. Tras 3 fallos: error concreto | T29 |
-| T40 | Manejar playlist duplicada en Deezer | `src/lib/deezer.ts`, `migrar/page.tsx` | Si ya existe: "¿Añadir a la existente, crear nueva, o cancelar?" | T29, T32 |
+| T38 | Manejar token caducado de TIDAL | `src/lib/tidal-auth.ts` | Si caduca: "Sesión caducada. Reconéctate." + botón | T23, T32 |
+| T39 | Manejar rate limit (pausa + backoff exponencial) | `src/lib/tidal.ts` | Ante 429: respeta `Retry-After`, backoff exponencial, 3 reintentos máx. | T29 |
+| T40 | Manejar playlist duplicada en TIDAL | `src/lib/tidal.ts`, `migrando/page.tsx` | Si ya existe: "¿Añadir a la existente, crear nueva, o cancelar?" | T29, T32 |
+
+> **Nota de 2026-09-03**: T38-T40 están parcialmente implementados (el `tidal.ts` actual ya
+> maneja 409 como éxito en `addTracksToPlaylist`, y `tidal-auth.ts` verifica expiración con
+> `getValidUserAccessToken`). Falta la UI de "sesión caducada" y el detalle de no encontradas.
 
 ---
 
@@ -119,9 +135,9 @@
 
 | # | Tarea | Archivos | Cómo compruebo | Depende de |
 |---|---|---|---|---|
-| T41 | Implementar lógica de tandas de 50 | `src/lib/migration.ts` | 60 playlists → se dividen en 50 + 10 | T29 |
-| T42 | Mostrar número de tanda en progreso | `src/app/migrar/page.tsx` | Veo "Tanda 1 de 2" y luego "Tanda 2 de 2" | T41, T32 |
-| T43 | Pausa de 1 segundo entre tandas | `src/lib/migration.ts` | Pausa visible entre tandas | T41 |
+| T41 | Implementar lógica de tandas de 50 tracks | `src/lib/tidal.ts` | 60 tracks → se dividen en 50 + 10 (batch de 20 con pausa entre lotes) | T29 |
+| T42 | Mostrar número de tanda en progreso | `src/app/migrando/page.tsx` | Veo "Tanda 1 de 2" y luego "Tanda 2 de 2" | T41, T32 |
+| T43 | Pausa de 300ms entre tandas | `src/lib/tidal.ts` | Pausa visible entre tandas (ya implementado en `addTracksToPlaylistBatched`) | T41 |
 
 ---
 
@@ -131,10 +147,10 @@
 
 | # | Tarea | Archivos | Cómo compruebo | Depende de |
 |---|---|---|---|---|
-| T44 | Verificar checkbox obligatorio antes de conectar | `consentimiento/page.tsx` | Sin checkbox no puedo avanzar | T10 |
+| T44 | Verificar checkbox obligatorio antes de conectar | `consentimiento/page.tsx` | Sin checkbox no puedo avanzar (ya implementado con `disabled={!aceptado}`) | T10 |
 | T45 | Verificar Política de Privacidad completa | `politica-privacidad/page.tsx` | Incluye: datos, finalidad, base legal, derechos, plazo, responsable. Accesible desde landing | T08 |
 | T46 | Crear botón "Eliminar mis datos y cerrar" | `resultado/page.tsx` | Al pulsar: tokens eliminados, vuelvo a landing | T35 |
-| T47 | Verificar que no se guardan datos tras cerrar sesión | `lib/spotify.ts`, `lib/deezer.ts` | F12 → Application → Storage: sin tokens ni datos | T46 |
+| T47 | Verificar que no se guardan datos tras cerrar sesión | `lib/spotify-auth.ts`, `lib/tidal-auth.ts` | F12 → Application → Storage: sin tokens ni datos | T46 |
 | T48 | Verificar HTTPS en todo | `next.config.ts`, Vercel | URL empieza por `https://`, sin advertencias | T01 |
 
 ---
@@ -178,7 +194,7 @@
 | T61 | Conectar repositorio a Vercel | Vercel Dashboard | Vercel detecta Next.js y despliega | T60 |
 | T62 | Configurar variables de entorno en Vercel | Vercel Settings | Las 5 variables configuradas | T61 |
 | T63 | Configurar Redirect URIs en Spotify Dashboard | Spotify Dashboard | Redirect apunta a `https://tu-app.vercel.app/api/spotify/callback` | T62 |
-| T64 | Configurar Redirect URIs en Deezer Portal | Deezer Portal | Redirect apunta a `https://tu-app.vercel.app/api/deezer/callback` | T62 |
+| T64 | Configurar Redirect URIs en TIDAL Dashboard | TIDAL Dashboard | Redirect apunta a `https://tu-app.vercel.app/api/tidal/callback` | T62 |
 | T65 | Probar la migración completa en producción | URL de Vercel | Flujo completo: connect → seleccionar → migrar → resultado | T63, T64 |
 
 ---
