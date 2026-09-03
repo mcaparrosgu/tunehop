@@ -54,6 +54,12 @@ Landing → Consentimiento (checkbox) → /api/spotify/auth (nativo <a>)
 - **Causa**: `Checkbox.tsx` emitía el `change` como evento nativo; el consumidor usaba `setAceptado(event.target.checked)` y el estado no se propagaba. Además `Button` con `next/link` no navega bien a OAuth externo.
 - **Arreglo**: `Checkbox` emite `onChange(checked: boolean)` + `onChange={setAceptado}`; `Button` tiene `external?: boolean` que renderiza `<a>` nativo.
 
+### R5 — next-intl no cargaba traducciones (RESUELTO 2026-09-03, en producción)
+- **Síntoma**: en producción las claves se mostraban en crudo (`home.title`, `home.subtitle`...).
+- **Causa (doble)**: (1) `messages/es.json` usaba claves planas con puntos (`"home.title": "..."`), pero next-intl usa **estructura anidada** donde el `.` indica niveles (`{home: {title: ...}}`); lanzaba `INVALID_KEY: Namespace keys cannot contain the character "."`. (2) La home `page.tsx` era Server Component pero usaba `useTranslations()` (hook de cliente) en vez de `getTranslations()` de `next-intl/server`.
+- **Arreglo** (commit `84f4b10`): reescribir `messages/es.json` como objeto anidado; las claves `.aria`/`.error.spotify` pasaron a camelCase (`connectAria`, `connect`...); home usa `getTranslations()` (async server). Las páginas interactivas (`consentimiento`, `playlists`, `destino`, `migrando`) sí usan `useTranslations()` correctamente por tener `"use client"`.
+- **Tip**: claves = nombres de ruta sin puntos, y recordar `getTranslations()` para server components, `useTranslations()` para client.
+
 ---
 
 ## 3. Roturas cerradas/resueltas (no repetir)
