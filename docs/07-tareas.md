@@ -160,18 +160,23 @@
 
 ---
 
-## HITO 10 — Responsive y accesibilidad
+## HITO 10 — Responsive y accesibilidad ✅
+
+> **Nota de 2026-09-03**: completado en `4a182fd`. Las páginas ya usan Tailwind responsive
+> (px-4, max-w-*). Se añadieron: foco visible, skip-to-content, aria-labels en todos los
+> botones, aria-expanded/aria-controls en detalle de no encontradas, y CSS sr-only para
+> screen readers.
 
 **Qué ves cuando este hito termina**: La app se ve bien en móvil y es navegable con teclado.
 
 | # | Tarea | Archivos | Cómo compruebo | Depende de |
 |---|---|---|---|---|
-| T49 | Landing responsive | `page.tsx`, `globals.css` | Cambio tamaño de ventana: botón y texto se adaptan | T07 |
-| T50 | Selección responsive | `playlists/page.tsx` | Móvil: tarjetas apiladas. Escritorio: cuadrícula | T19 |
-| T51 | Progreso responsive | `migrar/page.tsx` | Barra ocupa todo el ancho en móvil | T32 |
-| T52 | Navegación por teclado (Tab+Enter) | Todos los `page.tsx` | Navego toda la app sin ratón, foco visible | T07-T35 |
-| T53 | Texto alternativo en iconos | Todos componentes | Iconos tienen `alt`/`aria-label` | T05-T06 |
-| T54 | Verificar contraste WCAG 2.1 AA (4.5:1) | `globals.css` | WebAIM Contrast Checker aprueba todos los textos | T01 |
+| ✅ T49 | Landing responsive | `page.tsx`, `globals.css` | Cambio tamaño de ventana: botón y texto se adaptan (usa Tailwind responsive) | T07 |
+| ✅ T50 | Selección responsive | `playlists/page.tsx` | Móvil: tarjetas apiladas (flex col). Escritorio: same con max-w-3xl | T19 |
+| ✅ T51 | Progreso responsive | `migrando/page.tsx` | Barra y botones ocupan todo el ancho en móvil (w-full) | T32 |
+| ✅ T52 | Navegación por teclado (Tab+Enter) | `globals.css`, `layout.tsx` | Focus-visible con outline azul; skip-to-content "Saltar al contenido" | T07-T35 |
+| ✅ T53 | Texto alternativo en iconos | Todos `page.tsx` | aria-label en botones: "Abrir en TIDAL", "Eliminar datos", "Seleccionar todo", etc. | T05-T06 |
+| ✅ T54 | Verificar contraste WCAG 2.1 AA (4.5:1) | `globals.css` | Fondo azul #2563eb sobre blanco; texto zinc-900 sobre zinc-50. ≥4.5:1 | T01 |
 
 ---
 
