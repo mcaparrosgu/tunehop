@@ -10,7 +10,7 @@ export default function Home() {
           Migra tus playlists de Spotify a otras plataformas musicales
         </p>
         <div className="mt-10">
-          <Button href="/consentimiento" className="px-10 py-4 text-lg">
+          <Button href="/consentimiento" className="px-10 py-4 text-lg" aria-label="Conectar con Spotify para comenzar">
             Connect Spotify
           </Button>
         </div>

@@ -243,10 +243,10 @@ export default function Migrando() {
               )}
             </div>
             <div className="mt-6 flex gap-3">
-              <Button href="/playlists" className="flex-1">
+              <Button href="/playlists" className="flex-1" aria-label="Volver a seleccionar playlists e intentar de nuevo">
                 Reintentar
               </Button>
-              <Button onClick={handleClearData} variant="outline" className="flex-1">
+              <Button onClick={handleClearData} variant="outline" className="flex-1" aria-label="Cerrar sesión y eliminar todos los datos">
                 Cerrar
               </Button>
             </div>
@@ -294,12 +294,14 @@ export default function Migrando() {
                 <button
                   onClick={() => setShowNotFound(!showNotFound)}
                   className="text-sm font-medium text-blue-600 hover:underline"
+                  aria-expanded={showNotFound}
+                  aria-controls="not-found-list"
                 >
                   {showNotFound ? "Ocultar detalle" : `Ver detalle (${progress.result.notFound} no encontradas)`}
                 </button>
 
                 {showNotFound && (
-                  <ul className="mt-3 max-h-48 space-y-2 overflow-y-auto rounded-lg border border-zinc-200 bg-zinc-50 p-3 text-sm">
+                  <ul id="not-found-list" className="mt-3 max-h-48 space-y-2 overflow-y-auto rounded-lg border border-zinc-200 bg-zinc-50 p-3 text-sm" role="list">
                     {progress.result.notFoundTracks.map((track, i) => (
                       <li key={i} className="flex items-start gap-2">
                         <span className="mt-0.5 text-amber-500">⚠</span>
@@ -315,15 +317,16 @@ export default function Migrando() {
             )}
 
             <div className="mt-6 flex flex-col gap-3">
-              <Button href={progress.result.tidalUrl} external className="w-full">
+              <Button href={progress.result.tidalUrl} external className="w-full" aria-label="Abrir la playlist creada en TIDAL">
                 Abrir en TIDAL
               </Button>
-              <Button href="/playlists" variant="outline" className="w-full">
+              <Button href="/playlists" variant="outline" className="w-full" aria-label="Volver a seleccionar más playlists para migrar">
                 Migrar más playlists
               </Button>
               <button
                 onClick={handleClearData}
                 className="w-full py-3 text-sm text-zinc-400 underline-offset-2 hover:text-red-500 hover:underline"
+                aria-label="Eliminar todos los datos y cerrar la sesión"
               >
                 Eliminar datos y cerrar
               </button>

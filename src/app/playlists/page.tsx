@@ -107,7 +107,7 @@ export default function Playlists() {
         </header>
 
         <div className="mb-4 flex items-center gap-3">
-          <Button onClick={selectAll} variant="outline" className="flex-1">
+          <Button onClick={selectAll} variant="outline" className="flex-1" aria-label={allSelected ? "Quitar selección de todas las playlists" : "Seleccionar todas las playlists"}>
             {allSelected ? "Quitar selección" : "Seleccionar todo"}
           </Button>
         </div>
@@ -146,6 +146,7 @@ export default function Playlists() {
               }}
               className="w-full text-lg py-4"
               disabled={selected.size === 0}
+              aria-label={`Continuar con ${selected.size} playlist${selected.size !== 1 ? "s" : ""} seleccionada${selected.size !== 1 ? "s" : ""}`}
             >
               Continuar ({selected.size})
             </Button>
