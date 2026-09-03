@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import Button from "@/components/Button";
 
 interface NotFoundTrack {
@@ -26,9 +26,10 @@ interface MigrationProgress {
 }
 
 export default function Migrando() {
+  const t = useTranslations();
   const [progress, setProgress] = useState<MigrationProgress>({
     stage: "idle",
-    message: "Iniciando...",
+    message: t("migrando.title"),
     current: 0,
     total: 0,
   });
@@ -37,7 +38,7 @@ export default function Migrando() {
   useEffect(() => {
     const selectedIds = JSON.parse(sessionStorage.getItem("selectedPlaylists") || "[]");
     if (selectedIds.length === 0) {
-      setProgress({ stage: "error", message: "No hay playlists seleccionadas", current: 0, total: 0, error: "No playlists" });
+      setProgress({ stage: "error", message: t("migrando.error.noPlaylists"), current: 0, total: 0, error: "NO_PLAYLISTS" });
       return;
     }
 
@@ -66,7 +67,7 @@ export default function Migrando() {
   const runMigration = async (playlistIds: string[]) => {
     try {
       // 1. Obtener tracks de Spotify
-      setProgress({ stage: "fetching", message: "Obteniendo canciones de Spotify...", current: 0, total: playlistIds.length });
+      setProgress({ stage: "fetching", message: t("migrando.fetching"), current: 0, total: playlistIds.length });
 
       const allTracks: Array<{ isrc: string; name: string; artists: string[] }> = [];
 
@@ -83,7 +84,7 @@ export default function Migrando() {
               })));
             }
           } else if (res.status === 401 || res.status === 403) {
-            setProgress({ stage: "error", message: "Sesión de Spotify caducada. Reconéctate.", current: 0, total: 0, error: "SPOTIFY_TOKEN_EXPIRED" });
+            setProgress({ stage: "error", message: t("migrando.error.spotify"), current: 0, total: 0, error: "SPOTIFY_TOKEN_EXPIRED" });
             return;
           }
         } catch {
@@ -94,7 +95,7 @@ export default function Migrando() {
       const tracksWithISRC = allTracks.filter((t) => t.isrc);
 
       // 2. Buscar en TIDAL por ISRC
-      setProgress({ stage: "matching", message: "Buscando coincidencias en TIDAL...", current: 0, total: tracksWithISRC.length });
+      setProgress({ stage: "matching", message: t("migrando.matching"), current: 0, total: tracksWithISRC.length });
 
       const tidalMatches: string[] = [];
       const notFound: NotFoundTrack[] = [];
@@ -111,23 +112,23 @@ export default function Migrando() {
           }
         } catch (err: any) {
           if (err?.message?.includes("SPOTIFY_TOKEN_EXPIRED") || err?.message?.includes("TIDAL_TOKEN_EXPIRED")) {
-            setProgress({ stage: "error", message: "Sesión caducada. Reconéctate.", current: 0, total: 0, error: err.message });
+            setProgress({ stage: "error", message: t("migrando.error.spotify"), current: 0, total: 0, error: err.message });
             return;
           }
           notFound.push({ name: track.name, artists: track.artists, isrc: track.isrc });
         }
 
-        setProgress({ stage: "matching", message: `Buscando... ${i + 1}/${tracksWithISRC.length}`, current: i + 1, total: tracksWithISRC.length });
+        setProgress({ stage: "matching", message: `${t("migrando.matching")} ${i + 1}/${tracksWithISRC.length}`, current: i + 1, total: tracksWithISRC.length });
         await sleep(200);
       }
 
       if (tidalMatches.length === 0) {
-        setProgress({ stage: "error", message: "No se encontraron canciones en TIDAL", current: 0, total: tracksWithISRC.length, error: "NO_MATCHES" });
+        setProgress({ stage: "error", message: t("migrando.error.noMatches"), current: 0, total: tracksWithISRC.length, error: "NO_MATCHES" });
         return;
       }
 
       // 3. Crear playlist en TIDAL (sin tracks aún)
-      setProgress({ stage: "creating", message: "Creando playlist en TIDAL...", current: 0, total: 1 });
+      setProgress({ stage: "creating", message: t("migrando.creating"), current: 0, total: 1 });
 
       const createRes = await fetch("/api/tidal/create-playlist", {
         method: "POST",
@@ -139,7 +140,7 @@ export default function Migrando() {
       });
 
       if (createRes.status === 401 || createRes.status === 403) {
-        setProgress({ stage: "error", message: "Sesión de TIDAL caducada. Reconéctate.", current: 0, total: 0, error: "TIDAL_TOKEN_EXPIRED" });
+        setProgress({ stage: "error", message: t("migrando.error.tidal"), current: 0, total: 0, error: "TIDAL_TOKEN_EXPIRED" });
         return;
       }
 
@@ -153,7 +154,7 @@ export default function Migrando() {
       // 4. Añadir tracks en tandas de 20
       const batchSize = 20;
       const totalBatches = Math.ceil(tidalMatches.length / batchSize);
-      setProgress({ stage: "adding", message: `Añadiendo tracks... Tanda 1 de ${totalBatches}`, current: 0, total: tidalMatches.length });
+      setProgress({ stage: "adding", message: `${t("migrando.adding")} ${t("migrando.batch")} 1 ${t("migrando.of")} ${totalBatches}`, current: 0, total: tidalMatches.length });
 
       let added = 0;
       let failed = 0;
@@ -164,7 +165,7 @@ export default function Migrando() {
 
         setProgress({
           stage: "adding",
-          message: `Añadiendo tracks... Tanda ${batchIndex + 1} de ${totalBatches}`,
+          message: `${t("migrando.adding")} ${t("migrando.batch")} ${batchIndex + 1} ${t("migrando.of")} ${totalBatches}`,
           current: Math.min(start + batch.length, tidalMatches.length),
           total: tidalMatches.length,
         });
@@ -181,7 +182,7 @@ export default function Migrando() {
             added += addData.added ?? 0;
             failed += addData.failed ?? 0;
           } else if (addRes.status === 401 || addRes.status === 403) {
-            setProgress({ stage: "error", message: "Sesión de TIDAL caducada. Reconéctate.", current: 0, total: 0, error: "TIDAL_TOKEN_EXPIRED" });
+            setProgress({ stage: "error", message: t("migrando.error.tidal"), current: 0, total: 0, error: "TIDAL_TOKEN_EXPIRED" });
             return;
           }
         } catch {
@@ -193,9 +194,10 @@ export default function Migrando() {
         }
       }
 
+      // 5. Completado
       setProgress({
         stage: "done",
-        message: "¡Migración completada!",
+        message: t("migrando.done"),
         current: tidalMatches.length,
         total: tracksWithISRC.length,
         result: {
@@ -208,7 +210,7 @@ export default function Migrando() {
       });
     } catch (err) {
       console.error("Migration error:", err);
-      setProgress({ stage: "error", message: "Error en la migración", current: 0, total: 0, error: err instanceof Error ? err.message : "Error desconocido" });
+      setProgress({ stage: "error", message: t("migrando.error"), current: 0, total: 0, error: err instanceof Error ? err.message : "Error desconocido" });
     }
   };
 
@@ -234,20 +236,22 @@ export default function Migrando() {
           <>
             <div className="mb-4 rounded-md border border-red-200 bg-red-50 p-4 text-center">
               <p className="font-medium text-red-800">
-                {progress.error === "SPOTIFY_TOKEN_EXPIRED" || progress.error === "TIDAL_TOKEN_EXPIRED"
-                  ? progress.message
-                  : "Ha ocurrido un error durante la migración"}
+                {progress.error === "SPOTIFY_TOKEN_EXPIRED"
+                  ? t("migrando.error.spotify")
+                  : progress.error === "TIDAL_TOKEN_EXPIRED"
+                    ? t("migrando.error.tidal")
+                    : t("migrando.error")}
               </p>
               {progress.error && progress.error !== "SPOTIFY_TOKEN_EXPIRED" && progress.error !== "TIDAL_TOKEN_EXPIRED" && (
                 <p className="mt-1 text-sm text-red-600">{progress.error}</p>
               )}
             </div>
             <div className="mt-6 flex gap-3">
-              <Button href="/playlists" className="flex-1" aria-label="Volver a seleccionar playlists e intentar de nuevo">
-                Reintentar
+              <Button href="/playlists" className="flex-1" aria-label={t("migrando.retry.aria")}>
+                {t("migrando.retry")}
               </Button>
-              <Button onClick={handleClearData} variant="outline" className="flex-1" aria-label="Cerrar sesión y eliminar todos los datos">
-                Cerrar
+              <Button onClick={handleClearData} variant="outline" className="flex-1" aria-label={t("migrando.close.aria")}>
+                {t("migrando.close")}
               </Button>
             </div>
           </>
@@ -256,7 +260,7 @@ export default function Migrando() {
         {/* Progreso */}
         {progress.stage !== "done" && progress.stage !== "error" && (
           <>
-            <h1 className="text-2xl font-bold text-zinc-900">Migrando...</h1>
+            <h1 className="text-2xl font-bold text-zinc-900">{t("migrando.title")}</h1>
             <p className="mt-2 text-zinc-600">{progress.message}</p>
 
             <div className="mt-6">
@@ -280,11 +284,11 @@ export default function Migrando() {
             <div className="mb-4 rounded-md border border-green-200 bg-green-50 p-4 text-center">
               <p className="font-medium text-green-800">{progress.result.playlistName}</p>
               <p className="mt-1 text-sm text-green-700">
-                {progress.result.added}/{progress.total} canciones migradas
+                {progress.result.added}/{progress.total} {t("migrando.migrated")}
               </p>
               {progress.result.notFound > 0 && (
                 <p className="mt-1 text-sm text-amber-700">
-                  {progress.result.notFound} no encontradas en TIDAL
+                  {progress.result.notFound} {t("migrando.notFound")}
                 </p>
               )}
             </div>
@@ -297,7 +301,7 @@ export default function Migrando() {
                   aria-expanded={showNotFound}
                   aria-controls="not-found-list"
                 >
-                  {showNotFound ? "Ocultar detalle" : `Ver detalle (${progress.result.notFound} no encontradas)`}
+                  {showNotFound ? t("migrando.hideDetail") : `${t("migrando.showDetail")} (${progress.result.notFound})`}
                 </button>
 
                 {showNotFound && (
@@ -317,18 +321,18 @@ export default function Migrando() {
             )}
 
             <div className="mt-6 flex flex-col gap-3">
-              <Button href={progress.result.tidalUrl} external className="w-full" aria-label="Abrir la playlist creada en TIDAL">
-                Abrir en TIDAL
+              <Button href={progress.result.tidalUrl} external className="w-full" aria-label={t("migrando.openTidal.aria")}>
+                {t("migrando.openTidal")}
               </Button>
-              <Button href="/playlists" variant="outline" className="w-full" aria-label="Volver a seleccionar más playlists para migrar">
-                Migrar más playlists
+              <Button href="/playlists" variant="outline" className="w-full" aria-label={t("migrando.morePlaylists.aria")}>
+                {t("migrando.morePlaylists")}
               </Button>
               <button
                 onClick={handleClearData}
                 className="w-full py-3 text-sm text-zinc-400 underline-offset-2 hover:text-red-500 hover:underline"
-                aria-label="Eliminar todos los datos y cerrar la sesión"
+                aria-label={t("migrando.clearData.aria")}
               >
-                Eliminar datos y cerrar
+                {t("migrando.clearData")}
               </button>
             </div>
           </>
