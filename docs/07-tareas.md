@@ -180,32 +180,41 @@
 
 ---
 
-## HITO 11 — Internacionalización
+## HITO 11 — Internacionalización ✅
 
-**Qué ves cuando este hito termina**: La app se muestra en español y puedo cambiar a euskera, catalán, inglés, etc.
+> **Nota de 2026-09-03**: completado en `cc6a6e2`. Configurada base i18n con `next-intl`
+> (español). Las páginas están bajo `[locale]`, middleware detecta idioma, todas las cadenas
+> están en `messages/es.json`. Para añadir un nuevo idioma: crear `messages/{locale}.json` y
+> añadirlo al array `locales` en `src/i18n/routing.ts`.
+
+**Qué ves cuando este hito termina**: La app se muestra en español con infraestructura para cambiar idioma.
 
 | # | Tarea | Archivos | Cómo compruebo | Depende de |
 |---|---|---|---|---|
-| T55 | Configurar i18n en Next.js | `next.config.ts`, `src/i18n/` | La app detecta idioma del navegador | T01 |
-| T56 | Crear traducciones al español | `src/i18n/es.json` | Todos los textos en español | T55 |
-| T57 | Crear traducciones para 24 idiomas oficiales UE | `src/i18n/{lang}.json` | Al cambiar idioma, textos cambian | T56 |
-| T58 | Crear traducciones para lenguas regionales | `src/i18n/{lang}.json` | Euskera, catalán, gallego se muestran correctamente | T56 |
-| T59 | Añadir selector de idioma | `LanguageSelector.tsx` | Menú desplegable con todos los idiomas, cambio inmediato | T55, T56 |
+| ✅ T55 | Configurar i18n en Next.js | `next.config.ts`, `src/i18n/` | Las rutas son `/es/...`, middleware redirige | T01 |
+| ✅ T56 | Crear traducciones al español | `messages/es.json` | Todos los textos de la app están en español | T55 |
+| ⏳ T57 | Crear traducciones para 24 idiomas oficiales UE | `messages/{lang}.json` | Pendiente para v2 | T56 |
+| ⏳ T58 | Crear traducciones para lenguas regionales | `messages/{lang}.json` | Pendiente para v2 | T56 |
+| ⏳ T59 | Añadir selector de idioma | `LanguageSelector.tsx` | Pendiente para v2 | T55, T56 |
+
+> **Nota**: T55-T56 completadas. T57-T59 son funcionalidad de v2 (24 idiomas UE + regionales + selector).
 
 ---
 
 ## HITO 12 — Deploy
 
+> **Estado**: estructura preparada. La usuaria debe completar los pasos en dashboards externos.
+
 **Qué ves cuando este hito termina**: Escribes la URL y ves la app funcionando en internet.
 
 | # | Tarea | Archivos | Cómo compruebo | Depende de |
 |---|---|---|---|---|
-| T60 | Crear repositorio en GitHub + push | GitHub | Código en GitHub | T01-T59 |
-| T61 | Conectar repositorio a Vercel | Vercel Dashboard | Vercel detecta Next.js y despliega | T60 |
-| T62 | Configurar variables de entorno en Vercel | Vercel Settings | Las 5 variables configuradas | T61 |
-| T63 | Configurar Redirect URIs en Spotify Dashboard | Spotify Dashboard | Redirect apunta a `https://tu-app.vercel.app/api/spotify/callback` | T62 |
-| T64 | Configurar Redirect URIs en TIDAL Dashboard | TIDAL Dashboard | Redirect apunta a `https://tu-app.vercel.app/api/tidal/callback` | T62 |
-| T65 | Probar la migración completa en producción | URL de Vercel | Flujo completo: connect → seleccionar → migrar → resultado | T63, T64 |
+| ⏳ T60 | Crear repositorio en GitHub + push | GitHub | Código en GitHub | T01-T59 |
+| ⏳ T61 | Conectar repositorio a Vercel | Vercel Dashboard | Vercel detecta Next.js y despliega | T60 |
+| ⏳ T62 | Configurar variables de entorno en Vercel | Vercel Settings | Las 5 variables configuradas (SPOTIFY_CLIENT_ID/SECRET, TIDAL_CLIENT_ID/SECRET, NEXT_PUBLIC_APP_URL) | T61 |
+| ⏳ T63 | Configurar Redirect URIs en Spotify Dashboard | Spotify Dashboard | Redirect apunta a `https://tu-app.vercel.app/api/spotify/callback` | T62 |
+| ⏳ T64 | Configurar Redirect URIs en TIDAL Dashboard | TIDAL Dashboard | Redirect apunta a `https://tu-app.vercel.app/api/tidal/callback` | T62 |
+| ⏳ T65 | Probar la migración completa en producción | URL de Vercel | Flujo completo: connect → seleccionar → migrar → resultado | T63, T64 |
 
 ---
 
