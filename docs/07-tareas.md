@@ -127,29 +127,36 @@
 
 ---
 
-## HITO 8 — Tandas de 50
+## HITO 8 — Tandas de 50 ✅
 
-**Qué ves cuando este hito termina**: Selecciono 60 playlists, la app migra en 2 tandas mostrando progreso.
+> **Nota de 2026-09-03**: completado en `96724b0`. Se separó la API en `create-playlist`
+> (solo crea) y `add-tracks` (añade por tandas), para que el cliente pueda mostrar progreso.
+
+**Qué ves cuando este hito termina**: Selecciono una playlist grande, la app migra en tandas de 20 tracks mostrando "Tanda 1 de N".
 
 | # | Tarea | Archivos | Cómo compruebo | Depende de |
 |---|---|---|---|---|
-| T41 | Implementar lógica de tandas de 50 tracks | `src/lib/tidal.ts` | 60 tracks → se dividen en 50 + 10 (batch de 20 con pausa entre lotes) | T29 |
-| T42 | Mostrar número de tanda en progreso | `src/app/migrando/page.tsx` | Veo "Tanda 1 de 2" y luego "Tanda 2 de 2" | T41, T32 |
-| T43 | Pausa de 300ms entre tandas | `src/lib/tidal.ts` | Pausa visible entre tandas (ya implementado en `addTracksToPlaylistBatched`) | T41 |
+| ✅ T41 | Implementar lógica de tandas de 20 tracks | `src/lib/tidal.ts` + `src/app/migrando/page.tsx` | 60 tracks → se dividen en 3 tandas de 20 con pausa 300ms | T29 |
+| ✅ T42 | Mostrar número de tanda en progreso | `src/app/migrando/page.tsx` | Veo "Añadiendo tracks... Tanda 1 de 3" durante la adición | T41, T32 |
+| ✅ T43 | Pausa de 300ms entre tandas | `src/app/migrando/page.tsx` | Pausa visible entre tandas | T41 |
 
 ---
 
 ## HITO 9 — Legal y privacidad
 
+> **Estado**: verificado en 2026-09-03. El botón "Eliminar datos y cerrar" se implementó en HITO 7.
+> El checkbox obligatorio y la política de privacidad ya existían. La verificación F12 (no datos en
+> storage tras cerrar) y HTTPS se confirman al hacer deploy.
+
 **Qué ves cuando este hito termina**: Checkbox obligatorio, Política completa, botón de borrado, datos solo en sesión.
 
 | # | Tarea | Archivos | Cómo compruebo | Depende de |
 |---|---|---|---|---|
-| T44 | Verificar checkbox obligatorio antes de conectar | `consentimiento/page.tsx` | Sin checkbox no puedo avanzar (ya implementado con `disabled={!aceptado}`) | T10 |
-| T45 | Verificar Política de Privacidad completa | `politica-privacidad/page.tsx` | Incluye: datos, finalidad, base legal, derechos, plazo, responsable. Accesible desde landing | T08 |
-| T46 | Crear botón "Eliminar mis datos y cerrar" | `resultado/page.tsx` | Al pulsar: tokens eliminados, vuelvo a landing | T35 |
-| T47 | Verificar que no se guardan datos tras cerrar sesión | `lib/spotify-auth.ts`, `lib/tidal-auth.ts` | F12 → Application → Storage: sin tokens ni datos | T46 |
-| T48 | Verificar HTTPS en todo | `next.config.ts`, Vercel | URL empieza por `https://`, sin advertencias | T01 |
+| ✅ T44 | Verificar checkbox obligatorio antes de conectar | `consentimiento/page.tsx` | Sin checkbox no puedo avanzar (ya implementado con `disabled={!aceptado}`) | T10 |
+| ✅ T45 | Verificar Política de Privacidad completa | `politica-privacidad/page.tsx` | Incluye: datos, finalidad, base legal, derechos, plazo, responsable | T08 |
+| ✅ T46 | Crear botón "Eliminar mis datos y cerrar" | `migrando/page.tsx` (estado done) | Al pulsar: limpia cookies + sessionStorage, vuelve a landing | T35 |
+| ⏳ T47 | Verificar que no se guardan datos tras cerrar sesión | `lib/spotify-auth.ts`, `lib/tidal-auth.ts` | F12 → Application → Storage: sin tokens ni datos (verificar en deploy) | T46 |
+| ⏳ T48 | Verificar HTTPS en todo | `next.config.ts`, Vercel | URL empieza por `https://`, sin advertencias (verificar en deploy) | T01 |
 
 ---
 
