@@ -76,7 +76,7 @@
 | ✅ T23 | Crear API Route `/api/tidal/callback` | `src/app/api/tidal/callback/route.ts` | Tras aceptar en TIDAL, se guarda el token en cookie `tidal_user_tokens` | T22 |
 | ✅ T24 | Crear Pantalla 4 (Destino) | `src/app/destino/page.tsx` | Veo: "Elige plataforma destino", botón "Connect TIDAL", "No se borra nada de Spotify" | T02 |
 | ✅ T25 | Conectar botón "Connect TIDAL" al flujo OAuth | `destino/page.tsx` | Pulso → TIDAL → acepto → vuelvo (usa `<a>` nativo vía `external`) | T20, T24 |
-| 🧪 | Probar de punta a punta | Todo | Conecto TIDAL, migro 1 playlist pequeña de 2-3 tracks y aparece en TIDAL real | T19, T25 |
+| ✅ | Probar de punta a punta | Todo | Conecto TIDAL, migro 1 playlist pequeña de 2-3 tracks y aparece en TIDAL real (VERIFICADO 2026-09-03) | T19, T25 |
 
 ---
 

@@ -17,7 +17,7 @@ Landing → Consentimiento (checkbox) → /api/spotify/auth (nativo <a>)
 ```
 
 - **Spotify (leer): FUNCIONAL end-to-end** ✅ (confirmado por la usuaria).
-- **TIDAL (escribir): reescrito a API v2 (JSON:API), SIN probar de punta a punta aún** ⚠️.
+- **TIDAL (escribir): FUNCIONAL end-to-end** ✅ (confirmado por la usuaria: migrate una playlist real de 2-3 tracks y apareció en TIDAL).
 
 ---
 
@@ -37,7 +37,7 @@ Landing → Consentimiento (checkbox) → /api/spotify/auth (nativo <a>)
   - Búsqueda por ISRC usa token de **usuario** (no client_credentials).
   - `countryCode` configurable vía env `TIDAL_COUNTRY_CODE` (default `US`).
 - **Rutas ajustadas**: `create-playlist/route.ts` (uuid→id, ya no usa `getCurrentUserId`), `migrando/page.tsx` (lee `createData.id`, enlace `https://tidal.com/playlist/{id}`).
-- **Pendiente**: registrar Redirect URI `http://[::1]:3000/api/tidal/callback` en developer.tidal.com y probar el flujo end-to-end con playlist pequeña (scopes cambian ⇒ hay que re-autorizar).
+- **Estado (2026-09-03 tarde)**: VERIFICADO end-to-end. La usuaria añadió el Redirect URI `http://[::1]:3000/api/tidal/callback` en developer.tidal.com, marcó los scopes como requeridos (incl. `playlists.write` y `collection.write`), re-autorizó, y migró una playlist real de 2-3 tracks que apareció correctamente en TIDAL.
 
 ### R2 — Inconsistencia de host Windows/WSL (causa raíz recurrente)
 - **Síntoma original**: `ERR_CONNECTION_REFUSED` en `127.0.0.1:3000`; `localhost` de Windows resuelve a `::1` y el relay de WSL **solo reenvía IPv6**, no IPv4 `127.0.0.1`.
@@ -86,7 +86,7 @@ Landing → Consentimiento (checkbox) → /api/spotify/auth (nativo <a>)
 
 - **Deezer**: cerró el registro de nuevas apps desde mediados de 2024 ("We're not accepting new application creation at this time"). Inviable como destino para app nueva.
 - **Decisión**: TuneHop escribe en **TIDAL** (registro abierto, credenciales en `.env.local`).
-- **Pendiente**: actualizar `docs/07-tareas.md` (T21-T25 aún en Deezer).
+- **Pendiente**: actualizar `docs/07-tareas.md` (T21-T25 ya pasados a TIDAL; HITO 6+ siguen mencionando Deezer).
 
 ---
 
