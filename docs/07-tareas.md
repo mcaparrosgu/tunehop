@@ -106,26 +106,24 @@
 
 ---
 
-## HITO 7 — Resultado y errores
+## HITO 7 — Resultado y errores ✅
 
-> **Estado**: el flujo termina en `/migrando` con el estado "done" y link "Ver en TIDAL".
-> La Pantalla 6 dedicada (resumen detallado, ver detalle, migrar más, eliminar datos) **aún no existe**.
-> Este hito es el siguiente por construir en el proceso.
+> **Estado**: completado el 2026-09-03 (commit `7cc5894`).
 
 **Qué ves cuando este hito termina**: Después de migrar veo un resumen claro, y si algo falla veo el error concreto.
 
 | # | Tarea | Archivos | Cómo compruebo | Depende de |
 |---|---|---|---|---|
-| T35 | Crear Pantalla 6 (Resultado) | `src/app/resultado/page.tsx` | Veo: resumen, ✅/⚠️ por playlist, no encontradas, "Ver detalle", "Migrar más", "Eliminar datos", "Abrir TIDAL" | T02, T33 |
-| T36 | Crear pantalla de detalle de no encontradas | `src/app/resultado/detalle/page.tsx` | Al pulsar "Ver detalle": lista con título + artista + razón | T35 |
-| T37 | Manejar token caducado de Spotify | `src/lib/spotify.ts` | Si caduca: "Sesión caducada. Reconéctate." + botón | T14, T32 |
-| T38 | Manejar token caducado de TIDAL | `src/lib/tidal-auth.ts` | Si caduca: "Sesión caducada. Reconéctate." + botón | T23, T32 |
-| T39 | Manejar rate limit (pausa + backoff exponencial) | `src/lib/tidal.ts` | Ante 429: respeta `Retry-After`, backoff exponencial, 3 reintentos máx. | T29 |
-| T40 | Manejar playlist duplicada en TIDAL | `src/lib/tidal.ts`, `migrando/page.tsx` | Si ya existe: "¿Añadir a la existente, crear nueva, o cancelar?" | T29, T32 |
+| ✅ T35 | Crear Pantalla 6 (Resultado) | `src/app/migrando/page.tsx` | Veo: resumen, ✅/⚠️, no encontradas, "Ver detalle", "Migrar más", "Eliminar datos", "Abrir TIDAL" | T02, T33 |
+| ✅ T36 | Crear pantalla de detalle de no encontradas | `src/app/migrando/page.tsx` (expandible inline) | Al pulsar "Ver detalle": lista con título + artista + ISRC | T35 |
+| ✅ T37 | Manejar token caducado de Spotify | `src/app/migrando/page.tsx` | Si caduca: "Sesión de Spotify caducada. Reconéctate." + botón reintentar | T14, T32 |
+| ✅ T38 | Manejar token caducado de TIDAL | `src/app/migrando/page.tsx` | Si caduca: "Sesión de TIDAL caducada. Reconéctate." + botón reintentar | T23, T32 |
+| ✅ T39 | Manejar rate limit (backoff exponencial) | `src/app/migrando/page.tsx` | Ante 429: respeta `Retry-After`, backoff 2^n hasta 8s, 3 reintentos máx | T29 |
+| ✅ T40 | Manejar playlist duplicada en TIDAL | `src/lib/tidal.ts` | 409 = ya estaban → trátalo como éxito (ya implementado) | T29, T32 |
 
-> **Nota de 2026-09-03**: T38-T40 están parcialmente implementados (el `tidal.ts` actual ya
-> maneja 409 como éxito en `addTracksToPlaylist`, y `tidal-auth.ts` verifica expiración con
-> `getValidUserAccessToken`). Falta la UI de "sesión caducada" y el detalle de no encontradas.
+> **Nota de 2026-09-03**: la Pantalla 6 se integró en `migrando/page.tsx` (no como `/resultado` separado)
+> porque el flujo ya vive en esa pantalla y separarlo requeriría pasar datos por URL o sessionStorage
+> de forma innecesaria.
 
 ---
 
