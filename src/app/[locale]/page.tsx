@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import Button from "@/components/Button";
 
-export default function Home() {
-  const t = useTranslations();
+export default async function Home() {
+  const t = await getTranslations();
 
   return (
     <main className="flex flex-1 items-center justify-center bg-gradient-to-b from-white to-blue-50 px-4">
@@ -13,17 +13,17 @@ export default function Home() {
           {t("home.subtitle")}
         </p>
         <div className="mt-10">
-          <Button href="/consentimiento" className="px-10 py-4 text-lg" aria-label={t("home.connect.aria")}>
+          <Button href="/consentimiento" className="px-10 py-4 text-lg" aria-label={t("home.connectAria")}>
             {t("home.connect")}
           </Button>
         </div>
         <p className="mt-8 text-sm text-zinc-500">
-          {t("home.privacy.note")}{" "}
+          {t("home.privacyNote")}{" "}
           <Link
             href="/politica-privacidad"
             className="font-medium text-blue-600 underline-offset-2 hover:underline"
           >
-            {t("home.privacy.link")}
+            {t("home.privacyLink")}
           </Link>
         </p>
       </section>

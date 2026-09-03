@@ -30,13 +30,13 @@ export default function Consentimiento() {
               href="/politica-privacidad"
               className="font-medium text-blue-600 underline-offset-2 hover:underline"
             >
-              {t("home.privacy.link")}
+              {t("home.privacyLink")}
             </Link>
           </span>
         </label>
 
         <div className="mt-6">
-          <Button href="/api/spotify/auth" external disabled={!aceptado} className="w-full" aria-label={t("consent.connect.aria")}>
+          <Button href="/api/spotify/auth" external disabled={!aceptado} className="w-full" aria-label={t("consent.connectAria")}>
             {t("consent.connect")}
           </Button>
         </div>

@@ -38,7 +38,7 @@ export default function Migrando() {
   useEffect(() => {
     const selectedIds = JSON.parse(sessionStorage.getItem("selectedPlaylists") || "[]");
     if (selectedIds.length === 0) {
-      setProgress({ stage: "error", message: t("migrando.error.noPlaylists"), current: 0, total: 0, error: "NO_PLAYLISTS" });
+      setProgress({ stage: "error", message: t("migrando.errorNoPlaylists"), current: 0, total: 0, error: "NO_PLAYLISTS" });
       return;
     }
 
@@ -84,7 +84,7 @@ export default function Migrando() {
               })));
             }
           } else if (res.status === 401 || res.status === 403) {
-            setProgress({ stage: "error", message: t("migrando.error.spotify"), current: 0, total: 0, error: "SPOTIFY_TOKEN_EXPIRED" });
+            setProgress({ stage: "error", message: t("migrando.errorSpotify"), current: 0, total: 0, error: "SPOTIFY_TOKEN_EXPIRED" });
             return;
           }
         } catch {
@@ -112,7 +112,7 @@ export default function Migrando() {
           }
         } catch (err: any) {
           if (err?.message?.includes("SPOTIFY_TOKEN_EXPIRED") || err?.message?.includes("TIDAL_TOKEN_EXPIRED")) {
-            setProgress({ stage: "error", message: t("migrando.error.spotify"), current: 0, total: 0, error: err.message });
+            setProgress({ stage: "error", message: t("migrando.errorSpotify"), current: 0, total: 0, error: err.message });
             return;
           }
           notFound.push({ name: track.name, artists: track.artists, isrc: track.isrc });
@@ -123,7 +123,7 @@ export default function Migrando() {
       }
 
       if (tidalMatches.length === 0) {
-        setProgress({ stage: "error", message: t("migrando.error.noMatches"), current: 0, total: tracksWithISRC.length, error: "NO_MATCHES" });
+        setProgress({ stage: "error", message: t("migrando.errorNoMatches"), current: 0, total: tracksWithISRC.length, error: "NO_MATCHES" });
         return;
       }
 
@@ -140,7 +140,7 @@ export default function Migrando() {
       });
 
       if (createRes.status === 401 || createRes.status === 403) {
-        setProgress({ stage: "error", message: t("migrando.error.tidal"), current: 0, total: 0, error: "TIDAL_TOKEN_EXPIRED" });
+        setProgress({ stage: "error", message: t("migrando.errorTidal"), current: 0, total: 0, error: "TIDAL_TOKEN_EXPIRED" });
         return;
       }
 
@@ -182,7 +182,7 @@ export default function Migrando() {
             added += addData.added ?? 0;
             failed += addData.failed ?? 0;
           } else if (addRes.status === 401 || addRes.status === 403) {
-            setProgress({ stage: "error", message: t("migrando.error.tidal"), current: 0, total: 0, error: "TIDAL_TOKEN_EXPIRED" });
+            setProgress({ stage: "error", message: t("migrando.errorTidal"), current: 0, total: 0, error: "TIDAL_TOKEN_EXPIRED" });
             return;
           }
         } catch {
@@ -237,9 +237,9 @@ export default function Migrando() {
             <div className="mb-4 rounded-md border border-red-200 bg-red-50 p-4 text-center">
               <p className="font-medium text-red-800">
                 {progress.error === "SPOTIFY_TOKEN_EXPIRED"
-                  ? t("migrando.error.spotify")
+                  ? t("migrando.errorSpotify")
                   : progress.error === "TIDAL_TOKEN_EXPIRED"
-                    ? t("migrando.error.tidal")
+                    ? t("migrando.errorTidal")
                     : t("migrando.error")}
               </p>
               {progress.error && progress.error !== "SPOTIFY_TOKEN_EXPIRED" && progress.error !== "TIDAL_TOKEN_EXPIRED" && (
@@ -247,10 +247,10 @@ export default function Migrando() {
               )}
             </div>
             <div className="mt-6 flex gap-3">
-              <Button href="/playlists" className="flex-1" aria-label={t("migrando.retry.aria")}>
+              <Button href="/playlists" className="flex-1" aria-label={t("migrando.retryAria")}>
                 {t("migrando.retry")}
               </Button>
-              <Button onClick={handleClearData} variant="outline" className="flex-1" aria-label={t("migrando.close.aria")}>
+              <Button onClick={handleClearData} variant="outline" className="flex-1" aria-label={t("migrando.closeAria")}>
                 {t("migrando.close")}
               </Button>
             </div>
@@ -321,16 +321,16 @@ export default function Migrando() {
             )}
 
             <div className="mt-6 flex flex-col gap-3">
-              <Button href={progress.result.tidalUrl} external className="w-full" aria-label={t("migrando.openTidal.aria")}>
+              <Button href={progress.result.tidalUrl} external className="w-full" aria-label={t("migrando.openTidalAria")}>
                 {t("migrando.openTidal")}
               </Button>
-              <Button href="/playlists" variant="outline" className="w-full" aria-label={t("migrando.morePlaylists.aria")}>
+              <Button href="/playlists" variant="outline" className="w-full" aria-label={t("migrando.morePlaylistsAria")}>
                 {t("migrando.morePlaylists")}
               </Button>
               <button
                 onClick={handleClearData}
                 className="w-full py-3 text-sm text-zinc-400 underline-offset-2 hover:text-red-500 hover:underline"
-                aria-label={t("migrando.clearData.aria")}
+                aria-label={t("migrando.clearDataAria")}
               >
                 {t("migrando.clearData")}
               </button>

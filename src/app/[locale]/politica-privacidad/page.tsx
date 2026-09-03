@@ -25,9 +25,9 @@ export default async function PoliticaPrivacidad() {
         </section>
 
         <section className="mt-8">
-          <h2 className="text-xl font-semibold text-zinc-900">{t("privacy.data.title")}</h2>
+          <h2 className="text-xl font-semibold text-zinc-900">{t("privacy.dataTitle")}</h2>
           <p className="mt-2 text-zinc-700">
-            {t("privacy.data.description")}
+            {t("privacy.dataDescription")}
           </p>
           <table className="mt-4 w-full border-collapse text-left text-sm text-zinc-700">
             <thead>
@@ -47,37 +47,37 @@ export default async function PoliticaPrivacidad() {
         </section>
 
         <section className="mt-8">
-          <h2 className="text-xl font-semibold text-zinc-900">{t("privacy.purpose.title")}</h2>
+          <h2 className="text-xl font-semibold text-zinc-900">{t("privacy.purposeTitle")}</h2>
           <p className="mt-2 text-zinc-700">
-            {t("privacy.purpose.description")}
+            {t("privacy.purposeDescription")}
           </p>
         </section>
 
         <section className="mt-8">
-          <h2 className="text-xl font-semibold text-zinc-900">{t("privacy.legal.title")}</h2>
+          <h2 className="text-xl font-semibold text-zinc-900">{t("privacy.legalTitle")}</h2>
           <p className="mt-2 text-zinc-700">
-            {t("privacy.legal.description")}
+            {t("privacy.legalDescription")}
           </p>
         </section>
 
         <section className="mt-8">
-          <h2 className="text-xl font-semibold text-zinc-900">{t("privacy.rights.title")}</h2>
+          <h2 className="text-xl font-semibold text-zinc-900">{t("privacy.rightsTitle")}</h2>
           <p className="mt-2 text-zinc-700">
-            {t("privacy.rights.description")}
+            {t("privacy.rightsDescription")}
           </p>
         </section>
 
         <section className="mt-8">
-          <h2 className="text-xl font-semibold text-zinc-900">{t("privacy.retention.title")}</h2>
+          <h2 className="text-xl font-semibold text-zinc-900">{t("privacy.retentionTitle")}</h2>
           <p className="mt-2 text-zinc-700">
-            {t("privacy.retention.description")}
+            {t("privacy.retentionDescription")}
           </p>
         </section>
 
         <section className="mt-8">
-          <h2 className="text-xl font-semibold text-zinc-900">{t("privacy.contact.title")}</h2>
+          <h2 className="text-xl font-semibold text-zinc-900">{t("privacy.contactTitle")}</h2>
           <p className="mt-2 text-zinc-700">
-            {t("privacy.contact.description")}
+            {t("privacy.contactDescription")}
           </p>
         </section>
 

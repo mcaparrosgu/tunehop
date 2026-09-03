@@ -83,7 +83,7 @@ export default function Playlists() {
         <div className="mx-auto max-w-lg text-center">
           <h1 className="text-2xl font-bold text-zinc-900">{t("playlists.empty")}</h1>
           <p className="mt-2 text-zinc-600">
-            {t("playlists.empty.description")}
+            {t("playlists.emptyDescription")}
           </p>
           <div className="mt-6">
             <Link
@@ -109,7 +109,7 @@ export default function Playlists() {
         </header>
 
         <div className="mb-4 flex items-center gap-3">
-          <Button onClick={selectAll} variant="outline" className="flex-1" aria-label={allSelected ? t("playlists.deselectAll.aria") : t("playlists.selectAll.aria")}>
+          <Button onClick={selectAll} variant="outline" className="flex-1" aria-label={allSelected ? t("playlists.deselectAllAria") : t("playlists.selectAllAria")}>
             {allSelected ? t("playlists.deselectAll") : t("playlists.selectAll")}
           </Button>
         </div>
