@@ -60,6 +60,13 @@ Landing → Consentimiento (checkbox) → /api/spotify/auth (nativo <a>)
 - **Arreglo** (commit `84f4b10`): reescribir `messages/es.json` como objeto anidado; las claves `.aria`/`.error.spotify` pasaron a camelCase (`connectAria`, `connect`...); home usa `getTranslations()` (async server). Las páginas interactivas (`consentimiento`, `playlists`, `destino`, `migrando`) sí usan `useTranslations()` correctamente por tener `"use client"`.
 - **Tip**: claves = nombres de ruta sin puntos, y recordar `getTranslations()` para server components, `useTranslations()` para client.
 
+### R6 — Playlists en producción con 0 canciones (RESUELTO 2026-09-03, en producción)
+- **Síntoma**: en `https://tunehop.vercel.app/es/playlists` todas las playlists salían con "0 canciones", aunque en Spotify tienen cientos.
+- **Causa**: Spotify devolvía el campo `items.total` en `/me/playlists` (en vez del histórico `tracks.total`); el código leía solo `pl.tracks?.total ?? 0` → siempre 0. El token era válido (diagnóstico: status 200), el problema era el nombre del campo.
+- **Arreglo** (commit `42c14b7`): `totalTracks: pl.tracks?.total ?? pl.items?.total ?? 0`. Soporta ambos esquemas.
+- **Cómo se encontró**: endpoint temporal `/api/debug/spotify` (eliminado tras el fix) que devolvía la respuesta cruda de Spotify + header `spotify-scope`. Útil para el futuro: ante un síntoma raro en producción, exponer la respuesta cruda de la API externa en vez de teorizar.
+- **Tip**: las APIs externas cambian de esquema sin avisar; al mapear campos de una API, usa fallbacks (`??`) para campos con nombre histórico.
+
 ---
 
 ## 3. Roturas cerradas/resueltas (no repetir)
