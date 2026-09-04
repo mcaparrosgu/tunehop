@@ -6,7 +6,8 @@ interface SpotifyPlaylist {
   id: string;
   name: string;
   images: { url: string }[];
-  tracks: { total: number };
+  tracks?: { total: number };
+  items?: { total: number };
   owner: { id: string; display_name: string };
   collaborative: boolean;
   public: boolean;
@@ -92,7 +93,7 @@ export async function getSpotifyPlaylists(): Promise<PlaylistSummary[]> {
         id: pl.id,
         name: pl.name,
         imageUrl: pl.images?.[0]?.url ?? null,
-        totalTracks: pl.tracks?.total ?? 0,
+        totalTracks: pl.tracks?.total ?? pl.items?.total ?? 0,
         ownerName: pl.owner?.display_name ?? "Desconocido",
         isOwner: pl.owner?.id === (await getCurrentUserId(token)),
         collaborative: pl.collaborative ?? false,
