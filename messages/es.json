@@ -41,6 +41,7 @@
     "title": "Migrando...",
     "fetching": "Obteniendo canciones de Spotify...",
     "matching": "Buscando coincidencias en TIDAL...",
+    "matchingName": "Buscando por nombre en TIDAL...",
     "creating": "Creando playlist en TIDAL...",
     "adding": "Añadiendo tracks a TIDAL...",
     "batch": "Tanda",

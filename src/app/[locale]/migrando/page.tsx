@@ -123,6 +123,31 @@ export default function Migrando() {
         await sleep(200);
       }
 
+      // 2b. Fallback: buscar por nombre/artist para tracks no encontrados por ISRC
+      const stillNotFound: NotFoundTrack[] = [];
+      for (let i = 0; i < notFound.length; i++) {
+        const track = notFound[i];
+        setProgress({ stage: "matching", message: `${t("migrando.matchingName")} ${i + 1}/${notFound.length}`, current: i + 1, total: notFound.length });
+        try {
+          const res = await fetch(`/api/tidal/search-by-name?name=${encodeURIComponent(track.name)}&artist=${encodeURIComponent(track.artists.join(" "))}`);
+          if (res.ok) {
+            const data = await res.json();
+            if (data.tidalId) {
+              tidalMatches.push(data.tidalId);
+              continue;
+            }
+          }
+        } catch {
+          // Continuar
+        }
+        stillNotFound.push(track);
+        await sleep(200);
+      }
+
+      // Reemplazar notFound con los que realmente no se encontraron
+      notFound.length = 0;
+      notFound.push(...stillNotFound);
+
       if (tidalMatches.length === 0) {
         // Sin matches: no es error, es resultado válido — esos tracks no existen en TIDAL
         const allNotFound: NotFoundTrack[] = tracksWithISRC.map((t) => ({ name: t.name, artists: t.artists, isrc: t.isrc }));

@@ -13,6 +13,15 @@ interface TidalTrackNode {
     isrc?: string;
     duration?: string;
   };
+  relationships?: {
+    artists?: {
+      data?: Array<{
+        id: string;
+        type: string;
+        attributes?: { name?: string };
+      }>;
+    };
+  };
 }
 
 interface TidalMatch {
@@ -28,7 +37,33 @@ async function getUserToken(): Promise<string | null> {
 }
 
 function extractArtist(node: TidalTrackNode): string {
-  return "";
+  return node.relationships?.artists?.data?.[0]?.attributes?.name ?? "";
+}
+
+/** Buscar un track en TIDAL por nombre y artista (fallback cuando ISRC no funciona) */
+export async function searchTrackByName(name: string, artist: string): Promise<TidalMatch | null> {
+  const token = await getUserToken();
+  if (!token) return null;
+
+  const query = `${name} ${artist}`.trim();
+  const url = `${TIDAL_API}/search?query=${encodeURIComponent(query)}&type=tracks&limit=5`;
+
+  try {
+    const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+    if (!res.ok) return null;
+
+    const data = await res.json() as { data: TidalTrackNode[] };
+    const track = data.data?.[0];
+    if (!track) return null;
+
+    return {
+      tidalId: track.id,
+      title: track.attributes?.title ?? "",
+      artist: extractArtist(track),
+    };
+  } catch {
+    return null;
+  }
 }
 
 export async function searchTrackByISRC(isrc: string): Promise<TidalMatch | null> {
