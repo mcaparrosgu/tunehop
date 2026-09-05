@@ -2,6 +2,9 @@ import { TIDAL_API, getValidUserAccessToken } from "./tidal-auth";
 
 const COUNTRY_CODE = process.env.TIDAL_COUNTRY_CODE ?? "US";
 
+/** Países a buscar en orden de prioridad — maximiza matches automáticamente */
+const SEARCH_COUNTRIES = [COUNTRY_CODE, "ES", "GB", "MX", "DE", "FR", "NL", "JP"];
+
 interface TidalTrackNode {
   id: string;
   type: "tracks";
@@ -32,19 +35,22 @@ export async function searchTrackByISRC(isrc: string): Promise<TidalMatch | null
   const token = await getUserToken();
   if (!token) return null;
 
-  const url = `${TIDAL_API}/tracks?${new URLSearchParams({ "filter[isrc]": isrc, countryCode: COUNTRY_CODE })}`;
-  const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+  for (const country of SEARCH_COUNTRIES) {
+    const url = `${TIDAL_API}/tracks?${new URLSearchParams({ "filter[isrc]": isrc, countryCode: country })}`;
+    const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+    if (!res.ok) continue;
 
-  if (!res.ok) return null;
-  const data = await res.json() as { data: TidalTrackNode[] };
-  const track = data.data?.[0];
-  if (!track) return null;
-
-  return {
-    tidalId: track.id,
-    title: track.attributes?.title ?? "",
-    artist: extractArtist(track),
-  };
+    const data = await res.json() as { data: TidalTrackNode[] };
+    const track = data.data?.[0];
+    if (track) {
+      return {
+        tidalId: track.id,
+        title: track.attributes?.title ?? "",
+        artist: extractArtist(track),
+      };
+    }
+  }
+  return null;
 }
 
 export async function searchTracksByISRC(isrcs: string[], batchSize: number = 20): Promise<Map<string, TidalMatch>> {
@@ -52,37 +58,44 @@ export async function searchTracksByISRC(isrcs: string[], batchSize: number = 20
   const token = await getUserToken();
   if (!token) return results;
 
-  for (let i = 0; i < isrcs.length; i += batchSize) {
-    const batch = isrcs.slice(i, i + batchSize);
-    const params = new URLSearchParams();
-    for (const isrc of batch) {
-      params.append("filter[isrc]", isrc);
-    }
-    params.set("countryCode", COUNTRY_CODE);
+  // Buscar en todos los países automáticamente
+  for (const country of SEARCH_COUNTRIES) {
+    // Solo buscar los ISRCs que aún no tenemos resultado
+    const pending = isrcs.filter((isrc) => !results.has(isrc.toUpperCase()));
+    if (pending.length === 0) break;
 
-    try {
-      const res = await fetch(`${TIDAL_API}/tracks?${params.toString()}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (res.ok) {
-        const data = await res.json() as { data: TidalTrackNode[] };
-        for (const track of data.data ?? []) {
-          const isrcKey = track.attributes?.isrc?.toUpperCase();
-          if (isrcKey) {
-            results.set(isrcKey, {
-              tidalId: track.id,
-              title: track.attributes?.title ?? "",
-              artist: extractArtist(track),
-            });
+    for (let i = 0; i < pending.length; i += batchSize) {
+      const batch = pending.slice(i, i + batchSize);
+      const params = new URLSearchParams();
+      for (const isrc of batch) {
+        params.append("filter[isrc]", isrc);
+      }
+      params.set("countryCode", country);
+
+      try {
+        const res = await fetch(`${TIDAL_API}/tracks?${params.toString()}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (res.ok) {
+          const data = await res.json() as { data: TidalTrackNode[] };
+          for (const track of data.data ?? []) {
+            const isrcKey = track.attributes?.isrc?.toUpperCase();
+            if (isrcKey && !results.has(isrcKey)) {
+              results.set(isrcKey, {
+                tidalId: track.id,
+                title: track.attributes?.title ?? "",
+                artist: extractArtist(track),
+              });
+            }
           }
         }
+      } catch (err) {
+        console.error("TIDAL search batch failed:", err);
       }
-    } catch (err) {
-      console.error("TIDAL search batch failed:", err);
-    }
 
-    if (i + batchSize < isrcs.length) {
-      await new Promise((r) => setTimeout(r, 300));
+      if (i + batchSize < pending.length) {
+        await new Promise((r) => setTimeout(r, 300));
+      }
     }
   }
   return results;
