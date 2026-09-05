@@ -73,6 +73,13 @@ Landing → Consentimiento (checkbox) → /api/spotify/auth (nativo <a>)
 - **Arreglo** (commit `5f9d081`): restaurar el patrón original: `<Button onClick={() => { sessionStorage.setItem(...); window.location.href = "/destino"; }}>` sin `href`.
 - **Lección**: `Button` con `href` ≠ `Button` con `onClick`. Nunca combinar ambos esperando que corra el handler; si necesitas ambas cosas, usa `onClick` + `window.location.href` (o refactor de Button para soportar ambos).
 
+### R8 — Spotify migró el endpoint de tracks de playlist (RESUELTO 2026-09-05, en producción)
+- **Síntoma**: al migrar, error `NO_MATCHES` para todas las canciones; diagnóstico mostraba `spotifyTracksStatus: 403` al leer los tracks de una playlist propia.
+- **Causa**: la API de Spotify migró el endpoint `GET /playlists/{id}/tracks` → `GET /playlists/{id}/items` (el href de `tracks`/`items` en la respuesta de `/me/playlists` ya apuntaba a `/items`, pista del bug R6). Además el objeto de item cambió: el track ya no está en `item.track` sino en `item.item`. El endpoint viejo responde `403 Forbidden`.
+- **Arreglo** (commit `0745bb4`): en `src/lib/spotify.ts`, cambiar `getPlaylistTracks` y `getAllPlaylistTracks` a `/items` con `fields=items(item(...))` y mapear `entry.item ?? entry.track` (soporta esquema nuevo y viejo).
+- **Cómo se detectó**: el endpoint de debug probaba 4 variantes (tracks/items × con/sin fields) y mostraba que `/tracks` daba 403 y `/items` 200 con `external_ids` dentro de `item.item`.
+- **Tip**: cuando una API externa devuelve campos con un nombre distinto al esperado (R6: `items` vs `tracks`; R8: `item` vs `track`), el href de la respuesta suele contener el endpoint real asociado. Verificarlo antes de asumir.
+
 ---
 
 ## 3. Roturas cerradas/resueltas (no repetir)
