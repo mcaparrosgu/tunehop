@@ -59,3 +59,17 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **QUÉ QUEDA PENDIENTE** — (1) Registrar el Redirect URI `http://[::1]:3000/api/tidal/callback` en developer.tidal.com (ACCION DE LA USUARIA). (2) Re-autorizar TIDAL (cambian los scopes) y probar el flujo end-to-end con una playlist pequeña de 2-3 tracks. (3) Reescribir `docs/07-tareas.md` (T21-T25 Deezer→TIDAL). (4) Decidir: commitear reestructuración CLAUDE.md→AGENTS.md, registrar tunehop.com, cuándo abordar logo/identidad (pregunta dos veces sin respuesta).
 
 > **✅ Actualización (2026-09-03 tarde)**: la usuaria añadió el Redirect URI, marcó los scopes como requeridos, re-autorizó y **verificó el flujo TIDAL end-to-end** (playlist real de 2-3 tracks apareció en TIDAL). El tramo completo Spotify→TIDAL queda funcional. HITO 5 marcado como completado en `docs/07-tareas.md`.
+
+---
+
+## 2026-09-05 · Fix R8 (Spotify API) + R9 (multi-país TIDAL) + protección rate limit
+
+- **QUÉ SE DECIDIÓ** — (1) Spotify migró el endpoint de tracks de `/playlists/{id}/tracks` a `/playlists/{id}/items` y el campo de `track` a `item`. Fix: `/items` con `fields=items(item(...))` (sin fields no devuelve ISRCs). (2) Búsqueda ISRC multi-país automática (US, ES, GB, MX, DE) en vez de `countryCode=US` fijo. (3) Fallback por nombre/artista cuando ISRC no encuentra match. (4) Protección rate limit: si TIDAL devuelve 429/403, para búsqueda automáticamente.
+
+- **ALTERNATIVAS DESCARTADAS** — (1) Quitar `fields` y traer respuesta completa: Spotify no devuelve `external_ids` sin fields → no hay ISRCs → inútil. (2) Selector de país manual (dropdown): la alumna rechazó la UX ("la gente aprieta un botón y quiere todo hecho"). (3) 8 países: reducido a 5 para limitar llamadas API (rate limit). (4) Buscar por nombre primero: más lento e impreciso que ISRC, solo como fallback.
+
+- **POR QUÉ ESTA** — El multi-país automático es transparente para el usuario y maximiza matches. El fallback por nombre captura tracks donde el ISRC difiere entre plataformas. La protección rate limit evita bloqueos de TIDAL (preocupación explícita de la alumna). Con 5 países y 300ms delay, playlist de 50 tracks ≈ 60 llamadas en 30s (within limits de TIDAL ~100/min).
+
+- **QUÉ SE ROMPIÓ** — R8: Spotify API cambió sin avisar (endpoint + campo). Se detectó con endpoint temporal de debug que comparaba variantes. R9:_tracks de Ska de los 60s no existen en TIDAL (catálogo, no bug). La alumna probó 2 veces con playlist de 12 tracks de The Skatalites/Lord Creator → 0 matches en todos los países. Confirmado: es limitación del catálogo de TIDAL, no de la app.
+
+- **QUÉ QUEDA PENDIENTE** — (1) Test con playlist mainstream (pop/rock) para confirmar que la app funciona de punta a punta con tracks que sí están en TIDAL. (2) Evaluar si el fallback por nombre/artista funciona en la práctica (no probado con tracks que sí existen). (3)考虑ar si necesitamos más países o si 5 es suficiente. (4) Documentación: actualizar `docs/07-tareas.md` (HITOs 6+ en Deezer).
