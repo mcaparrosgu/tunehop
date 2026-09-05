@@ -34,6 +34,7 @@ export default function Migrando() {
     total: 0,
   });
   const [showNotFound, setShowNotFound] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const selectedIds = JSON.parse(sessionStorage.getItem("selectedPlaylists") || "[]");
@@ -320,10 +321,31 @@ export default function Migrando() {
               </div>
             )}
 
-            <div className="mt-6 flex flex-col gap-3">
-              <Button href={progress.result.tidalUrl} external className="w-full" aria-label={t("migrando.openTidalAria")}>
-                {t("migrando.openTidal")}
-              </Button>
+            <div className="mt-4 flex flex-col gap-3">
+              {/* Enlace copiable */}
+              <div>
+                <div className="flex items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 p-3">
+                  <input
+                    type="text"
+                    readOnly
+                    value={progress.result.tidalUrl}
+                    className="flex-1 bg-transparent text-sm text-zinc-600 outline-none"
+                    aria-label={t("migrando.openTidalAria")}
+                  />
+                  <button
+                    onClick={async () => {
+                      await navigator.clipboard.writeText(progress.result!.tidalUrl);
+                      setCopied(true);
+                      setTimeout(() => setCopied(false), 2000);
+                    }}
+                    className="rounded-md bg-blue-600 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-blue-700"
+                    aria-label={t("migrando.copyLinkAria")}
+                  >
+                    {copied ? t("migrando.linkCopied") : t("migrando.copyLink")}
+                  </button>
+                </div>
+                <p className="mt-1.5 text-xs text-zinc-400">{t("migrando.tidalHint")}</p>
+              </div>
               <Button href="/playlists" variant="outline" className="w-full" aria-label={t("migrando.morePlaylistsAria")}>
                 {t("migrando.morePlaylists")}
               </Button>
