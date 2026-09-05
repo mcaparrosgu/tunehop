@@ -40,8 +40,43 @@ export async function GET(request: Request) {
   }
 
   // Con playlistId: diagnóstico completo ISRC → TIDAL
+  // Probar AMBOS endpoints: el viejo /tracks y el nuevo /items
+  const endpoints = [
+    { label: "tracks_sin_fields", url: `${SPOTIFY_API}/playlists/${playlistId}/tracks?limit=2` },
+    { label: "items_sin_fields", url: `${SPOTIFY_API}/playlists/${playlistId}/items?limit=2` },
+    { label: "tracks_con_fields", url: `${SPOTIFY_API}/playlists/${playlistId}/tracks?limit=2&fields=items(track(id,name,external_ids,isrc,artists(name))),next` },
+    { label: "items_con_fields", url: `${SPOTIFY_API}/playlists/${playlistId}/items?limit=2&fields=items(track(id,name,external_ids,isrc,artists(name))),next` },
+  ];
+
+  const endpointResults = [];
+  for (const ep of endpoints) {
+    const res = await fetch(ep.url, { headers: { Authorization: `Bearer ${spotifyToken}` } });
+    let body: any = null;
+    try {
+      body = await res.json();
+    } catch {
+      body = null;
+    }
+    const item0 = body?.items?.[0];
+    endpointResults.push({
+      label: ep.label,
+      status: res.status,
+      scope: res.headers.get("spotify-scope"),
+      keys: body ? Object.keys(body) : null,
+      primerItemKeys: item0 && typeof item0 === "object" ? Object.keys(item0) : null,
+      primerItemTrack: item0?.track
+        ? { id: item0.track.id, name: item0.track.name, external_ids: item0.track.external_ids }
+        : null,
+    });
+  }
+  info.spotifyEndpoints = endpointResults;
+
+  // Usar el mejor endpoint para el diagnóstico de ISRC
+  const best = endpointResults.find((r) => r.status === 200 && r.primerItemTrack) ?? endpointResults.find((r) => r.status === 200);
+  if (!best) return Response.json(info);
+
   const tracksRes = await fetch(
-    `${SPOTIFY_API}/playlists/${playlistId}/tracks?limit=10&fields=items(track(id,name,external_ids,external_ids(isrc),artists(name))),next`,
+    `${SPOTIFY_API}/playlists/${playlistId}/${best.label.startsWith("items") ? "items" : "tracks"}?limit=10&fields=items(track(id,name,external_ids,isrc,artists(name))),next`,
     { headers: { Authorization: `Bearer ${spotifyToken}` } }
   );
   info.spotifyTracksStatus = tracksRes.status;
