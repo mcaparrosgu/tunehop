@@ -3,7 +3,7 @@
 > Documento vivo de roturas, causas raíz y decisiones técnicas. Cuando se rompe algo,
 > se añade una entrada aquí con el diagnóstico y la solución, para no repetir errores
 > y para que otro agente (p. ej. Opus5) pueda dar instrucciones precisas.
-> Ultima actualización: 2026-09-03.
+> Ultima actualización: 2026-09-05.
 
 ---
 
@@ -13,11 +13,13 @@
 Landing → Consentimiento (checkbox) → /api/spotify/auth (nativo <a>)
  → Spotify OAuth → callback → /playlists (LEE, funcional ✅)
  → /destino → Connect TIDAL → /api/tidal/auth (nativo <a>) → TIDAL OAuth
- → /migrando → busca ISRC → crea playlist → resultado
+ → /migrando → busca ISRC multi-país → fallback nombre/artista → crea playlist → resultado
 ```
 
 - **Spotify (leer): FUNCIONAL end-to-end** ✅ (confirmado por la usuaria).
-- **TIDAL (escribir): FUNCIONAL end-to-end** ✅ (confirmado por la usuaria: migrate una playlist real de 2-3 tracks y apareció en TIDAL).
+- **TIDAL (escribir): FUNCIONAL end-to-end** ✅ (confirmado por la usuaria: migró playlist real de 5 tracks).
+- **Búsqueda ISRC: multi-país automático** ✅ (US, ES, GB, MX, DE) + fallback por nombre/artista.
+- **Rate limit: protegido** ✅ (429/403 para búsqueda automáticamente).
 
 ---
 
@@ -76,9 +78,16 @@ Landing → Consentimiento (checkbox) → /api/spotify/auth (nativo <a>)
 ### R8 — Spotify migró el endpoint de tracks de playlist (RESUELTO 2026-09-05, en producción)
 - **Síntoma**: al migrar, error `NO_MATCHES` para todas las canciones; diagnóstico mostraba `spotifyTracksStatus: 403` al leer los tracks de una playlist propia.
 - **Causa**: la API de Spotify migró el endpoint `GET /playlists/{id}/tracks` → `GET /playlists/{id}/items` (el href de `tracks`/`items` en la respuesta de `/me/playlists` ya apuntaba a `/items`, pista del bug R6). Además el objeto de item cambió: el track ya no está en `item.track` sino en `item.item`. El endpoint viejo responde `403 Forbidden`. Además, el parámetro `fields=items(track(...))` en el nuevo endpoint devuelve items vacíos.
-- **Arreglo** (commits `0745bb4` + `327c881`): en `src/lib/spotify.ts`, cambiar `getPlaylistTracks` y `getAllPlaylistTracks` a `/items` sin parámetro `fields` y mapear `entry.item ?? entry.track` (soporta esquema nuevo y viejo).
-- **Cómo se detectó**: el endpoint de debug probaba 4 variantes (tracks/items × con/sin fields) y mostraba que `/tracks` daba 403 y `/items` 200 con `external_ids` dentro de `item.item`.
-- **Tip**: cuando una API externa devuelve campos con un nombre distinto al esperado (R6: `items` vs `tracks`; R8: `item` vs `track`), el href de la respuesta suele contener el endpoint real asociado. Verificarlo antes de asumir.
+- **Arreglo** (commits `0745bb4`, `327c881`, `1d2b244`): en `src/lib/spotify.ts`, cambiar `getPlaylistTracks` y `getAllPlaylistTracks` a `/items` con `fields=items(item(...))` (formato nuevo) y mapear `entry.item ?? entry.track` (soporta esquema nuevo y viejo). Sin `fields`, Spotify no devuelve `external_ids` (ISRC) en la respuesta por defecto.
+- **Cómo se detectó**: endpoint temporal de debug que comparaba 4 variantes (tracks/items × con/sin fields). `/tracks` daba 403, `/items` daba 200 pero con `fields=items(track(...))` devolvía items vacíos (campo `track` ya no existe). Solo `fields=items(item(...))` funcionó.
+- **Tip**: cuando una API externa devuelve campos con un nombre distinto al esperado (R6: `items` vs `tracks`; R8: `item` vs `track`), el href de la respuesta suele contener el endpoint real asociado. Verificarlo antes de asumir. Sin `fields`, la API de Spotify no devuelve ISRCs.
+
+### R9 — TIDAL no encontraba tracks por countryCode fijo (RESUELTO 2026-09-05)
+- **Síntoma**: `NO_MATCHES` para playlists reales;_tracks con ISRC válido no encontraban match en TIDAL.
+- **Causa**: `countryCode=US` hardcoded. Tracks de otros países/regiones no aparecían en el catálogo US.
+- **Arreglo** (commit `59bfd6b`): búsqueda ISRC multi-país automática (US, ES, GB, MX, DE) con detección de rate limit (429/403 para). Delay 100ms entre países, 300ms entre tracks.
+- **Fallback adicional** (commit `c1b3fc0`): `/api/tidal/search-by-name` busca por nombre/artista cuando ISRC no funciona. Se ejecuta automáticamente después de la búsqueda ISRC para tracks no encontrados.
+- **Rate limit protegido**: si TIDAL devuelve 429 o 403, la búsqueda se detiene automáticamente. Con 5 países y 300ms delay, playlist de 50 tracks ≈ 60 llamadas en 30s (within limits).
 
 ---
 
@@ -130,13 +139,13 @@ Landing → Consentimiento (checkbox) → /api/spotify/auth (nativo <a>)
 
 ---
 
-## 7. Deuda técnica y pendientes (priorizados · actualizado 2026-09-03)
+## 7. Deuda técnica y pendientes (priorizados · actualizado 2026-09-05)
 
 > **Decisión de seguimiento**: continuar el proceso de los 20 pasos (Paso 10, siguiente hito).
 > Esta deuda se ataca dentro del proceso, no al margen. Prioridad P1 = antes de publicar, P2 = cuando toque, P3 = opcional.
 
 ### P1 — Antes de publicar (validación y bloqueantes visibles)
-- **Test con playlist grande (50+ tracks)**: validar batching de ISRC y manejo de 429 de TIDAL. El `migrando/page.tsx` hace matching track-a-track (`fetch /api/tidal/search` por track); mejorable para usar `searchTrackByISRC`/`searchTracksByISRC` en **lotes** (`filter[isrc]` repetido, ~20/lote). Riesgo real de rate limit en playlists grandes.
+- **Test con playlist mainstream (50+ tracks)**: validar que la multi-país + fallback funciona con tracks que sí están en TIDAL. La usuaria solo ha probado con tracks de Ska de los 60s (no existen en TIDAL).
 - **Revisar si sobrán scopes** `playlists.read` y `collection.read` en la petición de OAuth (TuneHop no lee playlists de TIDAL del usuario ni su colección; solo crea y añade). Menos scope = menor superficie.
 
 ### P2 — Documentación (coherencia, no funcionalidad)
