@@ -18,18 +18,18 @@ export async function GET(request: Request) {
     const playlists: { id: string; name: string; tracks_total: number; owner: string }[] = [];
     let nextUrl: string | null = `${SPOTIFY_API}/me/playlists?limit=50`;
     while (nextUrl) {
-      const res = await fetch(nextUrl, { headers: { Authorization: `Bearer ${spotifyToken}` } });
-      if (!res.ok) break;
-      const data = await res.json();
-      for (const p of data.items ?? []) {
+      const plRes = await fetch(nextUrl, { headers: { Authorization: `Bearer ${spotifyToken}` } });
+      if (!plRes.ok) break;
+      const plData: { items?: Array<{ id: string; name: string; tracks?: { total: number }; items?: { total: number }; owner?: { display_name?: string } }>; next?: string } = await plRes.json();
+      for (const p of plData.items ?? []) {
         playlists.push({
           id: p.id,
           name: p.name,
           tracks_total: p.tracks?.total ?? p.items?.total ?? 0,
-          owner: p.owner?.display_name ?? "?",
+          owner: String(p.owner?.display_name ?? "?"),
         });
       }
-      nextUrl = data.next;
+      nextUrl = plData.next ?? null;
     }
     // Buscar "x" específicamente
     const miPlaylist = playlists.find((p) => p.name === "x");
