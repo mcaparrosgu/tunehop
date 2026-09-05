@@ -75,8 +75,8 @@ Landing → Consentimiento (checkbox) → /api/spotify/auth (nativo <a>)
 
 ### R8 — Spotify migró el endpoint de tracks de playlist (RESUELTO 2026-09-05, en producción)
 - **Síntoma**: al migrar, error `NO_MATCHES` para todas las canciones; diagnóstico mostraba `spotifyTracksStatus: 403` al leer los tracks de una playlist propia.
-- **Causa**: la API de Spotify migró el endpoint `GET /playlists/{id}/tracks` → `GET /playlists/{id}/items` (el href de `tracks`/`items` en la respuesta de `/me/playlists` ya apuntaba a `/items`, pista del bug R6). Además el objeto de item cambió: el track ya no está en `item.track` sino en `item.item`. El endpoint viejo responde `403 Forbidden`.
-- **Arreglo** (commit `0745bb4`): en `src/lib/spotify.ts`, cambiar `getPlaylistTracks` y `getAllPlaylistTracks` a `/items` con `fields=items(item(...))` y mapear `entry.item ?? entry.track` (soporta esquema nuevo y viejo).
+- **Causa**: la API de Spotify migró el endpoint `GET /playlists/{id}/tracks` → `GET /playlists/{id}/items` (el href de `tracks`/`items` en la respuesta de `/me/playlists` ya apuntaba a `/items`, pista del bug R6). Además el objeto de item cambió: el track ya no está en `item.track` sino en `item.item`. El endpoint viejo responde `403 Forbidden`. Además, el parámetro `fields=items(track(...))` en el nuevo endpoint devuelve items vacíos.
+- **Arreglo** (commits `0745bb4` + `327c881`): en `src/lib/spotify.ts`, cambiar `getPlaylistTracks` y `getAllPlaylistTracks` a `/items` sin parámetro `fields` y mapear `entry.item ?? entry.track` (soporta esquema nuevo y viejo).
 - **Cómo se detectó**: el endpoint de debug probaba 4 variantes (tracks/items × con/sin fields) y mostraba que `/tracks` daba 403 y `/items` 200 con `external_ids` dentro de `item.item`.
 - **Tip**: cuando una API externa devuelve campos con un nombre distinto al esperado (R6: `items` vs `tracks`; R8: `item` vs `track`), el href de la respuesta suele contener el endpoint real asociado. Verificarlo antes de asumir.
 
