@@ -76,18 +76,19 @@ export async function GET(request: Request) {
     info.playlistTracks = plInfo.tracks;
   }
 
-  // Test TIDAL con el mejor sample
+  // Test TIDAL con el mejor sample - probar SIN countryCode y con countryCode del usuario
   const bestSample = (Array.isArray(info.fieldsSample) ? info.fieldsSample : Array.isArray(info.noFieldsSample) ? info.noFieldsSample : []) as Array<{ name: string; isrc: string | null; external_ids_raw: unknown }>;
   const tidalToken = await getValidUserAccessToken();
   info.tidalTokenValido = tidalToken !== null;
   if (tidalToken && bestSample.length > 0) {
     const results = [];
-    for (const track of bestSample.slice(0, 3)) {
-      if (!track.isrc) { results.push({ track: track.name, isrc: null, resultado: "SIN_ISRC", external_ids_raw: track.external_ids_raw }); continue; }
+    for (const track of bestSample.slice(0, 2)) {
+      if (!track.isrc) { results.push({ track: track.name, isrc: null, resultado: "SIN_ISRC" }); continue; }
+      // Probar SIN countryCode
       try {
-        const res = await fetch(`https://openapi.tidal.com/v2/tracks?filter[isrc]=${track.isrc}&countryCode=US`, { headers: { Authorization: `Bearer ${tidalToken}` } });
-        const body = await res.json();
-        results.push({ track: track.name, isrc: track.isrc, tidalStatus: res.status, matchCount: body.data?.length ?? 0, firstId: body.data?.[0]?.id ?? null, error: body.errors ?? null });
+        const resNoCC = await fetch(`https://openapi.tidal.com/v2/tracks?filter[isrc]=${track.isrc}`, { headers: { Authorization: `Bearer ${tidalToken}` } });
+        const bodyNoCC = await resNoCC.json();
+        results.push({ track: track.name, isrc: track.isrc, method: "sin_countryCode", tidalStatus: resNoCC.status, matchCount: bodyNoCC.data?.length ?? 0, firstId: bodyNoCC.data?.[0]?.id ?? null, firstTitle: bodyNoCC.data?.[0]?.attributes?.title ?? null, error: bodyNoCC.errors ?? null });
       } catch (err: any) { results.push({ track: track.name, isrc: track.isrc, error: err.message }); }
       await new Promise((r) => setTimeout(r, 300));
     }
