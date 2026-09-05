@@ -3,6 +3,19 @@ import { getValidUserAccessToken } from "@/lib/tidal-auth";
 
 const SPOTIFY_API = "https://api.spotify.com/v1";
 
+/** Extrae el track de un item de playlist, soportando esquema nuevo (item) y viejo (track). */
+function extractTrack(entry: any): { id: string; name: string; isrc: string | null; artists: string[]; external_ids_raw: unknown } | null {
+  const track = entry?.item ?? entry?.track;
+  if (!track || !track.id) return null;
+  return {
+    id: track.id,
+    name: track.name,
+    external_ids_raw: track.external_ids,
+    isrc: track.external_ids?.isrc ?? null,
+    artists: track.artists?.map((a: any) => a.name) ?? [],
+  };
+}
+
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const playlistId = url.searchParams.get("playlistId");
@@ -15,98 +28,50 @@ export async function GET(request: Request) {
 
   if (!playlistId) {
     // Listar TODAS las playlists
-    const playlists: { id: string; name: string; tracks_total: number; owner: string }[] = [];
+    const playlists: { id: string; name: string; totalTracks: number; owner: string }[] = [];
     let nextUrl: string | null = `${SPOTIFY_API}/me/playlists?limit=50`;
     while (nextUrl) {
-      const plRes = await fetch(nextUrl, { headers: { Authorization: `Bearer ${spotifyToken}` } });
+      const plRes: Response = await fetch(nextUrl, { headers: { Authorization: `Bearer ${spotifyToken}` } });
       if (!plRes.ok) break;
       const plData: { items?: Array<{ id: string; name: string; tracks?: { total: number }; items?: { total: number }; owner?: { display_name?: string } }>; next?: string } = await plRes.json();
       for (const p of plData.items ?? []) {
         playlists.push({
           id: p.id,
           name: p.name,
-          tracks_total: p.tracks?.total ?? p.items?.total ?? 0,
+          totalTracks: p.tracks?.total ?? p.items?.total ?? 0,
           owner: String(p.owner?.display_name ?? "?"),
         });
       }
       nextUrl = plData.next ?? null;
     }
-    // Buscar "x" específicamente
-    const miPlaylist = playlists.find((p) => p.name === "x");
     info.totalPlaylists = playlists.length;
     info.todasLasPlaylists = playlists;
-    info.buscarX = miPlaylist ?? "NO_ENCONTRADA (¿el nombre exacto es otro?)";
     return Response.json(info);
   }
 
-  // Con playlistId: diagnóstico completo ISRC → TIDAL
-  // Probar AMBOS endpoints: el viejo /tracks y el nuevo /items
-  const endpoints = [
-    { label: "tracks_sin_fields", url: `${SPOTIFY_API}/playlists/${playlistId}/tracks?limit=2` },
-    { label: "items_sin_fields", url: `${SPOTIFY_API}/playlists/${playlistId}/items?limit=2` },
-    { label: "tracks_con_fields", url: `${SPOTIFY_API}/playlists/${playlistId}/tracks?limit=2&fields=items(track(id,name,external_ids,isrc,artists(name))),next` },
-    { label: "items_con_fields", url: `${SPOTIFY_API}/playlists/${playlistId}/items?limit=2&fields=items(track(id,name,external_ids,isrc,artists(name))),next` },
-  ];
-
-  const endpointResults = [];
-  for (const ep of endpoints) {
-    const res = await fetch(ep.url, { headers: { Authorization: `Bearer ${spotifyToken}` } });
-    let body: any = null;
-    try {
-      body = await res.json();
-    } catch {
-      body = null;
-    }
-    const item0 = body?.items?.[0];
-    endpointResults.push({
-      label: ep.label,
-      status: res.status,
-      scope: res.headers.get("spotify-scope"),
-      keys: body ? Object.keys(body) : null,
-      primerItemKeys: item0 && typeof item0 === "object" ? Object.keys(item0) : null,
-      primerItemTrack: item0?.track
-        ? { id: item0.track.id, name: item0.track.name, external_ids: item0.track.external_ids }
-        : null,
-    });
-  }
-  info.spotifyEndpoints = endpointResults;
-
-  // Usar el mejor endpoint para el diagnóstico de ISRC
-  const best = endpointResults.find((r) => r.status === 200 && r.primerItemTrack) ?? endpointResults.find((r) => r.status === 200);
-  if (!best) return Response.json(info);
-
+  // Con playlistId: diagnosticar tracks + TIDAL ISRC
   const tracksRes = await fetch(
-    `${SPOTIFY_API}/playlists/${playlistId}/${best.label.startsWith("items") ? "items" : "tracks"}?limit=10&fields=items(track(id,name,external_ids,isrc,artists(name))),next`,
+    `${SPOTIFY_API}/playlists/${playlistId}/items?limit=10`,
     { headers: { Authorization: `Bearer ${spotifyToken}` } }
   );
   info.spotifyTracksStatus = tracksRes.status;
-  info.spotifyScopeHeader = tracksRes.headers.get("spotify-scope");
-
-  let tracksData: any;
-  try {
-    tracksData = await tracksRes.json();
-  } catch {
-    tracksData = null;
-  }
 
   if (!tracksRes.ok) {
-    info.spotifyTracksErrorBody = tracksData;
+    let errorBody: any = null;
+    try { errorBody = await tracksRes.json(); } catch { /* ignore */ }
+    info.spotifyTracksErrorBody = errorBody;
     return Response.json(info);
   }
 
+  const tracksData = await tracksRes.json();
   const tracks = (tracksData.items ?? [])
-    .filter((item: any) => item.track != null)
-    .map((item: any) => ({
-      id: item.track.id,
-      name: item.track.name,
-      external_ids_raw: item.track.external_ids,
-      isrc: item.track.external_ids?.isrc ?? null,
-      artists: item.track.artists?.map((a: any) => a.name),
-    }));
+    .map(extractTrack)
+    .filter((t: any) => t !== null);
   info.totalTracks = tracks.length;
+  info.spotifyTotal = tracksData.total;
   info.tracks = tracks;
 
-  // Test TIDAL
+  // Test TIDAL con ISRC
   const tidalToken = await getValidUserAccessToken();
   info.tidalTokenValido = tidalToken !== null;
   if (tidalToken) {
