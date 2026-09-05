@@ -44,8 +44,20 @@ export async function GET(request: Request) {
     `${SPOTIFY_API}/playlists/${playlistId}/tracks?limit=10&fields=items(track(id,name,external_ids,external_ids(isrc),artists(name))),next`,
     { headers: { Authorization: `Bearer ${spotifyToken}` } }
   );
-  const tracksData = await tracksRes.json();
   info.spotifyTracksStatus = tracksRes.status;
+  info.spotifyScopeHeader = tracksRes.headers.get("spotify-scope");
+
+  let tracksData: any;
+  try {
+    tracksData = await tracksRes.json();
+  } catch {
+    tracksData = null;
+  }
+
+  if (!tracksRes.ok) {
+    info.spotifyTracksErrorBody = tracksData;
+    return Response.json(info);
+  }
 
   const tracks = (tracksData.items ?? [])
     .filter((item: any) => item.track != null)
