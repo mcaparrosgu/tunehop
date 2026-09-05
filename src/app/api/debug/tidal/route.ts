@@ -9,78 +9,85 @@ export async function GET(request: Request) {
 
   const info: Record<string, unknown> = {};
 
-  // 1. Token Spotify
   const spotifyToken = await getValidAccessToken();
   info.spotifyTokenValido = spotifyToken !== null;
-
-  if (!spotifyToken) {
-    return Response.json({ ...info, error: "NO_SPOTIFY_TOKEN" });
-  }
+  if (!spotifyToken) return Response.json({ ...info, error: "NO_SPOTIFY_TOKEN" });
 
   if (!playlistId) {
-    // Sin playlistId: listar playlists para que elijamos una
-    const res = await fetch(`${SPOTIFY_API}/me/playlists?limit=5`, {
-      headers: { Authorization: `Bearer ${spotifyToken}` },
-    });
-    const data = await res.json();
-    info.spotifyPlaylists = data.items?.map((p: any) => ({
-      id: p.id,
-      name: p.name,
-      tracks_total: p.tracks?.total ?? p.items?.total ?? "unknown",
-    }));
-    return Response.json({
-      ...info,
-      instruccion: "Abre esta URL de nuevo añadiendo ?playlistId=XXXXX con el ID de una playlist pequeña",
-    });
+    // Listar TODAS las playlists
+    const playlists: { id: string; name: string; tracks_total: number; owner: string }[] = [];
+    let nextUrl: string | null = `${SPOTIFY_API}/me/playlists?limit=50`;
+    while (nextUrl) {
+      const res = await fetch(nextUrl, { headers: { Authorization: `Bearer ${spotifyToken}` } });
+      if (!res.ok) break;
+      const data = await res.json();
+      for (const p of data.items ?? []) {
+        playlists.push({
+          id: p.id,
+          name: p.name,
+          tracks_total: p.tracks?.total ?? p.items?.total ?? 0,
+          owner: p.owner?.display_name ?? "?",
+        });
+      }
+      nextUrl = data.next;
+    }
+    // Buscar "x" específicamente
+    const miPlaylist = playlists.find((p) => p.name === "x");
+    info.totalPlaylists = playlists.length;
+    info.todasLasPlaylists = playlists;
+    info.buscarX = miPlaylist ?? "NO_ENCONTRADA (¿el nombre exacto es otro?)";
+    return Response.json(info);
   }
 
-  // 2. Obtener tracks de la playlist con campos detallados
+  // Con playlistId: diagnóstico completo ISRC → TIDAL
   const tracksRes = await fetch(
-    `${SPOTIFY_API}/playlists/${playlistId}/tracks?limit=5&fields=items(track(id,name,external_ids,external_ids(isrc),artists(name))),next`,
+    `${SPOTIFY_API}/playlists/${playlistId}/tracks?limit=10&fields=items(track(id,name,external_ids,external_ids(isrc),artists(name))),next`,
     { headers: { Authorization: `Bearer ${spotifyToken}` } }
   );
   const tracksData = await tracksRes.json();
   info.spotifyTracksStatus = tracksRes.status;
 
-  const tracks = (tracksData.items ?? []).map((item: any) => ({
-    id: item.track?.id,
-    name: item.track?.name,
-    external_ids_raw: item.track?.external_ids,
-    isrc_from_raw: item.track?.external_ids?.isrc,
-    artists: item.track?.artists?.map((a: any) => a.name),
-  }));
+  const tracks = (tracksData.items ?? [])
+    .filter((item: any) => item.track != null)
+    .map((item: any) => ({
+      id: item.track.id,
+      name: item.track.name,
+      external_ids_raw: item.track.external_ids,
+      isrc: item.track.external_ids?.isrc ?? null,
+      artists: item.track.artists?.map((a: any) => a.name),
+    }));
+  info.totalTracks = tracks.length;
   info.tracks = tracks;
 
-  // 3. Test ISRC en TIDAL para cada track
+  // Test TIDAL
   const tidalToken = await getValidUserAccessToken();
   info.tidalTokenValido = tidalToken !== null;
-
   if (tidalToken) {
-    const tidalResults = [];
+    const results = [];
     for (const track of tracks) {
-      if (!track.isrc_from_raw) {
-        tidalResults.push({ track: track.name, isrc: null, tidalStatus: "NO_ISRC" });
+      if (!track.isrc) {
+        results.push({ track: track.name, isrc: null, resultado: "SIN_ISRC" });
         continue;
       }
       try {
-        const tidalRes = await fetch(
-          `https://openapi.tidal.com/v2/tracks?filter[isrc]=${track.isrc_from_raw}&countryCode=US`,
+        const res = await fetch(
+          `https://openapi.tidal.com/v2/tracks?filter[isrc]=${track.isrc}&countryCode=US`,
           { headers: { Authorization: `Bearer ${tidalToken}` } }
         );
-        const tidalBody = await tidalRes.json();
-        tidalResults.push({
+        const body = await res.json();
+        results.push({
           track: track.name,
-          isrc: track.isrc_from_raw,
-          tidalStatus: tidalRes.status,
-          tidalMatchCount: tidalBody.data?.length ?? 0,
-          firstMatchId: tidalBody.data?.[0]?.id ?? null,
+          isrc: track.isrc,
+          tidalStatus: res.status,
+          matchCount: body.data?.length ?? 0,
+          firstId: body.data?.[0]?.id ?? null,
         });
       } catch (err: any) {
-        tidalResults.push({ track: track.name, isrc: track.isrc_from_raw, tidalError: err.message });
+        results.push({ track: track.name, isrc: track.isrc, error: err.message });
       }
       await new Promise((r) => setTimeout(r, 200));
     }
-    info.tidalResults = tidalResults;
+    info.tidalResults = results;
   }
 
   return Response.json(info);
