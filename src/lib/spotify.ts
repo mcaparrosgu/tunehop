@@ -132,7 +132,7 @@ export async function getPlaylistTracks(playlistId: string): Promise<PlaylistTra
   const token = await getValidToken();
   if (!token) return { tracks: [], nextCursor: null };
 
-  const url = `${SPOTIFY_API}/playlists/${playlistId}/items?limit=100`;
+  const url = `${SPOTIFY_API}/playlists/${playlistId}/items?limit=100&fields=items(item(id,name,artists(name),album(name,images),external_ids(isrc),duration_ms)),next`;
   const res = await fetchWithAuth(url, token);
   if (!res.ok) {
     if (res.status === 401) return { tracks: [], nextCursor: null };
@@ -163,7 +163,7 @@ export async function getPlaylistTracks(playlistId: string): Promise<PlaylistTra
 export async function getAllPlaylistTracks(playlistId: string) {
   const allTracks: PlaylistTracksResult["tracks"] = [];
   let cursor: string | null = null;
-  let url = `${SPOTIFY_API}/playlists/${playlistId}/items?limit=100`;
+  let url = `${SPOTIFY_API}/playlists/${playlistId}/items?limit=100&fields=items(item(id,name,artists(name),album(name,images),external_ids(isrc),duration_ms)),next`;
 
   const token = await getValidToken();
   if (!token) return allTracks;
