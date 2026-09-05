@@ -13,15 +13,20 @@ interface SpotifyPlaylist {
   public: boolean;
 }
 
+interface SpotifyTrackNode {
+  id: string;
+  name: string;
+  artists: { name: string }[];
+  album?: { name: string; images: { url: string }[] };
+  external_ids?: { isrc?: string };
+  duration_ms: number;
+}
+
 interface SpotifyTrack {
-  track: {
-    id: string;
-    name: string;
-    artists: { name: string }[];
-    album: { name: string; images: { url: string }[] };
-    external_ids?: { isrc?: string };
-    duration_ms: number;
-  };
+  /** Esquema nuevo (endpoint /items): el track vive en `item`. */
+  item?: SpotifyTrackNode;
+  /** Esquema antiguo (endpoint /tracks): el track vive en `track`. */
+  track?: SpotifyTrackNode;
 }
 
 interface PlaylistSummary {
@@ -127,25 +132,30 @@ export async function getPlaylistTracks(playlistId: string): Promise<PlaylistTra
   const token = await getValidToken();
   if (!token) return { tracks: [], nextCursor: null };
 
-  const url = `${SPOTIFY_API}/playlists/${playlistId}/tracks?limit=100&fields=items(track(id,name,artists(name),album(name,images),external_ids(isrc),duration_ms)),next`;
+  const url = `${SPOTIFY_API}/playlists/${playlistId}/items?limit=100&fields=items(item(id,name,artists(name),album(name,images),external_ids(isrc),duration_ms)),next`;
   const res = await fetchWithAuth(url, token);
   if (!res.ok) {
     if (res.status === 401) return { tracks: [], nextCursor: null };
+    if (res.status === 403) return { tracks: [], nextCursor: null };
     throw new Error(`Spotify playlist tracks error: ${res.status}`);
   }
   const data = await res.json();
 
   const tracks = (data.items as SpotifyTrack[])
-    .filter((item) => item.track && item.track.id)
-    .map((item) => ({
-      id: item.track!.id,
-      name: item.track!.name,
-      artists: item.track!.artists.map((a) => a.name),
-      album: item.track!.album?.name ?? "",
-      albumImageUrl: item.track!.album?.images?.[0]?.url ?? null,
-      isrc: item.track!.external_ids?.isrc ?? null,
-      durationMs: item.track!.duration_ms,
-    }));
+    .map((entry) => {
+      const track = entry.item ?? entry.track;
+      if (!track || !track.id) return null;
+      return {
+        id: track.id,
+        name: track.name,
+        artists: track.artists.map((a) => a.name),
+        album: track.album?.name ?? "",
+        albumImageUrl: track.album?.images?.[0]?.url ?? null,
+        isrc: track.external_ids?.isrc ?? null,
+        durationMs: track.duration_ms,
+      };
+    })
+    .filter((t): t is PlaylistTracksResult["tracks"][number] => t !== null);
 
   return { tracks, nextCursor: data.next ?? null };
 }
@@ -153,7 +163,7 @@ export async function getPlaylistTracks(playlistId: string): Promise<PlaylistTra
 export async function getAllPlaylistTracks(playlistId: string) {
   const allTracks: PlaylistTracksResult["tracks"] = [];
   let cursor: string | null = null;
-  let url = `${SPOTIFY_API}/playlists/${playlistId}/tracks?limit=100&fields=items(track(id,name,artists(name),album(name,images),external_ids(isrc),duration_ms)),next`;
+  let url = `${SPOTIFY_API}/playlists/${playlistId}/items?limit=100&fields=items(item(id,name,artists(name),album(name,images),external_ids(isrc),duration_ms)),next`;
 
   const token = await getValidToken();
   if (!token) return allTracks;
@@ -163,16 +173,20 @@ export async function getAllPlaylistTracks(playlistId: string) {
     if (!res.ok) break;
     const data = await res.json();
     const tracks = (data.items as SpotifyTrack[])
-      .filter((item) => item.track && item.track.id)
-      .map((item) => ({
-        id: item.track!.id,
-        name: item.track!.name,
-        artists: item.track!.artists.map((a) => a.name),
-        album: item.track!.album?.name ?? "",
-        albumImageUrl: item.track!.album?.images?.[0]?.url ?? null,
-        isrc: item.track!.external_ids?.isrc ?? null,
-        durationMs: item.track!.duration_ms,
-      }));
+      .map((entry) => {
+        const track = entry.item ?? entry.track;
+        if (!track || !track.id) return null;
+        return {
+          id: track.id,
+          name: track.name,
+          artists: track.artists.map((a) => a.name),
+          album: track.album?.name ?? "",
+          albumImageUrl: track.album?.images?.[0]?.url ?? null,
+          isrc: track.external_ids?.isrc ?? null,
+          durationMs: track.duration_ms,
+        };
+      })
+      .filter((t): t is PlaylistTracksResult["tracks"][number] => t !== null);
     allTracks.push(...tracks);
     url = data.next ?? null;
   }
