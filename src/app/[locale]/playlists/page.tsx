@@ -143,12 +143,12 @@ export default function Playlists() {
         {selected.size > 0 && (
           <div className="fixed bottom-0 inset-x-0 border-t border-zinc-200 bg-white p-4 shadow-lg">
             <Button
-              href="/destino"
               className="w-full text-lg py-4"
               disabled={selected.size === 0}
               aria-label={`${t("playlists.continue")} (${selected.size})`}
               onClick={() => {
-                sessionStorage.setItem("selectedPlaylists", JSON.stringify([...selected]));
+                sessionStorage.setItem("selectedPlaylists", JSON.stringify(Array.from(selected)));
+                window.location.href = "/destino";
               }}
             >
               {t("playlists.continue")} ({selected.size})
