@@ -124,7 +124,21 @@ export default function Migrando() {
       }
 
       if (tidalMatches.length === 0) {
-        setProgress({ stage: "error", message: t("migrando.errorNoMatches"), current: 0, total: tracksWithISRC.length, error: "NO_MATCHES" });
+        // Sin matches: no es error, es resultado válido — esos tracks no existen en TIDAL
+        const allNotFound: NotFoundTrack[] = tracksWithISRC.map((t) => ({ name: t.name, artists: t.artists, isrc: t.isrc }));
+        setProgress({
+          stage: "done",
+          message: t("migrando.done"),
+          current: tracksWithISRC.length,
+          total: tracksWithISRC.length,
+          result: {
+            playlistName: `Migración Spotify - ${new Date().toLocaleDateString("es-ES")}`,
+            added: 0,
+            notFound: allNotFound.length,
+            notFoundTracks: allNotFound,
+            tidalUrl: "",
+          },
+        });
         return;
       }
 
@@ -322,30 +336,40 @@ export default function Migrando() {
             )}
 
             <div className="mt-4 flex flex-col gap-3">
-              {/* Enlace copiable */}
-              <div>
-                <div className="flex items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 p-3">
-                  <input
-                    type="text"
-                    readOnly
-                    value={progress.result.tidalUrl}
-                    className="flex-1 bg-transparent text-sm text-zinc-600 outline-none"
-                    aria-label={t("migrando.openTidalAria")}
-                  />
-                  <button
-                    onClick={async () => {
-                      await navigator.clipboard.writeText(progress.result!.tidalUrl);
-                      setCopied(true);
-                      setTimeout(() => setCopied(false), 2000);
-                    }}
-                    className="rounded-md bg-blue-600 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-blue-700"
-                    aria-label={t("migrando.copyLinkAria")}
-                  >
-                    {copied ? t("migrando.linkCopied") : t("migrando.copyLink")}
-                  </button>
+              {/* Enlace copiable — solo si se creó playlist */}
+              {progress.result.tidalUrl && (
+                <div>
+                  <div className="flex items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 p-3">
+                    <input
+                      type="text"
+                      readOnly
+                      value={progress.result.tidalUrl}
+                      className="flex-1 bg-transparent text-sm text-zinc-600 outline-none"
+                      aria-label={t("migrando.openTidalAria")}
+                    />
+                    <button
+                      onClick={async () => {
+                        await navigator.clipboard.writeText(progress.result!.tidalUrl);
+                        setCopied(true);
+                        setTimeout(() => setCopied(false), 2000);
+                      }}
+                      className="rounded-md bg-blue-600 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-blue-700"
+                      aria-label={t("migrando.copyLinkAria")}
+                    >
+                      {copied ? t("migrando.linkCopied") : t("migrando.copyLink")}
+                    </button>
+                  </div>
+                  <p className="mt-1.5 text-xs text-zinc-400">{t("migrando.tidalHint")}</p>
                 </div>
-                <p className="mt-1.5 text-xs text-zinc-400">{t("migrando.tidalHint")}</p>
-              </div>
+              )}
+
+              {/* Mensaje cuando no hubo matches */}
+              {!progress.result.tidalUrl && progress.result.added === 0 && (
+                <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-center">
+                  <p className="text-sm font-medium text-amber-800">{t("migrando.noMatchesAvailable")}</p>
+                  <p className="mt-1 text-xs text-amber-600">{t("migrando.noMatchesHint")}</p>
+                </div>
+              )}
               <Button href="/playlists" variant="outline" className="w-full" aria-label={t("migrando.morePlaylistsAria")}>
                 {t("migrando.morePlaylists")}
               </Button>

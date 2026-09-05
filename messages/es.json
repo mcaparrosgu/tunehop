@@ -56,6 +56,8 @@
     "copyLinkAria": "Copiar el enlace de la playlist en TIDAL",
     "linkCopied": "¡Copiado!",
     "tidalHint": "Si no ves la playlist, asegúrate de estar logueada en tidal.com",
+    "noMatchesAvailable": "Ninguna de estas canciones está disponible en TIDAL",
+    "noMatchesHint": "Prueba con otra playlist. El catálogo de TIDAL puede no tener todos los tracks de Spotify.",
     "morePlaylists": "Migrar más playlists",
     "morePlaylistsAria": "Volver a seleccionar más playlists para migrar",
     "clearData": "Eliminar datos y cerrar",
