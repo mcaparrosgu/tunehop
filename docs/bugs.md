@@ -67,6 +67,12 @@ Landing → Consentimiento (checkbox) → /api/spotify/auth (nativo <a>)
 - **Cómo se encontró**: endpoint temporal `/api/debug/spotify` (eliminado tras el fix) que devolvía la respuesta cruda de Spotify + header `spotify-scope`. Útil para el futuro: ante un síntoma raro en producción, exponer la respuesta cruda de la API externa en vez de teorizar.
 - **Tip**: las APIs externas cambian de esquema sin avisar; al mapear campos de una API, usa fallbacks (`??`) para campos con nombre histórico.
 
+### R7 — Error NO_PLAYLISTS tras refactor i18n (RESUELTO 2026-09-03, en producción)
+- **Síntoma**: tras seleccionar playlists y conectar TIDAL, la migración fallaba con "NO_PLAYLISTS".
+- **Causa**: en el refactor de i18n (HITO 11, commit `cc6a6e2`), el botón "Continuar" pasó de ser `<Button onClick={...}>` (que guarda `sessionStorage` y navega con `window.location.href`) a `<Button href="/destino" onClick={...}>`. El componente `Button` con `href` renderiza `<Link>` y **descarta `onClick`** (`props` solo se propagan al `<button>` cuando no hay href) → el `sessionStorage.setItem("selectedPlaylists", ...)` nunca se ejecutaba → `/migrando` leía `[]` → `NO_PLAYLISTS`.
+- **Arreglo** (commit `5f9d081`): restaurar el patrón original: `<Button onClick={() => { sessionStorage.setItem(...); window.location.href = "/destino"; }}>` sin `href`.
+- **Lección**: `Button` con `href` ≠ `Button` con `onClick`. Nunca combinar ambos esperando que corra el handler; si necesitas ambas cosas, usa `onClick` + `window.location.href` (o refactor de Button para soportar ambos).
+
 ---
 
 ## 3. Roturas cerradas/resueltas (no repetir)
