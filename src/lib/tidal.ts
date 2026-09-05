@@ -3,7 +3,7 @@ import { TIDAL_API, getValidUserAccessToken } from "./tidal-auth";
 const COUNTRY_CODE = process.env.TIDAL_COUNTRY_CODE ?? "US";
 
 /** Países a buscar en orden de prioridad — maximiza matches automáticamente */
-const SEARCH_COUNTRIES = [COUNTRY_CODE, "ES", "GB", "MX", "DE", "FR", "NL", "JP"];
+const SEARCH_COUNTRIES = [COUNTRY_CODE, "ES", "GB", "MX", "DE"];
 
 interface TidalTrackNode {
   id: string;
@@ -50,6 +50,9 @@ export async function searchTrackByName(name: string, artist: string): Promise<T
 
   try {
     const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+
+    // Si TIDAL nos bloquea, parar
+    if (res.status === 429 || res.status === 403) return null;
     if (!res.ok) return null;
 
     const data = await res.json() as { data: TidalTrackNode[] };
@@ -73,6 +76,10 @@ export async function searchTrackByISRC(isrc: string): Promise<TidalMatch | null
   for (const country of SEARCH_COUNTRIES) {
     const url = `${TIDAL_API}/tracks?${new URLSearchParams({ "filter[isrc]": isrc, countryCode: country })}`;
     const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+
+    // Si TIDAL nos bloquea, parar búsqueda
+    if (res.status === 429 || res.status === 403) return null;
+
     if (!res.ok) continue;
 
     const data = await res.json() as { data: TidalTrackNode[] };
@@ -84,6 +91,8 @@ export async function searchTrackByISRC(isrc: string): Promise<TidalMatch | null
         artist: extractArtist(track),
       };
     }
+    // Delay entre países para no saturar
+    await new Promise((r) => setTimeout(r, 100));
   }
   return null;
 }

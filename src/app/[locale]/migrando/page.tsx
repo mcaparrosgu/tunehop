@@ -120,7 +120,7 @@ export default function Migrando() {
         }
 
         setProgress({ stage: "matching", message: `${t("migrando.matching")} ${i + 1}/${tracksWithISRC.length}`, current: i + 1, total: tracksWithISRC.length });
-        await sleep(200);
+        await sleep(300);
       }
 
       // 2b. Fallback: buscar por nombre/artist para tracks no encontrados por ISRC
@@ -141,7 +141,7 @@ export default function Migrando() {
           // Continuar
         }
         stillNotFound.push(track);
-        await sleep(200);
+        await sleep(300);
       }
 
       // Reemplazar notFound con los que realmente no se encontraron
