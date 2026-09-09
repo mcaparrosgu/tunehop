@@ -73,3 +73,12 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **QUÉ SE ROMPIÓ** — R8: Spotify API cambió sin avisar (endpoint + campo). Se detectó con endpoint temporal de debug que comparaba variantes. R9:_tracks de Ska de los 60s no existen en TIDAL (catálogo, no bug). La alumna probó 2 veces con playlist de 12 tracks de The Skatalites/Lord Creator → 0 matches en todos los países. Confirmado: es limitación del catálogo de TIDAL, no de la app.
 
 - **QUÉ QUEDA PENDIENTE** — (1) Test con playlist mainstream (pop/rock) para confirmar que la app funciona de punta a punta con tracks que sí están en TIDAL. (2) Evaluar si el fallback por nombre/artista funciona en la práctica (no probado con tracks que sí existen). (3)考虑ar si necesitamos más países o si 5 es suficiente. (4) Documentación: actualizar `docs/07-tareas.md` (HITOs 6+ en Deezer).
+
+---
+
+## 2026-09-09 · UX selección + limpieza privacidad + estudio de campo plataformas
+
+- **QUÉ SE DECIDIÓ** — (1) Ocultar playlists no deseadas en la selección (botón "Ocultar"/"Mostrar", localStorage) y marcar con badge verde "Migrada" las ya migradas (commit `b192201`). (2) Eliminar de todos los docs públicos toda referencia a la motivación personal/boicot y al término "plataformas éticas" (commit `69b95b9`). (3) Estudio de campo de plataformas éticas y open-source → `docs/plataformas-alternativas.md`.
+- **POR QUÉ ESTA** — localStorage en vez de base de datos: sin persistencia en servidor (RGPD), sin infraestructura. La limpieza de privacidad: los docs viven en GitHub público, descargables por cualquiera. El estudio: la usuaria pidió evaluar alternativas reales antes de comprometer la app.
+- **HALLAZGO CLAVE** — TIDAL es la ÚNICA plataforma ética con API de escritura pública viable: Deezer cerró el registro de apps nuevas, Qobuz no tiene API de reproducción pública, Apple Music exige acuerdo comercial. La decisión original del proyecto queda validada.
+- **QUÉ QUEDA PENDIENTE** — Probar migración con playlist mainstream (la Ska no existe en TIDAL). Añadir Deezer como destino NO es viable hoy (registro cerrado); re-evaluar cuando/ si lo reabran.
