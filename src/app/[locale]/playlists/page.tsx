@@ -18,11 +18,24 @@ interface Playlist {
 export default function Playlists() {
   const [playlists, setPlaylists] = useState<Playlist[]>([]);
   const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [hiddenIds, setHiddenIds] = useState<Set<string>>(new Set());
+  const [migratedIds, setMigratedIds] = useState<Set<string>>(new Set());
+  const [showHidden, setShowHidden] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const t = useTranslations();
 
   useEffect(() => {
+    // Estado local del navegador: playlists ocultas y ya migradas (RGPD ok, no salen del navegador)
+    try {
+      const hidden: string[] = JSON.parse(localStorage.getItem("tunehop:hiddenPlaylists") || "[]");
+      setHiddenIds(new Set(hidden));
+      const migrated: string[] = JSON.parse(localStorage.getItem("tunehop:migratedPlaylists") || "[]");
+      setMigratedIds(new Set(migrated));
+    } catch {
+      // localStorage bloqueado: la app funciona igual, sin recordar estado
+    }
+
     fetch("/api/playlists")
       .then((res) => {
         if (!res.ok) throw new Error("No autorizado o error del servidor");
@@ -36,6 +49,28 @@ export default function Playlists() {
       .finally(() => setLoading(false));
   }, []);
 
+  const hidePlaylist = (id: string) => {
+    const next = new Set(hiddenIds);
+    next.add(id);
+    setHiddenIds(next);
+    try {
+      localStorage.setItem("tunehop:hiddenPlaylists", JSON.stringify(Array.from(next)));
+    } catch {
+      // localStorage bloqueado: no persiste, pero se oculta en esta sesión
+    }
+  };
+
+  const restorePlaylist = (id: string) => {
+    const next = new Set(hiddenIds);
+    next.delete(id);
+    setHiddenIds(next);
+    try {
+      localStorage.setItem("tunehop:hiddenPlaylists", JSON.stringify(Array.from(next)));
+    } catch {
+      // noop
+    }
+  };
+
   const toggleSelect = (id: string) => {
     const next = new Set(selected);
     if (next.has(id)) next.delete(id);
@@ -43,12 +78,15 @@ export default function Playlists() {
     setSelected(next);
   };
 
+  const visiblePlaylists = showHidden ? playlists : playlists.filter((p) => !hiddenIds.has(p.id));
+  const hiddenCount = playlists.length - visiblePlaylists.length;
+
   const selectAll = () => {
-    if (selected.size === playlists.length) setSelected(new Set());
-    else setSelected(new Set(playlists.map((p) => p.id)));
+    if (selected.size === visiblePlaylists.length) setSelected(new Set());
+    else setSelected(new Set(visiblePlaylists.map((p) => p.id)));
   };
 
-  const allSelected = playlists.length > 0 && selected.size === playlists.length;
+  const allSelected = visiblePlaylists.length > 0 && selected.size === visiblePlaylists.length;
 
   if (loading) {
     return (
@@ -114,10 +152,20 @@ export default function Playlists() {
           </Button>
         </div>
 
+        {hiddenCount > 0 && (
+          <button
+            onClick={() => setShowHidden(!showHidden)}
+            className="mb-4 text-sm font-medium text-blue-600 hover:text-blue-700"
+            aria-expanded={showHidden}
+          >
+            {showHidden ? t("playlists.hideHidden") : t("playlists.showHidden", { count: String(hiddenCount) })}
+          </button>
+        )}
+
         <ul className="space-y-3" role="listbox" aria-label="Playlists para migrar">
-          {playlists.map((pl) => (
-            <li key={pl.id} className="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm">
-              <label className="flex items-center gap-4 cursor-pointer">
+          {visiblePlaylists.map((pl) => (
+            <li key={pl.id} className={`rounded-xl border bg-white p-4 shadow-sm flex items-center gap-2 ${migratedIds.has(pl.id) ? "border-green-400" : "border-zinc-200"}`}>
+              <label className="flex items-center gap-4 cursor-pointer flex-1 min-w-0">
                 <input
                   type="checkbox"
                   checked={selected.has(pl.id)}
@@ -136,6 +184,19 @@ export default function Playlists() {
                   </p>
                 </div>
               </label>
+              {migratedIds.has(pl.id) && (
+                <span className="shrink-0 rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-700">
+                  ✓ {t("playlists.migrated")}
+                </span>
+              )}
+              <button
+                onClick={() => (showHidden ? restorePlaylist(pl.id) : hidePlaylist(pl.id))}
+                className="shrink-0 rounded-lg border border-zinc-200 px-2.5 py-1 text-xs font-medium text-zinc-500 hover:bg-zinc-100 hover:text-zinc-700"
+                aria-label={showHidden ? t("playlists.restoreAria", { name: pl.name }) : t("playlists.hideAria", { name: pl.name })}
+                title={showHidden ? t("playlists.restore") : t("playlists.hide")}
+              >
+                {showHidden ? t("playlists.restore") : t("playlists.hide")}
+              </button>
             </li>
           ))}
         </ul>

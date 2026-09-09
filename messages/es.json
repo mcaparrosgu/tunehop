@@ -29,7 +29,14 @@
     "continue": "Continuar",
     "empty": "No tienes playlists creadas",
     "emptyDescription": "Crea al menos una playlist en Spotify y vuelve a intentarlo.",
-    "back": "Volver"
+    "back": "Volver",
+    "hide": "Ocultar",
+    "hideAria": "Ocultar {name} de la lista",
+    "restore": "Mostrar",
+    "restoreAria": "Volver a mostrar {name}",
+    "showHidden": "Mostrar ocultas ({count})",
+    "hideHidden": "Ocultar las ocultas",
+    "migrated": "Migrada"
   },
   "destino": {
     "title": "Elige plataforma destino",

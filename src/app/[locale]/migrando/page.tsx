@@ -48,6 +48,17 @@ export default function Migrando() {
 
   const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
+  /** Marca las playlists como migradas en localStorage (solo en el navegador, RGPD ok) */
+  const markPlaylistsMigrated = (ids: string[]) => {
+    try {
+      const existing: string[] = JSON.parse(localStorage.getItem("tunehop:migratedPlaylists") || "[]");
+      const merged = Array.from(new Set([...existing, ...ids]));
+      localStorage.setItem("tunehop:migratedPlaylists", JSON.stringify(merged));
+    } catch {
+      // localStorage bloqueado (modo privado): no es crítico, solo visual
+    }
+  };
+
   const searchWithBackoff = async (isrc: string, attempt: number = 0): Promise<{ tidalId: string; title: string; artist: string } | null> => {
     const maxRetries = 3;
     const res = await fetch(`/api/tidal/search?isrc=${isrc}`);
@@ -234,7 +245,10 @@ export default function Migrando() {
         }
       }
 
-      // 5. Completado
+      // 5. Completado — las playlists con tracks migrados se marcan como "Migradas"
+      if (added > 0) {
+        markPlaylistsMigrated(playlistIds);
+      }
       setProgress({
         stage: "done",
         message: t("migrando.done"),
