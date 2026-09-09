@@ -140,3 +140,16 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
   - UI React (Button, Checkbox, páginas) — tests E2E con Playwright son más valiosos que unitarios aquí.
   - Flujo completo migración — E2E manual en producción ya validado (17/18 tracks).
 - **PRÓXIMO**: Paso 14 (evals IA) — dataset dorado + métricas para el system prompt del Paso 11.
+
+---
+
+## 2026-09-09 (6ª entrada) · Paso 14 — Evals IA montados (Promptfoo)
+
+- **QUÉ SE DECIDIÓ** — Montar sistema de evaluación del Matching Assistant con Promptfoo:
+  1. **Golden dataset**: `evals/golden.yaml` — 25 casos (5 fáciles, 10 límite, 5 rechazo/inyección, 5 reales de producción).
+  2. **Métricas**: Accuracy (objetivo ≥92%), Format Compliance (100% solo número), Latencia P95 (<200ms).
+  3. **Herramienta**: Promptfoo v0.122 — config en `promptfoo.yaml` (proveedores Anthropic Haiku / GPT-4o-mini, temp 0, max_tokens 10).
+  3. **Historial**: `evals/historial.md` — tabla de trazabilidad (fecha, cambio, modelo, métricas, decisión).
+  4. **Recordatorio en CLAUDE.md**: relanzar evals al cambiar prompt/modelo/datos/umbrales y anotar en historial.
+- **PENDIENTE**: configurar `ANTHROPIC_API_KEY` u `OPENAI_API_KEY` y ejecutar primera pasada (`npx promptfoo eval -c promptfoo.yaml`).
+- **UMBRALES INICIALES**: Accuracy ≥92%, Format 100%, Latencia P95 <200ms. **Recalibrar** tras semanas con datos reales (los casos reales no se distribuyen como el dataset).

@@ -1,0 +1,42 @@
+# Promptfoo Configuration — TuneHop Matching Assistant Evals
+
+# Provider: usamos el modelo que la app use en producción (Claude Haiku / GPT-4o-mini)
+# Para CI, configurar OPENAI_API_KEY o ANTHROPIC_API_KEY en entorno.
+
+providers:
+  - id: anthropic:claude-3-haiku-20240307
+    config:
+      temperature: 0
+      max_tokens: 10
+  - id: openai:gpt-4o-mini
+    config:
+      temperature: 0
+      max_tokens: 10
+
+prompts:
+  - file: prompts/system.md
+    # Variables que se inyectan en el prompt via {{variable}}
+    # El golden.yaml provee estas vars por caso
+
+tests: evals/golden.yaml
+
+# Configuración de evaluación
+evaluate:
+  concurrency: 3
+  max_tokens: 10
+  options:
+    filterByTag: []
+
+# Umbrales de aprobado (iniciales — recalibrar con datos reales)
+thresholds:
+  # Accuracy exacta: % de casos donde la salida == expected
+  accuracy: 0.92
+  # Format compliance: % de respuestas que son SOLO un número (1-5 o 0)
+  format_compliance: 1.0
+  # Latencia P95 < 200ms
+  latency_p95_ms: 200
+
+# Output
+output:
+  path: evals/results
+  format: json
