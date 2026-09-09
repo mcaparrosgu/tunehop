@@ -110,3 +110,16 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **POR QUÉ ESTA** — La spec (`docs/06-ia.md`) contempla un fallback IA opcional para cuando la búsqueda por nombre/artista devuelve 2–5 candidatos. Hoy el MVP usa revisión manual humana, pero el prompt queda listo para activar cuando el volumen justifique el coste (~1€/mes para 95% precisión vs 85% determinista).
 - **QUÉ SE ROMPIÓ** — Nada. El prompt no está en producción (no hay IA en el MVP actual).
 - **QUÉ QUEDA PENDIENTE** — Paso 12: diseñar las herramientas (tools) poka-yoke para que la IA pueda invocar `searchTrackByName` y `searchTrackCandidates` de forma segura.
+
+---
+
+## 2026-09-09 (4ª entrada) · Paso 12 — Herramientas poka-yoke del Matching Assistant
+
+- **QUÉ SE DECIDIÓ** — Implementar 3 tools tipadas y documentadas en `src/lib/tidal-tools.ts`:
+  1. `search_by_isrc` — búsqueda exacta por ISRC (parámetro único `isrc`, valida longitud 12).
+  2. `search_by_name` — fallback por nombre/artista (dos parámetros obligatorios, devuelve 1 match).
+  3. `search_candidates` — hasta 5 candidatos para decisión (parámetros `name`, `artist`, `limit` con clamp 2–5).
+- **DISEÑO POKE-YOKE** — Parámetros inconfundibles (nombres `isrc` / `name`+`artist` / `limit`), validación de tipos TypeScript, clamp interno en `limit`, sin parámetros opcionales ambiguos, respuestas truncadas (solo id/título/artista). Cada tool incluye en su JSDoc: nombre, descripción, cuándo/ no usarla, parámetros con tipos, ejemplos correctos/incorrectos, qué devuelve, diseño anti-errores, nivel de riesgo (BAJO).
+- **POR QUÉ ESTA** — La spec (`docs/06-ia.md`) define que el fallback IA necesita tools para buscar en TIDAL. Hoy el MVP usa revisión manual, pero las tools quedan listas y auditables para activar el fallback IA cuando el volumen lo justifique.
+- **QUÉ SE DESCARTÓ** — Tool de "crear playlist" o "añadir tracks": riesgo ALTO (modifica datos), fuera del ámbito del Matching Assistant (que solo decide coincidencias). Tool de "buscar en Spotify": no necesaria, la app ya tiene los datos de Spotify antes de invocar a la IA.
+- **QUÉ QUEDA PENDIENTE** — Paso 13: tests automáticos del core determinista (matching ISRC, batching, parseo TIDAL).
