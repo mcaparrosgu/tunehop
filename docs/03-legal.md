@@ -2,7 +2,7 @@
 
 **Fecha**: 31/08/2026
 **Estado**: ✅ Verificado con la alumna
-**Proyecto**: TuneHop — Migra tus playlists de Spotify a plataformas éticas
+**Proyecto**: TuneHop — Migra tus playlists de Spotify a otras plataformas de streaming
 
 ---
 

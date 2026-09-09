@@ -61,7 +61,7 @@
 
 2. **No encontrar canciones (ISRC no coincide).** Algunas canciones versionadas, remezcladas o de artistas independientes pueden no tener ISRC o tener uno diferente entre plataformas. Mitigación: usar búsqueda por nombre + artista como fallback.
 
-3. **Cambio de percepción del usuario.** Si el público descubre que la app tiene motivación política (boicot a Spotify), puede generar rechazo en algunos usuarios. Mitigación: el posicionamiento público es "migra tus playlists fácil", sin mencionar motivos políticos. El mensaje es la facilidad, no la protesta.
+3. **Cambio de percepción del usuario.** Si el público percibe que la app tiene una agenda contra una plataforma concreta, puede generar rechazo en algunos usuarios. Mitigación: el posicionamiento público es "migra tus playlists fácil", sin mencionar preferencias entre plataformas. El mensaje es la facilidad, no la comparación.
 
 ---
 

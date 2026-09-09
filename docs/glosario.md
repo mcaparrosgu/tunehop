@@ -109,7 +109,7 @@ Extensión de OAuth 2.0 que añade una capa extra de seguridad. Evita que alguie
 **Ejemplo real**: Spotify recomienda PKCE para apps que pueden tener el código expuesto (como apps web sin backend seguro). TuneHop lo usa en Spotify y TIDAL.
 
 ### TuneHop
-Nombre del proyecto. App web que migra playlists de Spotify a plataformas éticas (Deezer, TIDAL) con un clic.
+Nombre del proyecto. App web que migra playlists de Spotify a otras plataformas de streaming (Deezer, TIDAL) con un clic.
 **Ejemplo real**: tunehop.com — María entra, conecta Spotify, elige playlists, conecta Deezer, migra. 3 minutos.
 
 ### Rate limit
