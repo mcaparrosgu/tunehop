@@ -36,7 +36,10 @@
     "restoreAria": "Volver a mostrar {name}",
     "showHidden": "Mostrar ocultas ({count})",
     "hideHidden": "Ocultar las ocultas",
-    "migrated": "Migrada"
+    "migrated": "Migrada",
+    "searchPlaceholder": "Buscar por nombre o creador...",
+    "searchAria": "Buscar playlists",
+    "noResults": "Sin resultados para \"{query}\""
   },
   "destino": {
     "title": "Elige plataforma destino",

@@ -21,6 +21,7 @@ export default function Playlists() {
   const [hiddenIds, setHiddenIds] = useState<Set<string>>(new Set());
   const [migratedIds, setMigratedIds] = useState<Set<string>>(new Set());
   const [showHidden, setShowHidden] = useState(false);
+  const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const t = useTranslations();
@@ -80,13 +81,18 @@ export default function Playlists() {
 
   const visiblePlaylists = showHidden ? playlists : playlists.filter((p) => !hiddenIds.has(p.id));
   const hiddenCount = playlists.length - visiblePlaylists.length;
+  // Búsqueda por nombre (y propietario) — cliente, sin llamadas extra
+  const q = query.trim().toLowerCase();
+  const filteredPlaylists = q
+    ? visiblePlaylists.filter((p) => p.name.toLowerCase().includes(q) || p.ownerName.toLowerCase().includes(q))
+    : visiblePlaylists;
 
   const selectAll = () => {
-    if (selected.size === visiblePlaylists.length) setSelected(new Set());
-    else setSelected(new Set(visiblePlaylists.map((p) => p.id)));
+    if (selected.size === filteredPlaylists.length) setSelected(new Set());
+    else setSelected(new Set(filteredPlaylists.map((p) => p.id)));
   };
 
-  const allSelected = visiblePlaylists.length > 0 && selected.size === visiblePlaylists.length;
+  const allSelected = filteredPlaylists.length > 0 && selected.size === filteredPlaylists.length;
 
   if (loading) {
     return (
@@ -146,6 +152,17 @@ export default function Playlists() {
           </p>
         </header>
 
+        <div className="mb-4">
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={t("playlists.searchPlaceholder")}
+            aria-label={t("playlists.searchAria")}
+            className="w-full rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-zinc-900 placeholder-zinc-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+          />
+        </div>
+
         <div className="mb-4 flex items-center gap-3">
           <Button onClick={selectAll} variant="outline" className="flex-1" aria-label={allSelected ? t("playlists.deselectAllAria") : t("playlists.selectAllAria")}>
             {allSelected ? t("playlists.deselectAll") : t("playlists.selectAll")}
@@ -163,7 +180,12 @@ export default function Playlists() {
         )}
 
         <ul className="space-y-3" role="listbox" aria-label="Playlists para migrar">
-          {visiblePlaylists.map((pl) => (
+          {filteredPlaylists.length === 0 && (
+            <li className="rounded-xl border border-zinc-200 bg-white p-6 text-center text-sm text-zinc-500">
+              {t("playlists.noResults", { query })}
+            </li>
+          )}
+          {filteredPlaylists.map((pl) => (
             <li key={pl.id} className={`rounded-xl border bg-white p-4 shadow-sm flex items-center gap-2 ${migratedIds.has(pl.id) ? "border-green-400" : "border-zinc-200"}`}>
               <label className="flex items-center gap-4 cursor-pointer flex-1 min-w-0">
                 <input
