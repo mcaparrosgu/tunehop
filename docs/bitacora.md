@@ -82,3 +82,12 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **POR QUÉ ESTA** — localStorage en vez de base de datos: sin persistencia en servidor (RGPD), sin infraestructura. La limpieza de privacidad: los docs viven en GitHub público, descargables por cualquiera. El estudio: la usuaria pidió evaluar alternativas reales antes de comprometer la app.
 - **HALLAZGO CLAVE** — TIDAL es la ÚNICA plataforma ética con API de escritura pública viable: Deezer cerró el registro de apps nuevas, Qobuz no tiene API de reproducción pública, Apple Music exige acuerdo comercial. La decisión original del proyecto queda validada.
 - **QUÉ QUEDA PENDIENTE** — Probar migración con playlist mainstream (la Ska no existe en TIDAL). Añadir Deezer como destino NO es viable hoy (registro cerrado); re-evaluar cuando/ si lo reabran.
+
+---
+
+## 2026-09-09 · Buscador playlists + revisión pro no-encontradas + backlog borrado
+
+- **QUÉ SE DECIDIÓ** — (1) Buscador por nombre/creador en selección de playlists. (2) Flujo profesional de "no encontradas": candidatos alternativos (hasta 3), reintento individual, botón "Buscar en TIDAL" (abre web), omitir, exportar JSON, guardar localStorage. (3) Constancia en backlog v2 del deseo de borrar playlists de Spotify en el futuro.
+- **POR QUÉ ESTA** — El MVP ya tiene features de revisión profesional (1,2,3,4,5,8 del listado) sin base de datos (todo localStorage RGPD-compliant). La constancia de borrado queda documentada para v2 sin romper la regla MVP.
+- **QUÉ SE ROMPIÓ** — Nada nuevo. Build limpio.
+- **QUÉ QUEDA PENDIENTE** — Probar "Come as You Are" (18 tracks, mainstream) en producción. Si falla algún track, la revisión manual lo resolverá.

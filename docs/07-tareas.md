@@ -242,3 +242,21 @@
 *Documento generado en el Paso 8 del método de 20 pasos.*
 *Recuerda invocar /bitácora para registrar las decisiones de la fase de planificación.*
 *Siguiente paso: Paso 9 — Preparar el terreno (git, carpetas, primer commit).*
+
+---
+
+## BACKLOG — v2 (registrado 2026-09-09 a petición de la desarrolladora)
+
+> **Constancia formal**: la desarrolladora quiere que TuneHop, en el futuro, pueda
+> **borrar playlists de Spotify o ayudar al usuario a hacerlo** (tras migrarlas con éxito).
+> Esto quedó documentado como intención de producto. NO se implementa en el MVP:
+> sigue vigente la restricción de solo-lectura en Spotify.
+
+| Prioridad | Idea | Notas |
+|---|---|---|
+| v2 | **Borrado asistido de playlists de Spotify** | Tras una migración exitosa, guiar a la usuaria para que elimine sus playlists de Spotify (con triple confirmación y aviso de irreversibilidad), o integrar el borrado vía API si Spotify lo permite y el usuario da consentimiento explícito |
+| v2 | Gestión de "ya migradas" | Diferenciar por completo playlists migradas/omitidas/ocultas con sincronización entre dispositivos |
+
+---
+
+*Backlog registrado en la bitácora del 2026-09-09 (ver docs/bitacora.md).*
