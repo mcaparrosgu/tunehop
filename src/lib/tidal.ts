@@ -69,6 +69,30 @@ export async function searchTrackByName(name: string, artist: string): Promise<T
   }
 }
 
+/** Candidatos (hasta 3) para emparejamiento manual — top resultados del país principal */
+export async function searchTrackCandidates(name: string, artist: string, limit = 3): Promise<TidalMatch[]> {
+  const token = await getUserToken();
+  if (!token) return [];
+
+  const query = `${name} ${artist}`.trim();
+  const url = `${TIDAL_API}/search?query=${encodeURIComponent(query)}&type=tracks&limit=${limit}`;
+
+  try {
+    const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+    if (res.status === 429 || res.status === 403) return [];
+    if (!res.ok) return [];
+
+    const data = await res.json() as { data: TidalTrackNode[] };
+    return (data.data ?? []).slice(0, limit).map((track) => ({
+      tidalId: track.id,
+      title: track.attributes?.title ?? "",
+      artist: extractArtist(track),
+    }));
+  } catch {
+    return [];
+  }
+}
+
 export async function searchTrackByISRC(isrc: string): Promise<TidalMatch | null> {
   const token = await getUserToken();
   if (!token) return null;
