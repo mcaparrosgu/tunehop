@@ -6,7 +6,7 @@ TuneHop es una app web que migra playlists de Spotify a Deezer (MVP) usando OAut
 
 ## Restricción principal del proyecto
 
-**TuneHop solo LEE de Spotify y solo ESCRIBE en Deezer.** Nunca modifica, borra ni mueve nada en Spotify. Las playlists se copian, nunca se trasladan.
+**TuneHop solo LEE de Spotify y solo ESCRIBE en TIDAL.** Nunca modifica, borra ni mueve nada en Spotify. Las playlists se copian, nunca se trasladan.
 
 ## Seguridad y datos sensibles
 
@@ -31,10 +31,24 @@ TuneHop es una app web que migra playlists de Spotify a Deezer (MVP) usando OAut
 
 ## Stack
 
-- Next.js (App Router)
-- TypeScript
-- Tailwind CSS
-- Vercel
+- Next.js 16.3.4 (App Router, Turbopack)
+- TypeScript 5
+- Tailwind CSS 4
+- next-intl (i18n)
+- Vercel (producción: https://tunehop.vercel.app)
+- OAuth 2.0: Spotify (PKCE) + TIDAL v2 (Authorization Code)
+
+## Funcionalidades MVP
+
+- Migración de playlists Spotify → TIDAL via ISRC
+- Búsqueda ISRC multi-país (US, ES, GB, MX, DE)
+- Fallback automático por nombre/artista
+- Revisión manual profesional: candidatos (hasta 3), reintento, omitir, exportar JSON, copiar lista
+- Batching de 20 tracks para creación en TIDAL
+- Selección de playlists con buscador, ocultar, badge "Migrada"
+- i18n (español), accesibilidad WCAG AA
+- Consentimiento RGPD, borrado de datos (cookies + sessionStorage)
+- Deploy Vercel producción
 
 ## Comunicación y continuidad
 

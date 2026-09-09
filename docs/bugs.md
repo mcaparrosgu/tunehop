@@ -3,7 +3,7 @@
 > Documento vivo de roturas, causas raíz y decisiones técnicas. Cuando se rompe algo,
 > se añade una entrada aquí con el diagnóstico y la solución, para no repetir errores
 > y para que otro agente (p. ej. Opus5) pueda dar instrucciones precisas.
-> Ultima actualización: 2026-09-05.
+> Ultima actualización: 2026-09-09.
 
 ---
 
@@ -139,14 +139,14 @@ Landing → Consentimiento (checkbox) → /api/spotify/auth (nativo <a>)
 
 ---
 
-## 7. Deuda técnica y pendientes (priorizados · actualizado 2026-09-05)
+## 7. Deuda técnica y pendientes (priorizados · actualizado 2026-09-09)
 
 > **Decisión de seguimiento**: continuar el proceso de los 20 pasos (Paso 10, siguiente hito).
 > Esta deuda se ataca dentro del proceso, no al margen. Prioridad P1 = antes de publicar, P2 = cuando toque, P3 = opcional.
 
 ### P1 — Antes de publicar (validación y bloqueantes visibles)
-- **Test con playlist mainstream (50+ tracks)**: validar que la multi-país + fallback funciona con tracks que sí están en TIDAL. La usuaria solo ha probado con tracks de Ska de los 60s (no existen en TIDAL).
-- **Revisar si sobrán scopes** `playlists.read` y `collection.read` en la petición de OAuth (TuneHop no lee playlists de TIDAL del usuario ni su colección; solo crea y añade). Menos scope = menor superficie.
+- **Test con playlist mainstream (18 tracks: "Come as You Are")**: validar que la multi-país + fallback + revisión manual funciona end-to-end en producción (https://tunehop.vercel.app). La usuaria solo ha probado con tracks de Ska de los 60s (no existen en TIDAL).
+- **Revisar si sobran scopes** `playlists.read` y `collection.read` en la petición de OAuth (TuneHop no lee playlists de TIDAL del usuario ni su colección; solo crea y añade). Menos scope = menor superficie.
 
 ### P2 — Documentación (coherencia, no funcionalidad)
 - **`docs/07-tareas.md`**: HITO 6+ siguen en Deezer (`searchByISRC`, `migratePlaylist`, HITOs posteriores). Reescribirlos a TIDAL y marcar lo completado.
@@ -157,3 +157,21 @@ Landing → Consentimiento (checkbox) → /api/spotify/auth (nativo <a>)
 - **Logo/identidad visual**: pregunta de la usuaria dos veces sin respuesta. Conviene responderla pronto (visible para quien pruebe la app).
 - **Registrar dominio `tunehop.com`** (decisión de branding, no bloqueante).
 - **Aplicar `networkingMode=mirrored`** en `.wslconfig` (Windows 11 22H2+ y aprobación) para depender de `127.0.0.1` y no de `[::1]`.
+
+---
+
+## 8. Funcionalidades implementadas en el MVP (resumen 2026-09-09)
+
+| Área | Implementado |
+|---|---|
+| **OAuth Spotify** | PKCE, cookies httpOnly, CSRF, refresh token |
+| **OAuth TIDAL v2** | Authorization Code, cookies httpOnly, scopes `user.read playlists.read playlists.write collection.read collection.write` |
+| **Búsqueda ISRC** | Multi-país (US, ES, GB, MX, DE) con rate-limit protection (429/403) |
+| **Fallback nombre/artista** | Búsqueda automática tras ISRC fallido |
+| **Revisión manual pro** | Candidatos (hasta 3), reintento individual, "Buscar en TIDAL", omitir, exportar JSON, copiar lista, guardar localStorage |
+| **Batching tracks** | Tandas de 20 para añadir a playlist TIDAL |
+| **Selección playlists** | Checkbox, select all, buscador por nombre/creador, ocultar, badge "Migrada" |
+| **i18n** | Español (next-intl) |
+| **Accesibilidad** | WCAG AA, focus-visible, aria-labels, skip-to-content |
+| **Legal** | Consentimiento, privacidad, borrado de datos (cookies + sessionStorage) |
+| **Deploy** | Vercel producción (https://tunehop.vercel.app) |

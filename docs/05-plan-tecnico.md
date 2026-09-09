@@ -4,6 +4,11 @@
 **Estado**: ✅ Aprobado por la alumna
 **Stack elegido**: Next.js + TypeScript (todo en uno)
 
+> 🔄 **Actualización 2026-09-09**: el destino final implementado es **TIDAL** (no Deezer).
+> Deezer cerró el registro de apps nuevas y ya no emite client_id; TIDAL v2 tiene API
+> pública de escritura. Este plan técnico mantiene su valor histórico; donde dice "Deezer"
+> respecto a destino, léase TIDAL (ver `docs/plataformas-alternativas.md`).
+
 ---
 
 ## 1. OPCIÓN ELEGIDA: NEXT.JS (TODO EN UNO)

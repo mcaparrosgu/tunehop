@@ -1,7 +1,10 @@
 # Paso 8 — Tareas de Implementación
 
 **Fecha**: 31/08/2026
-**Estado**: ✅ En construcción — Hito 1 completado
+**Estado**: ✅ En construcción — Hitos 1-12 en curso (ver nota)
+
+> 🔄 **Actualización 2026-09-09**: las tareas y hitos que mencionan "Deezer" se refieren al destino real implementado: **TIDAL**. Hito 5 (OAuth destino) está completado con TIDAL (no Deezer). El buscador, ocultar playlists, badge "Migrada" y la revisión manual profesional están implementados (ver `docs/bugs.md` §8). Backlog v2 registrado al final de este documento.
+
 **Regla**: Cada tarea es implementable Y comprobable de forma aislada, en menos de 1 hora.
 
 ---

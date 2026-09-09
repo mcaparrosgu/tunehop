@@ -1,6 +1,8 @@
 # Paso 2 — Historias de usuario
 
-> Producto: TuneHop — migra tus playlists de Spotify a otras plataformas de streaming (Deezer, TIDAL).
+> Producto: TuneHop — migra tus playlists de Spotify a otras plataformas de streaming (TIDAL en el MVP).
+> 🔄 Actualización 2026-09-09: destino final del MVP = TIDAL. Deezer quedó descartado al cerrar el registro de apps nuevas. Las historias H4-H6 que mencionan Deezer se entienden con TIDAL.
+>
 > Usuario de referencia: María, no técnica, móvil y ordenador.
 
 ---
