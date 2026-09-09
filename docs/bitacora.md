@@ -91,3 +91,13 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **POR QUÉ ESTA** — El MVP ya tiene features de revisión profesional (1,2,3,4,5,8 del listado) sin base de datos (todo localStorage RGPD-compliant). La constancia de borrado queda documentada para v2 sin romper la regla MVP.
 - **QUÉ SE ROMPIÓ** — Nada nuevo. Build limpio.
 - **QUÉ QUEDA PENDIENTE** — Probar "Come as You Are" (18 tracks, mainstream) en producción. Si falla algún track, la revisión manual lo resolverá.
+
+---
+
+## 2026-09-09 (2ª entrada) · R10 (búsqueda texto TIDAL) — VALIDADO end-to-end en producción
+
+- **QUÉ SE DECIDIÓ** — Corregir la búsqueda por texto de TIDAL: el endpoint `/v2/search?type=tracks` no devuelve tracks en v2; el correcto es `/v2/searchResults/{query}?include=tracks` (refs) + `/v2/tracks?filter[id]=...&include=artists` (detalles). El error se detectó al ver que la revisión manual nunca aparecía y una playlist mainstream daba 0/18.
+- **POR QUÉ ESTA** — Se validó contra código real de otros proyectos de migración a TIDAL (GitHub). Un solo patrón correcto para `searchTrackByName` y `searchTrackCandidates`, con protección 429/403.
+- **QUÉ SE ROMPIÓ Y CÓMO SE ARREGLÓ** — El fallback por nombre y los candidatos estaban rotos desde el principio (R10), enmascarado por las pruebas con Ska (catálogo inexistente). Fix en `src/lib/tidal.ts` (commit `a33ec3b`).
+- **VALIDACIÓN (HITO)** — Migración real en producción: playlist mainstream de 18 canciones → **17/18 migradas automáticamente** (TIDAL: `266cbacb-1f51-41c7-a909-fc476993572a`). El único fallo ("Ruby Soho" — Rancid) es caso residual de catálogo, cubierto por la revisión manual. La app queda funcional end-to-end con drops mínimos.
+- **QUÉ QUEDA PENDIENTE** — T65 completada (migración completa en producción validada). Siguiente: Paso 13 del método (pruebas automáticas del core no-IA), luego guardrails/evals/publicación pulida.

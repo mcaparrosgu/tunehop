@@ -3,7 +3,7 @@
 > Documento vivo de roturas, causas raíz y decisiones técnicas. Cuando se rompe algo,
 > se añade una entrada aquí con el diagnóstico y la solución, para no repetir errores
 > y para que otro agente (p. ej. Opus5) pueda dar instrucciones precisas.
-> Ultima actualización: 2026-09-09.
+> Ultima actualización: 2026-09-09 (R10 validado en producción).
 
 ---
 
@@ -17,8 +17,8 @@ Landing → Consentimiento (checkbox) → /api/spotify/auth (nativo <a>)
 ```
 
 - **Spotify (leer): FUNCIONAL end-to-end** ✅ (confirmado por la usuaria).
-- **TIDAL (escribir): FUNCIONAL end-to-end** ✅ (confirmado por la usuaria: migró playlist real de 5 tracks).
-- **Búsqueda ISRC: multi-país automático** ✅ (US, ES, GB, MX, DE) + fallback por nombre/artista.
+- **TIDAL (escribir): FUNCIONAL end-to-end** ✅ (confirmado por la usuaria: migró playlist real de 5 tracks; el 2026-09-09 migró 17/18 tracks de una playlist mainstream en producción: https://tidal.com/playlist/266cbacb-1f51-41c7-a909-fc476993572a).
+- **Búsqueda ISRC: multi-país automático** ✅ (US, ES, GB, MX, DE) + fallback por nombre/artista (arreglado en R10, validado en producción).
 - **Rate limit: protegido** ✅ (429/403 para búsqueda automáticamente).
 
 ---
@@ -103,6 +103,13 @@ Landing → Consentimiento (checkbox) → /api/spotify/auth (nativo <a>)
 - **C4** Next bloqueaba HMR y `/_next/*` en `[::1]` ("Blocked cross-origin request").
   - Solución: `allowedDevOrigins: ["[::1]", "::1", "localhost", "127.0.0.1"]` en `next.config.ts`.
 - **C5** Eliminados `console.log("CALLBACK cookies/state/verifier")` de `src/app/api/spotify/callback/route.ts` (filtraban state y verifier PKCE a logs).
+
+### R10 — La búsqueda por texto de TIDAL usaba el endpoint incorrecto (RESUELTO Y VALIDADO 2026-09-09)
+- **Síntoma**: el fallback por nombre y los candidatos de la revisión manual nunca devolvían resultados. La revisión manual nunca aparecía y las playlists mainstream migraban 0 tracks aunque existieran en TIDAL.
+- **Causa raíz**: `searchTrackByName` y `searchTrackCandidates` llamaban a `GET /v2/search?query=...&type=tracks` (endpoint que ya no devuelve tracks en la API v2) y parseaban `data.data[]` como tracks directos. TIDAL v2 usa `GET /v2/searchResults/{query}?include=tracks`, que devuelve solo referencias (IDs) en `data.data.relationships.tracks.data`; los detalles (título, artistas) se obtienen con `GET /v2/tracks?filter[id]=...&include=artists`.
+- **Cómo se detectó**: la usuaria reportó "0/18 migradas, ninguna solución de revisión visible". Se buscaron proyectos reales que migran a TIDAL (GitHub) y se comparó su patrón de búsqueda: `searchResults` + detalles por IDs (repo `jjdenhertog/spotify-to-plex`).
+- **Arreglo** (commit `a33ec3b`): nuevos helpers `searchText()` y `getTracksByIds()` en `src/lib/tidal.ts`; limpieza de caracteres prohibidos en la query; parseo correcto.
+- **Validación**: la misma playlist mainstream pasó de 0/18 a 17/18 migradas (1 residual por catálogo: "Ruby Soho — Rancid", cubierto por la revisión manual).**
 
 ---
 

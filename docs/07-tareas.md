@@ -217,7 +217,7 @@
 | ⏳ T62 | Configurar variables de entorno en Vercel | Vercel Settings | Las 5 variables configuradas (SPOTIFY_CLIENT_ID/SECRET, TIDAL_CLIENT_ID/SECRET, NEXT_PUBLIC_APP_URL) | T61 |
 | ⏳ T63 | Configurar Redirect URIs en Spotify Dashboard | Spotify Dashboard | Redirect apunta a `https://tu-app.vercel.app/api/spotify/callback` | T62 |
 | ⏳ T64 | Configurar Redirect URIs en TIDAL Dashboard | TIDAL Dashboard | Redirect apunta a `https://tu-app.vercel.app/api/tidal/callback` | T62 |
-| ⏳ T65 | Probar la migración completa en producción | URL de Vercel | Flujo completo: connect → seleccionar → migrar → resultado | T63, T64 |
+| ✅ T65 | Probar la migración completa en producción | URL de Vercel | Flujo completo validado 2026-09-09: 17/18 tracks migrados de playlist mainstream | T63, T64 |
 
 ---
 
