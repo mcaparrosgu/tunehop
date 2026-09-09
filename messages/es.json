@@ -99,11 +99,16 @@
     "confirmReviewAria": "Confirmar revisión y añadir {count} canciones a la playlist",
     "noSelectionHint": "Selecciona al menos una canción para continuar",
     "okAdded": "añadidas manualmente",
-    "copyList": "Copiar lista",
     "copiedList": "¡Copiada!",
-    "copyListAria": "Copiar lista de no encontradas al portapapeles",
     "exportJson": "Exportar informe JSON",
-    "exportJsonAria": "Descargar informe completo de la migración en JSON"
+    "exportJsonAria": "Descargar informe completo de la migración en JSON",
+    "doneZero": "No se ha podido migrar ninguna canción",
+    "zeroSummary": "De {total} canciones, ninguna se encontró en TIDAL",
+    "copySummary": "Copiar resumen",
+    "copySummaryAria": "Copiar resumen de la migración al portapapeles",
+    "csvDownload": "Descargar CSV (Excel)",
+    "csvAria": "Descargar informe en CSV para abrir en Excel",
+    "notMigratedList": "Canciones no migradas:"
   },
   "error": {
     "title": "Algo salió mal",

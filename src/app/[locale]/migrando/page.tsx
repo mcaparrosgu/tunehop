@@ -432,9 +432,19 @@ export default function Migrando() {
     );
   };
 
-  const copyNotFoundList = async () => {
-    const list = progress.result?.notFoundTracks ?? [];
-    const text = list.map((tr) => `${tr.name} — ${tr.artists.join(", ")}`).join("\n");
+  const copySummary = async () => {
+    const notMigrated = progress.result?.notFoundTracks ?? [];
+    const totalM = (progress.result?.added ?? 0) + (progress.result?.manualAdded ?? 0);
+    const lines = [
+      `TuneHop — informe de migración (${new Date().toLocaleDateString("es-ES")})`,
+      `Playlist: ${progress.result?.playlistName ?? ""}`,
+      `Migradas: ${totalM} de ${progress.total}`,
+      `No migradas: ${notMigrated.length}`,
+      "",
+      t("migrando.notMigratedList"),
+      ...notMigrated.map((tr, i) => `${i + 1}. ${tr.name} — ${tr.artists.join(", ")}`),
+    ];
+    const text = lines.join("\n");
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
@@ -442,6 +452,22 @@ export default function Migrando() {
     } catch {
       // clipboard bloqueado
     }
+  };
+
+  const exportCsv = () => {
+    const notMigrated = progress.result?.notFoundTracks ?? [];
+    const rows = [
+      ["Canción", "Artista", "ISRC", "Estado"],
+      ...notMigrated.map((tr) => [tr.name, tr.artists.join("; "), tr.isrc, "no migrada"]),
+    ];
+    const csv = rows.map((r) => r.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(";")).join("\n");
+    const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `tunehop-informe-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   const exportJson = () => {
@@ -639,20 +665,41 @@ export default function Migrando() {
   // Completado
   const totalMigrated = (progress.result?.added ?? 0) + (progress.result?.manualAdded ?? 0);
   const hasManual = (progress.result?.manualAdded ?? 0) > 0;
+  const total = progress.total;
+  // Tono del resultado según cuánto se consiguió migrar
+  const isFullSuccess = total > 0 && totalMigrated === total;
+  const isPartial = totalMigrated > 0 && totalMigrated < total;
+  const isZero = totalMigrated === 0;
+  const panelStyle = isFullSuccess
+    ? "border-green-200 bg-green-50"
+    : isPartial
+      ? "border-amber-200 bg-amber-50"
+      : "border-zinc-200 bg-zinc-50";
+  const textStyle = isFullSuccess ? "text-green-900" : isPartial ? "text-amber-900" : "text-zinc-800";
+  const subStyle = isFullSuccess ? "text-green-800" : isPartial ? "text-amber-800" : "text-zinc-600";
+
   return (
     <main className="flex flex-1 items-center justify-center px-4 py-8">
       <section className="mx-auto w-full max-w-2xl">
-        <div className="rounded-2xl border border-green-200 bg-green-50 p-6 text-center">
-          <h1 className="text-2xl font-bold text-green-900">🎉 {t("migrando.done")}</h1>
-          <p className="mt-2 font-medium text-green-800">{progress.result?.playlistName}</p>
-          <p className="mt-1 text-sm text-green-700">
-            {totalMigrated}/{progress.total} {t("migrando.migrated")}
-            {hasManual && (
-              <span className="text-green-600"> · {progress.result?.manualAdded} {t("migrando.okAdded")}</span>
+        <div className={`rounded-2xl border p-6 text-center ${panelStyle}`}>
+          <h1 className={`text-2xl font-bold ${textStyle}`}>
+            {isZero ? t("migrando.doneZero") : `🎉 ${t("migrando.done")}`}
+          </h1>
+          <p className="mt-2 font-medium ${subStyle}">{progress.result?.playlistName}</p>
+          <p className={`mt-1 text-sm ${subStyle}`}>
+            {isZero ? (
+              t("migrando.zeroSummary", { total: String(total) })
+            ) : (
+              <>
+                {totalMigrated}/{total} {t("migrando.migrated")}
+                {hasManual && (
+                  <span className={isFullSuccess ? "text-green-600" : "text-amber-600"}> · {progress.result?.manualAdded} {t("migrando.okAdded")}</span>
+                )}
+              </>
             )}
           </p>
           {progress.result && progress.result.omitted > 0 && (
-            <p className="mt-1 text-sm text-amber-700">
+            <p className={`mt-1 text-sm ${isPartial ? "text-red-600" : "text-amber-700"}`}>
               {progress.result.omitted} {t("migrando.notFound")}
             </p>
           )}
@@ -663,7 +710,7 @@ export default function Migrando() {
                 <input
                   readOnly
                   value={progress.result.tidalUrl}
-                  className="w-full rounded-lg border border-green-300 bg-white px-3 py-2 text-sm text-zinc-700"
+                  className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-700"
                   onFocus={(e) => e.target.select()}
                   aria-label={t("migrando.copyLinkAria")}
                 />
@@ -681,10 +728,10 @@ export default function Migrando() {
                   {copied ? t("migrando.linkCopied") : t("migrando.copyLink")}
                 </Button>
               </div>
-              <p className="mt-2 text-xs text-green-700">{t("migrando.tidalHint")}</p>
+              <p className="mt-2 text-xs text-zinc-500">{t("migrando.tidalHint")}</p>
             </>
           ) : (
-            <p className="mt-3 text-sm text-amber-700">{t("migrando.noMatchesAvailable")}</p>
+            !isZero && <p className="mt-3 text-sm text-amber-700">{t("migrando.noMatchesAvailable")}</p>
           )}
         </div>
 
@@ -712,8 +759,11 @@ export default function Migrando() {
             )}
 
             <div className="mt-4 flex flex-wrap gap-2">
-              <Button onClick={copyNotFoundList} variant="outline" className="text-sm" aria-label={t("migrando.copyListAria")}>
-                {copied ? t("migrando.copiedList") : t("migrando.copyList")}
+              <Button onClick={copySummary} variant="outline" className="text-sm" aria-label={t("migrando.copySummaryAria")}>
+                {copied ? t("migrando.copiedList") : t("migrando.copySummary")}
+              </Button>
+              <Button onClick={exportCsv} variant="outline" className="text-sm" aria-label={t("migrando.csvAria")}>
+                {t("migrando.csvDownload")}
               </Button>
               <Button onClick={exportJson} variant="outline" className="text-sm" aria-label={t("migrando.exportJsonAria")}>
                 {t("migrando.exportJson")}

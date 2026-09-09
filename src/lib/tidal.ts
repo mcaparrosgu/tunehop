@@ -41,32 +41,59 @@ function extractArtist(node: TidalTrackNode): string {
 }
 
 /** Buscar un track en TIDAL por nombre y artista (fallback cuando ISRC no funciona) */
+async function getTracksByIds(token: string, ids: string[], countryCode = COUNTRY_CODE): Promise<TidalMatch[]> {
+  if (ids.length === 0) return [];
+
+  const url = `${TIDAL_API}/tracks?${new URLSearchParams({ countryCode, "filter[id]": ids.join(","), include: "artists" })}`;
+  const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+  if (res.status === 429 || res.status === 403) return [];
+  if (!res.ok) return [];
+
+  const data = await res.json() as {
+    data?: TidalTrackNode[];
+    included?: Array<{ id: string; type: string; attributes?: { name?: string } }>;
+  };
+  const includedArtists = new Map(
+    (data.included ?? []).filter((i) => i.type === "artists").map((i) => [i.id, i.attributes?.name ?? ""])
+  );
+
+  return (data.data ?? []).map((node) => {
+    const artistRef = node.relationships?.artists?.data?.[0];
+    const inlineName = artistRef?.attributes?.name;
+    const artist = inlineName || (artistRef ? includedArtists.get(artistRef.id) ?? "" : "");
+    return { tidalId: node.id, title: node.attributes?.title ?? "", artist };
+  });
+}
+
+/** Búsqueda por texto en TIDAL v2: /searchResults devuelve refs, luego /tracks por IDs para detalles */
+async function searchText(token: string, query: string, limit = 3): Promise<TidalMatch[]> {
+  // Limpiar caracteres que TIDAL no acepta en la query
+  const cleanQuery = query.replace(/[()\/"..]+/g, " ").trim();
+  if (!cleanQuery) return [];
+
+  const searchUrl = `${TIDAL_API}/searchResults/${encodeURIComponent(cleanQuery)}?${new URLSearchParams({
+    countryCode: COUNTRY_CODE,
+    include: "tracks",
+  })}`;
+  const res = await fetch(searchUrl, { headers: { Authorization: `Bearer ${token}` } });
+  if (res.status === 429 || res.status === 403) return [];
+  if (!res.ok) return [];
+
+  const data = await res.json() as {
+    data?: { relationships?: { tracks?: { data?: Array<{ id: string }> } } };
+  };
+  const trackRefs = data.data?.relationships?.tracks?.data ?? [];
+  const ids = trackRefs.slice(0, limit).map((t) => t.id);
+  return getTracksByIds(token, ids);
+}
+
+/** Buscar un track en TIDAL por nombre y artista (fallback cuando ISRC no funciona) */
 export async function searchTrackByName(name: string, artist: string): Promise<TidalMatch | null> {
   const token = await getUserToken();
   if (!token) return null;
 
-  const query = `${name} ${artist}`.trim();
-  const url = `${TIDAL_API}/search?query=${encodeURIComponent(query)}&type=tracks&limit=5`;
-
-  try {
-    const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
-
-    // Si TIDAL nos bloquea, parar
-    if (res.status === 429 || res.status === 403) return null;
-    if (!res.ok) return null;
-
-    const data = await res.json() as { data: TidalTrackNode[] };
-    const track = data.data?.[0];
-    if (!track) return null;
-
-    return {
-      tidalId: track.id,
-      title: track.attributes?.title ?? "",
-      artist: extractArtist(track),
-    };
-  } catch {
-    return null;
-  }
+  const results = await searchText(token, `${name} ${artist}`.trim(), 3);
+  return results[0] ?? null;
 }
 
 /** Candidatos (hasta 3) para emparejamiento manual — top resultados del país principal */
@@ -74,23 +101,7 @@ export async function searchTrackCandidates(name: string, artist: string, limit 
   const token = await getUserToken();
   if (!token) return [];
 
-  const query = `${name} ${artist}`.trim();
-  const url = `${TIDAL_API}/search?query=${encodeURIComponent(query)}&type=tracks&limit=${limit}`;
-
-  try {
-    const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
-    if (res.status === 429 || res.status === 403) return [];
-    if (!res.ok) return [];
-
-    const data = await res.json() as { data: TidalTrackNode[] };
-    return (data.data ?? []).slice(0, limit).map((track) => ({
-      tidalId: track.id,
-      title: track.attributes?.title ?? "",
-      artist: extractArtist(track),
-    }));
-  } catch {
-    return [];
-  }
+  return searchText(token, `${name} ${artist}`.trim(), limit);
 }
 
 export async function searchTrackByISRC(isrc: string): Promise<TidalMatch | null> {
