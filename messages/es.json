@@ -62,7 +62,7 @@
     "showDetail": "Ver detalle",
     "hideDetail": "Ocultar detalle",
     "openTidal": "Abrir en TIDAL",
-    "openTidalAria": "Abrir la playlist creada en TIDAL",
+    "openTidalAria": "Abrir la playlist creada en TIDAL en una nueva pestaña",
     "copyLink": "Copiar enlace",
     "copyLinkAria": "Copiar el enlace de la playlist en TIDAL",
     "linkCopied": "¡Copiado!",
@@ -127,7 +127,7 @@
     "rightsTitle": "Tus derechos",
     "rightsDescription": "Puedes solicitar acceso, rectificación, supresión o portabilidad de tus datos.",
     "retentionTitle": "Plazo de conservación",
-    "retentionDescription": "No conservamos datos personales. Los tokens se eliminan al cerrar la sesión.",
+    "retentionDescription": "No conservamos datos personales. La sesión dura 3 horas y los tokens se eliminan automáticamente al cerrar la sesión o al expirar.",
     "contactTitle": "Contacto",
     "contactDescription": "Para ejercer tus derechos, contacta a través del repositorio del proyecto.",
     "back": "Volver al inicio"

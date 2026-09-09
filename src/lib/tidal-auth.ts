@@ -5,7 +5,16 @@ const TIDAL_TOKEN_URL = "https://auth.tidal.com/v1/oauth2/token";
 export const TIDAL_API = "https://openapi.tidal.com/v2";
 
 const USER_SCOPES = "user.read playlists.read playlists.write collection.read collection.write";
-const COOKIE_OPTIONS = {
+// Sesión de usuario: 3 horas (lo pidió la usuaria — suficiente para migrar y privado)
+const USER_COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "lax" as const,
+  path: "/",
+  maxAge: 60 * 60 * 3, // 3 horas
+};
+// Token de app (client_credentials): interno, puede durar más
+const APP_COOKIE_OPTIONS = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
   sameSite: "lax" as const,
@@ -110,7 +119,7 @@ export async function getAppToken(): Promise<string | null> {
 
   const data = await response.json() as { access_token: string; expires_in: number; token_type: string };
   const expiry = Date.now() + data.expires_in * 1000;
-  cookieStore.set(APP_TOKEN_COOKIE, JSON.stringify({ token: data.access_token, expiry }), COOKIE_OPTIONS);
+  cookieStore.set(APP_TOKEN_COOKIE, JSON.stringify({ token: data.access_token, expiry }), APP_COOKIE_OPTIONS);
   return data.access_token;
 }
 
@@ -121,7 +130,7 @@ export async function saveUserTokensToCookies(tokens: {
 }) {
   const cookieStore = await cookies();
   const expiry = Date.now() + tokens.expires_in * 1000;
-  cookieStore.set(USER_TOKEN_COOKIE, JSON.stringify({ ...tokens, expiry }), COOKIE_OPTIONS);
+  cookieStore.set(USER_TOKEN_COOKIE, JSON.stringify({ ...tokens, expiry }), USER_COOKIE_OPTIONS);
 }
 
 export async function clearTidalUserCookies() {
@@ -145,8 +154,50 @@ export async function getUserTokensFromCookies(): Promise<{ access_token: string
 export async function getValidUserAccessToken(): Promise<string | null> {
   const tokens = await getUserTokensFromCookies();
   if (!tokens) return null;
-  if (Date.now() >= tokens.expiry - 60_000) return null; // expira en <1 min
+  if (Date.now() >= tokens.expiry - 60_000) {
+    // Access token caducado: intentar renovar con el refresh token antes de pedir re-auth
+    return refreshUserTokens(tokens.refresh_token);
+  }
   return tokens.access_token;
+}
+
+/** Renueva el access token con el refresh token; si falla, limpia la sesión */
+async function refreshUserTokens(refreshToken: string): Promise<string | null> {
+  const params = new URLSearchParams({
+    grant_type: "refresh_token",
+    client_id: process.env.TIDAL_CLIENT_ID!,
+    refresh_token: refreshToken,
+  });
+
+  try {
+    const response = await fetch(TIDAL_TOKEN_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: params.toString(),
+    });
+
+    if (!response.ok) {
+      // Refresh inválido o revocado: sesión muerta, toca re-autorizar
+      await clearTidalUserCookies();
+      return null;
+    }
+
+    const data = await response.json() as {
+      access_token: string;
+      refresh_token?: string;
+      expires_in: number;
+    };
+
+    const newTokens = {
+      access_token: data.access_token,
+      refresh_token: data.refresh_token || refreshToken,
+      expires_in: data.expires_in,
+    };
+    await saveUserTokensToCookies(newTokens);
+    return data.access_token;
+  } catch {
+    return null;
+  }
 }
 
 export async function tidalFetch<T>(endpoint: string, userToken: boolean = true): Promise<T | null> {

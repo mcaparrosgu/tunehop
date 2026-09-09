@@ -714,6 +714,15 @@ export default function Migrando() {
                   onFocus={(e) => e.target.select()}
                   aria-label={t("migrando.copyLinkAria")}
                 />
+                <a
+                  href={progress.result.tidalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="shrink-0 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+                  aria-label={t("migrando.openTidalAria")}
+                >
+                  {t("migrando.openTidal")}
+                </a>
                 <Button
                   onClick={() => {
                     navigator.clipboard.writeText(progress.result!.tidalUrl!).then(() => {
