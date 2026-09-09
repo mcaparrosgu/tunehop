@@ -123,3 +123,20 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **POR QUÉ ESTA** — La spec (`docs/06-ia.md`) define que el fallback IA necesita tools para buscar en TIDAL. Hoy el MVP usa revisión manual, pero las tools quedan listas y auditables para activar el fallback IA cuando el volumen lo justifique.
 - **QUÉ SE DESCARTÓ** — Tool de "crear playlist" o "añadir tracks": riesgo ALTO (modifica datos), fuera del ámbito del Matching Assistant (que solo decide coincidencias). Tool de "buscar en Spotify": no necesaria, la app ya tiene los datos de Spotify antes de invocar a la IA.
 - **QUÉ QUEDA PENDIENTE** — Paso 13: tests automáticos del core determinista (matching ISRC, batching, parseo TIDAL).
+
+---
+
+## 2026-09-09 (5ª entrada) · Paso 13 — Tests automáticos del core determinista
+
+- **QUÉ SE DECIDIÓ** — Implementar suite de tests Jest + ts-jest + testing-library para la parte determinista (no-IA):
+  - `src/lib/__tests__/tidal-tools.test.ts` — 16 tests de las 3 tools poka-yoke (validación ISRC, trim, clamp limit, null handling, etc.).
+  - `src/lib/__tests__/spotify-tidal-core.test.ts` — 8 tests de parsing Spotify (`getAllPlaylistTracks`: paginación, formato legacy, filtrado ISRC, token null) y `extractArtist` (inline, vacío, faltante).
+  - Config: `jest.config.js` (ts-jest, jsdom, mapeo `@/`, coverage thresholds 15% global), `jest.setup.ts` (mocks next/navigation, next-intl, next/headers, fetch).
+- **COBERTURA REAL**: `tidal-tools.ts` 100% (tools poka-yoke), `spotify.ts` ~40% (paginación + legacy + ISRC), `tidal.ts` ~10% (solo `extractArtist`; el resto es OAuth/HTTP que requiere integración real). Componentes React 0% (tests de integración con Playwright serían más adecuados).
+- **CUÁNDO EJECUTAR**: `npm test` (watch: `npm run test:watch`, coverage: `npm run test:coverage`).
+- **QUÉ QUEDA SIN CUBRIR Y POR QUÉ**:
+  - OAuth flows (spotify-auth.ts, tidal-auth.ts) — requieren cookies de Next.js + HTTP real; se testean manualmente en staging.
+  - Llamadas HTTP a TIDAL (tidal.ts: search, create, add-tracks) — requieren token válido y API externa; se validan en E2E manual.
+  - UI React (Button, Checkbox, páginas) — tests E2E con Playwright son más valiosos que unitarios aquí.
+  - Flujo completo migración — E2E manual en producción ya validado (17/18 tracks).
+- **PRÓXIMO**: Paso 14 (evals IA) — dataset dorado + métricas para el system prompt del Paso 11.
