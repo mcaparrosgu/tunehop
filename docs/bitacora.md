@@ -101,3 +101,12 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **QUÉ SE ROMPIÓ Y CÓMO SE ARREGLÓ** — El fallback por nombre y los candidatos estaban rotos desde el principio (R10), enmascarado por las pruebas con Ska (catálogo inexistente). Fix en `src/lib/tidal.ts` (commit `a33ec3b`).
 - **VALIDACIÓN (HITO)** — Migración real en producción: playlist mainstream de 18 canciones → **17/18 migradas automáticamente** (TIDAL: `266cbacb-1f51-41c7-a909-fc476993572a`). El único fallo ("Ruby Soho" — Rancid) es caso residual de catálogo, cubierto por la revisión manual. La app queda funcional end-to-end con drops mínimos.
 - **QUÉ QUEDA PENDIENTE** — T65 completada (migración completa en producción validada). Siguiente: Paso 13 del método (pruebas automáticas del core no-IA), luego guardrails/evals/publicación pulida.
+
+---
+
+## 2026-09-09 (3ª entrada) · Paso 11 — System Prompt del Matching Assistant
+
+- **QUÉ SE DECIDIÓ** — Escribir `prompts/system.md` (system prompt de producción para la IA interna de matching) y `evals/casos-dificiles.md` (10 casos de prueba: duración, covers, ISRC, inyecciones, arrays vacíos). El prompt define: rol (elegir candidato 1–5), procedimiento de 6 pasos, sin herramientas, 7 límites duros, escalado siempre a humano (revisión manual), salida solo número.
+- **POR QUÉ ESTA** — La spec (`docs/06-ia.md`) contempla un fallback IA opcional para cuando la búsqueda por nombre/artista devuelve 2–5 candidatos. Hoy el MVP usa revisión manual humana, pero el prompt queda listo para activar cuando el volumen justifique el coste (~1€/mes para 95% precisión vs 85% determinista).
+- **QUÉ SE ROMPIÓ** — Nada. El prompt no está en producción (no hay IA en el MVP actual).
+- **QUÉ QUEDA PENDIENTE** — Paso 12: diseñar las herramientas (tools) poka-yoke para que la IA pueda invocar `searchTrackByName` y `searchTrackCandidates` de forma segura.
