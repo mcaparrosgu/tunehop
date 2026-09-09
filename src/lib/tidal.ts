@@ -24,7 +24,7 @@ interface TidalTrackNode {
   };
 }
 
-interface TidalMatch {
+export interface TidalMatch {
   tidalId: string;
   title: string;
   artist: string;
