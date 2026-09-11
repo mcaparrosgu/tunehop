@@ -218,3 +218,19 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
   2. Ejecutar las 3 tareas con cada una
   3. Anotar hallazgos en la bitácora y arreglar los críticos ANTES de publicar
 - **RIESGO AVISADO**: si las 5 fáciles son amigas de la desarrolladora, la prueba da confianza falsa — peor que no probar.
+
+---
+
+## 2026-09-09 (11ª entrada) · Paso 17 — Puerta de calidad + plan de emergencia
+
+- **PUERTA DE CALIDAD**: `scripts/gate-quality.sh` — 3 pasos (tests → build → evals). Los evals solo corren si hay API key (la IA está inactiva; la puerta avisa pero no bloquea sin key). Uso: `./scripts/gate-quality.sh` antes de cada deploy.
+- **CHECKLIST PRE-LANZAMIENTO**: `docs/08-emergencia.md` §1 — legal verificado EN PANTALLA (no en código):
+  - ✅ Política de privacidad publicada (`/es/politica-privacidad` 200) con plazo de conservación ("sesión 3h, tokens eliminados al expirar")
+  - ✅ Consentimiento con checkbox ANTES de conectar Spotify
+  - ✅ Botón "Eliminar datos" visible (Art. 17)
+  - ✅ HTTPS
+  - ✅ Aviso IA: NO aplica (Matching Assistant inactivo — flujo 100% humano). Si se activa la IA, añadir aviso de transparencia.
+- **ROLLBACK**: `vercel rollback` o Promote to Production desde dashboard; en git, `revert` (nunca reset en master).
+- **PROTOCOLO DE INCIDENTES**: §3 — brecha de datos (RGPD Art. 33: notificar ≤72h) vs técnico (rollback <15min). Bitácora como registro.
+- **VEREDICTO SEGUIR/PIVOTAR**: 2026-11-09 (90 días). Criterios del Paso 3 (≥70% completan, <5 min, y ≥10 usuarios reales para no parar).
+- **OBSERVACIÓN**: la app ya estaba desplegada (cada push a master publica automáticamente vía integración Vercel-GitHub). Esta puerta formaliza el control previo.
