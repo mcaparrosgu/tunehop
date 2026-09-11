@@ -5,7 +5,7 @@
 > pendiente de confirmar. No inventa nada: lo que no se sabe, se pregunta o se
 > marca como pendiente.
 >
-> Fecha: 2026-09-11. Autora: Yara (directora creativa), con la fundadora.
+> Fecha: 2026-09-11. Autora: Corita (directora creativa), con la fundadora.
 
 ---
 
