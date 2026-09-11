@@ -1,5 +1,6 @@
 import { getValidUserAccessToken } from "@/lib/tidal-auth";
 import { addTracksToPlaylist } from "@/lib/tidal";
+import { validateTrackCount, isValidSpotifyPlaylistId } from "@/lib/guardrails";
 
 export async function POST(request: Request) {
   const userToken = await getValidUserAccessToken();
@@ -9,8 +10,14 @@ export async function POST(request: Request) {
 
   const { playlistId, trackIds } = await request.json();
 
-  if (!playlistId || !trackIds?.length) {
+  if (!playlistId || !Array.isArray(trackIds) || trackIds.length === 0) {
     return Response.json({ error: "Faltan parámetros" }, { status: 400 });
+  }
+
+  // Guardrail: límite de tracks por migración (máx 10.000)
+  const countCheck = validateTrackCount(trackIds.length);
+  if (!countCheck.valid) {
+    return Response.json({ error: `Demasiados tracks (máx ${countCheck.limit})` }, { status: 400 });
   }
 
   try {

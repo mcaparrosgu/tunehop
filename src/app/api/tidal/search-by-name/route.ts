@@ -1,4 +1,5 @@
 import { searchTrackByName } from "@/lib/tidal";
+import { isSafeSearchQuery } from "@/lib/guardrails";
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
@@ -9,8 +10,13 @@ export async function GET(request: Request) {
     return Response.json({ error: "name y artist requeridos" }, { status: 400 });
   }
 
+  // Guardrail: nombres con inyección de prompt no entran a la búsqueda
+  if (!isSafeSearchQuery(name) || !isSafeSearchQuery(artist)) {
+    return Response.json({ error: "Contenido no permitido" }, { status: 400 });
+  }
+
   try {
-    const result = await searchTrackByName(name, artist);
+    const result = await searchTrackByName(name.trim(), artist.trim());
     if (result) {
       return Response.json({ tidalId: result.tidalId, title: result.title, artist: result.artist });
     }

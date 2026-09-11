@@ -185,3 +185,25 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **MOLESTIAS A USUARIOS LEGÍTIMOS** — `isSafePlaylistName` puede bloquear nombres con "update" o "free" en contextos legítimos ("R&B Free" etc.) — equilibrio: matchea palabras completas (\\b), no subcadenas. El rate limit de 5 migraciones/hora solo afecta a muy pocos usuarios reales.
 - **QUÉ SE ROMPIÓ** — Nada. 80 tests pasan (56 nuevos), build OK.
 - **PRÓXIMO** — Paso 16: red team (OWASP LLM Top 10 contra el system prompt y el flujo completo).
+
+---
+
+## 2026-09-09 (9ª entrada) · Paso 16 — Red Team + Fixes (OWASP LLM Top 10)
+
+- **INFORME**: `seguridad/red-team.md` — 30 ataques probados, 7 categorías OWASP, 3 vulnerabilidades reales confirmadas con ejecución.
+- **ATAQUES QUE SÍ FUNCIONARON** (Riesgo ALTO):
+  - **A0 — Guardrails desconectados**: ninguna ruta API usaba las 6 capas de `guardrails.ts`. Confirmado con `grep` + inspección manual.
+  - **A7.01 — ISRC sin validar**: `GET /api/tidal/search?isrc=abc` aceptaba cualquier string → hacía fetch a TIDAL innecesariamente.
+  - **A1.04 — limit sin clamp**: `GET /api/tidal/search-candidates?limit=9999` aceptaba números arbitrarios → saturación de contexto/TIDAL.
+- **FIXES IMPLEMENTADOS** (7 archivos API modificados):
+  1. `/api/tidal/search` → `isValidISRC` + `checkRateLimit` (60/min/IP) — **A7.01 + A7.02**
+  2. `/api/tidal/search-by-name` → `isSafeSearchQuery` + trim — **A2.01**
+  3. `/api/tidal/search-candidates` → `isSafeSearchQuery` + clamp limit 2–5 + `validateCandidates` — **A1.04 + A6.01**
+  4. `/api/tidal/create-playlist` → `sanitizePlaylistName` + `isSafePlaylistName` — **A6.04 + A2.01**
+  5. `/api/tidal/add-tracks` → `validateTrackCount` (máx 10.000) — **A7.03**
+  6. `/api/spotify/playlist/[id]/tracks` → `isValidSpotifyPlaylistId` (22 chars) — **A4.02 + A0**
+  7. Crear playlists sin rate limit → mitigado en búsqueda, create y search-candidates
+- **QUEDA SIN ARREGLAR (por riesgo bajo o porque la IA está inactiva)**:
+  - CSV injection (A6.05) — en backlog, riesgo Medio pero requiere cambio en UI
+  - Rate limit in-memory no persiste entre instancias Vercel — limitación conocida del MVP, requiere Redis en v2
+- **RECUERDO**: siguiente paso NO es publicar; es prueba de usuarios (5 personas reales).

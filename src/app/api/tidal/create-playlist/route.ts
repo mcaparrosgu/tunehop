@@ -1,5 +1,6 @@
 import { getValidUserAccessToken } from "@/lib/tidal-auth";
 import { createPlaylist } from "@/lib/tidal";
+import { sanitizePlaylistName, isSafePlaylistName } from "@/lib/guardrails";
 
 export async function POST(request: Request) {
   const userToken = await getValidUserAccessToken();
@@ -7,7 +8,16 @@ export async function POST(request: Request) {
     return Response.json({ error: "No autenticado en TIDAL" }, { status: 401 });
   }
 
-  const { title, description } = await request.json();
+  const body = await request.json();
+  const rawTitle = typeof body?.title === "string" ? body.title : "";
+  const rawDescription = typeof body?.description === "string" ? body.description : "";
+
+  // Guardrail: sanitizar título (chars de control, espacios, longitud máx 100) y bloquear spam/phishing
+  const title = sanitizePlaylistName(rawTitle, 100);
+  if (!title || !isSafePlaylistName(title)) {
+    return Response.json({ error: "Título de playlist no permitido" }, { status: 400 });
+  }
+  const description = sanitizePlaylistName(rawDescription, 300);
 
   try {
     const playlistId = await createPlaylist(userToken, title, description);
