@@ -234,3 +234,15 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **PROTOCOLO DE INCIDENTES**: §3 — brecha de datos (RGPD Art. 33: notificar ≤72h) vs técnico (rollback <15min). Bitácora como registro.
 - **VEREDICTO SEGUIR/PIVOTAR**: 2026-11-09 (90 días). Criterios del Paso 3 (≥70% completan, <5 min, y ≥10 usuarios reales para no parar).
 - **OBSERVACIÓN**: la app ya estaba desplegada (cada push a master publica automáticamente vía integración Vercel-GitHub). Esta puerta formaliza el control previo.
+
+---
+
+## 2026-09-09 (12ª entrada) · Paso 18 — Vigilancia y rutina de observabilidad
+
+- **LOGGER ESTRUCTURADO**: `src/lib/logger.ts` — JSON con timestamp, route, status, durationMs, ip, error type. Conectado a las 7 rutas API: search, search-by-name, search-candidates, create-playlist, add-tracks, playlist/[id]/tracks. Cada petición loguea `request_start` y `request_end` con métricas.
+- **MÉTRICAS DESDE EL DÍA 1**: tasa de éxito global (≥95%), tasa de éxito de búsqueda ISRC (≥80%), latencia P95 (<500ms), rate limit hits, guardrail hits, errores 500.
+- **RUTINA SEMANAL**: `docs/09-rutina.md` — 15 minutos los lunes: errores → tasa éxito → latencia → rate limit → cambio modelo (si IA activa) → calendario veredicto.
+- **CICLO DE MEJORA**: conversación fallida → capturar caso → añadir a `evals/golden.yaml` → relanzar evals → registrar en `evals/historial.md`.
+- **CAMBIO DE MODELO**: revisar changelogs Anthropic/OpenAI cada semana. Si se retira el modelo: evaluar reemplazo, comparar contra historial, solo cambiar si accuracy ≥ 85%. Si < 85%: NO cambiar, buscar otro modelo o ajustar prompt.
+- **VEREDICTO SEGUIR/PIVOTAR/PARAR**: fijado para 2026-11-09 (90 días). Criterios: ≥70% completan migración, <5 min tiempo medio, ≥10 usuarios reales.
+- **OBSERVABILIDAD PROPORCIONAL**: sin Sentry ni Datadog (sobre-ingeniería para MVP sin usuarios). Vercel Functions Logs + JSON estructurado = suficiente. Si crece: activar Vercel Analytics (1 clic), luego Sentry si se activa la IA.
