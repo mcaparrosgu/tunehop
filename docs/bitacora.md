@@ -207,3 +207,14 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
   - CSV injection (A6.05) — en backlog, riesgo Medio pero requiere cambio en UI
   - Rate limit in-memory no persiste entre instancias Vercel — limitación conocida del MVP, requiere Redis en v2
 - **RECUERDO**: siguiente paso NO es publicar; es prueba de usuarios (5 personas reales).
+
+---
+
+## 2026-09-09 (10ª entrada) · Prueba de usuarios (entre Paso 16 y 17)
+
+- **GUION PREPARADO**: `docs/prueba-usuarios.md` — 3 tareas del recorrido crítico, reglas (no ayudar/no explicar/no justificar/pensar en voz alta), plantilla de bitácora, métricas con objetivos (<5 min, 100% completar OAuth, ≥80% entender resumen), y checklist RGPD (solo alias, nada de datos personales fuera del doc local).
+- **PENDIENTE DE LA USUARIA**:
+  1. Reclutar 5 personas que SÍ se parezcan a María (no técnica, con playlists propias en Spotify, que quiera irse a Tidal)
+  2. Ejecutar las 3 tareas con cada una
+  3. Anotar hallazgos en la bitácora y arreglar los críticos ANTES de publicar
+- **RIESGO AVISADO**: si las 5 fáciles son amigas de la desarrolladora, la prueba da confianza falsa — peor que no probar.
