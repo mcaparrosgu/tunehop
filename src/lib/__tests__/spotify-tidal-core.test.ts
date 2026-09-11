@@ -116,11 +116,11 @@ describe("Tidal — extractArtist", () => {
   it("extrae artista de relationships.artists.data[0].attributes.name", () => {
     const node = {
       id: "1",
-      type: "tracks",
+      type: "tracks" as const,
       attributes: { title: "Song" },
       relationships: {
         artists: {
-          data: [{ id: "a1", type: "artists", attributes: { name: "Test Artist" } }],
+          data: [{ id: "a1", type: "artists" as const, attributes: { name: "Test Artist" } }],
         },
       },
     };
@@ -131,7 +131,7 @@ describe("Tidal — extractArtist", () => {
   it("maneja artists.data vacío", () => {
     const node = {
       id: "1",
-      type: "tracks",
+      type: "tracks" as const,
       attributes: { title: "Song" },
       relationships: { artists: { data: [] } },
     };
@@ -142,7 +142,7 @@ describe("Tidal — extractArtist", () => {
   it("maneja relationships faltante", () => {
     const node = {
       id: "1",
-      type: "tracks",
+      type: "tracks" as const,
       attributes: { title: "Song" },
     };
 

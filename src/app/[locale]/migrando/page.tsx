@@ -57,8 +57,11 @@ export default function Migrando() {
   const [reviewItems, setReviewItems] = useState<ReviewItem[]>([]);
   const [retryingKey, setRetryingKey] = useState<string | null>(null);
   const [retryMsg, setRetryMsg] = useState<string | null>(null);
+  const [serviceDown, setServiceDown] = useState(false);
+  const [cancelling, setCancelling] = useState(false);
   const playlistIdRef = useRef<string | null>(null);
   const playlistNameRef = useRef("");
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     const selectedIds = JSON.parse(sessionStorage.getItem("selectedPlaylists") || "[]");
@@ -175,6 +178,9 @@ export default function Migrando() {
   };
 
   const runMigration = async (playlistIds: string[]) => {
+    abortControllerRef.current = new AbortController();
+    const signal = abortControllerRef.current.signal;
+
     try {
       // 1. Obtener tracks de Spotify
       setProgress({ stage: "fetching", message: t("migrando.fetching"), current: 0, total: playlistIds.length });
@@ -182,8 +188,9 @@ export default function Migrando() {
       const allTracks: Array<{ isrc: string; name: string; artists: string[] }> = [];
 
       for (let i = 0; i < playlistIds.length; i++) {
+        if (signal.aborted) return;
         try {
-          const res = await fetch(`/api/spotify/playlist/${playlistIds[i]}/tracks`);
+          const res = await fetch(`/api/spotify/playlist/${playlistIds[i]}/tracks`, { signal });
           if (res.ok) {
             const data = await res.json();
             if (data.tracks) {
@@ -195,6 +202,9 @@ export default function Migrando() {
             }
           } else if (res.status === 401 || res.status === 403) {
             setProgress({ stage: "error", message: t("migrando.errorSpotify"), current: 0, total: 0, error: "SPOTIFY_TOKEN_EXPIRED" });
+            return;
+          } else if (res.status >= 500) {
+            setServiceDown(true);
             return;
           }
         } catch {
@@ -227,12 +237,14 @@ export default function Migrando() {
           notFound.push({ name: track.name, artists: track.artists, isrc: track.isrc });
         }
         setProgress({ stage: "matching", message: `${t("migrando.matching")} ${i + 1}/${tracksWithISRC.length}`, current: i + 1, total: tracksWithISRC.length });
+        if (signal.aborted) return;
         await sleep(300);
       }
 
       // 2b. Fallback: buscar por nombre/artista
       const stillNotFound: NotFoundTrack[] = [];
       for (let i = 0; i < notFound.length; i++) {
+        if (signal.aborted) return;
         const track = notFound[i];
         setProgress({ stage: "matching", message: `${t("migrando.matchingName")} ${i + 1}/${notFound.length}`, current: i + 1, total: notFound.length });
         try {
@@ -245,6 +257,7 @@ export default function Migrando() {
         } catch {
           stillNotFound.push(track);
         }
+        if (signal.aborted) return;
         await sleep(300);
       }
 
@@ -254,6 +267,7 @@ export default function Migrando() {
       // 2c. Candidatos para emparejamiento manual
       const items: ReviewItem[] = [];
       for (let i = 0; i < notFound.length; i++) {
+        if (signal.aborted) return;
         const track = notFound[i];
         setProgress({ stage: "matching", message: `${t("migrando.searchingCandidates")} ${i + 1}/${notFound.length}`, current: i + 1, total: notFound.length });
         const candidates = await searchCandidatesBackoff(track.name, track.artists.join(", "));
@@ -265,6 +279,7 @@ export default function Migrando() {
           candidates,
           decision: "pending",
         });
+        if (signal.aborted) return;
         await sleep(300);
       }
 
@@ -514,7 +529,7 @@ export default function Migrando() {
       <main className="flex flex-1 items-center justify-center px-4">
         <div className="mx-auto max-w-lg text-center">
           <h1 className="text-3xl font-bold text-zinc-900">{t("migrando.title")}</h1>
-          <p className="mt-2 text-zinc-600">{t("migrando.error")}</p>
+          <p className="mt-2 text-zinc-600">{progress.error === "CANCELLED" ? progress.message : t("migrando.error")}</p>
           {progress.error && progress.error !== "Error desconocido" && !progress.error.includes("TIDAL") && !progress.error.includes("SPOTIFY") && (
             <p className="mt-1 text-sm text-red-600">{progress.error}</p>
           )}
@@ -642,6 +657,12 @@ export default function Migrando() {
     return (
       <main className="flex flex-1 items-center justify-center px-4">
         <div className="mx-auto max-w-lg text-center">
+          {serviceDown && (
+            <div role="alert" className="mb-4 rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-800">
+              {t("migrando.serviceDown")}
+            </div>
+          )}
+
           <h1 className="text-2xl font-bold text-zinc-900">{t("migrando.title")}</h1>
           <p className="mt-2 text-zinc-600">{progress.message}</p>
 
@@ -657,6 +678,24 @@ export default function Migrando() {
               />
             </div>
           </div>
+
+          {progress.stage !== "idle" && (
+            <div className="mt-6 flex justify-center">
+              <Button
+                onClick={() => {
+                  setCancelling(true);
+                  abortControllerRef.current?.abort();
+                  setProgress({ stage: "error", message: t("migrando.cancelled"), current: 0, total: 0, error: "CANCELLED" });
+                  setCancelling(false);
+                }}
+                variant="outline"
+                disabled={cancelling}
+                aria-label={t("migrando.cancelAria")}
+              >
+                {cancelling ? t("migrando.cancelling") : t("migrando.cancel")}
+              </Button>
+            </div>
+          )}
         </div>
       </main>
     );

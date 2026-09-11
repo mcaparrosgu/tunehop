@@ -152,6 +152,20 @@ export default function Playlists() {
           </p>
         </header>
 
+        <details className="mb-4 rounded-xl border border-zinc-200 bg-white p-4">
+          <summary className="cursor-pointer list-none text-sm font-medium text-blue-600 hover:text-blue-700" aria-label={t("playlists.leaveSpotifyAria")}>
+            {t("playlists.leaveSpotify")}
+          </summary>
+          <div className="mt-3 space-y-2 text-sm text-zinc-700">
+            <p>{t("playlists.leaveSpotifyIntro")}</p>
+            <p>{t("playlists.leaveStep1")}</p>
+            <p>{t("playlists.leaveStep2")}</p>
+            <p>{t("playlists.leaveStep3")}</p>
+            <p>{t("playlists.leaveStep4")}</p>
+            <p className="mt-2 rounded-lg bg-blue-50 p-3 text-blue-800">{t("playlists.leaveStepNote")}</p>
+          </div>
+        </details>
+
         <div className="mb-4">
           <input
             type="search"

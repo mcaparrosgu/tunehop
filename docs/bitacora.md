@@ -153,3 +153,18 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
   4. **Recordatorio en CLAUDE.md**: relanzar evals al cambiar prompt/modelo/datos/umbrales y anotar en historial.
 - **PENDIENTE**: configurar `ANTHROPIC_API_KEY` u `OPENAI_API_KEY` y ejecutar primera pasada (`npx promptfoo eval -c promptfoo.yaml`).
 - **UMBRALES INICIALES**: Accuracy ≥92%, Format 100%, Latencia P95 <200ms. **Recalibrar** tras semanas con datos reales (los casos reales no se distribuyen como el dataset).
+
+---
+
+## 2026-09-09 (7ª entrada) · Features v2 recuperados al MVP
+
+- **QUÉ SE DECIDIÓ** — La usuaria quiso que el MVP incorporara los features que el recorte (Paso 3) había aparcado como v2. Revisado `docs/02-mvp.md` §3:
+  - Ya implementados antes: H7 (lista detallada no encontradas), H7b (fallback por nombre/artista), H9 (ver playlist en destino — botón "Abrir en TIDAL").
+  - **Nuevos en esta entrada**:
+    - **H12 + H13** — Retry con backoff ya existía; añadido: detección de 5xx en fetch de tracks → banner `serviceDown` "Spotify o TIDAL no responden".
+    - **H15** — Botón "Cancelar migración" en pantalla de progreso: `AbortController` aborta las llamadas en curso, estado vuelve a error con mensaje "Migración cancelada. Tus playlists no han sido modificadas."
+    - **H19** — Sección `<details>` "Cómo dejar Spotify" en la página de playlists: 4 pasos (exportar datos, cancelar suscripción, borrar cuenta, revocar acceso TuneHop) + nota RGPD "TuneHop solo lee".
+  - **H16/H17/H18 (Álbumes/Artistas/Liked Songs)**: NO implementados — son funcionalidades de migración distintas al core (playlists). Quedan en v2.
+- **POR QUÉ ESTA** — La usuaria quiere el MVP con todo lo propuesto inicialmente. Los 3 features añadidos completan la experiencia de migración (resiliencia + control + salida de Spotify). La solución usada es la más simple que funciona: AbortController nativo (sin deps), `<details>` HTML nativo (sin modal), banner condicional.
+- **QUÉ SE ROMPIÓ** — Nada. Build OK, 24 tests pasan.
+- **QUÉ QUEDA PENDIENTE** — Revisar cambios en staging/producción. Continuar con Paso 15 (guardrails).

@@ -39,7 +39,15 @@
     "migrated": "Migrada",
     "searchPlaceholder": "Buscar por nombre o creador...",
     "searchAria": "Buscar playlists",
-    "noResults": "Sin resultados para \"{query}\""
+    "noResults": "Sin resultados para \"{query}\"",
+    "leaveSpotify": "Cómo dejar Spotify",
+    "leaveSpotifyAria": "Ver instrucciones para dejar Spotify",
+    "leaveSpotifyIntro": "Si lo que quieres es migrar tu música y abandonar Spotify, sigue estos pasos cuando quieras:",
+    "leaveStep1": "1. Exporta tus datos: pide tu archivo de datos en spotify.com/account/privacy (tarda hasta 30 días en llegar). TuneHop ya te ha migrado las playlists, pero el archivo incluye historial y preferencias.",
+    "leaveStep2": "2. Cancela la suscripción: en spotify.com/account, sección \"Suscripción\". La cuenta pasa a gratuita y conserva la música.",
+    "leaveStep3": "3. Borra la cuenta: en spotify.com/account, sección \"Cuenta\" → \"Quiero cerrar mi cuenta\". Tendrás que confirmar por email.",
+    "leaveStep4": "4. Revoca el acceso de TuneHop: en spotify.com/account, sección \"Aplicaciones\" → quita el acceso a TuneHop. Así nadie podrá leer tu cuenta.",
+    "leaveStepNote": "TuneHop solo lee tus playlists de Spotify: no las modifica ni las borra. Puedes dejar Spotify con total tranquilidad."
   },
   "destino": {
     "title": "Elige plataforma destino",
@@ -108,7 +116,12 @@
     "copySummaryAria": "Copiar resumen de la migración al portapapeles",
     "csvDownload": "Descargar CSV (Excel)",
     "csvAria": "Descargar informe en CSV para abrir en Excel",
-    "notMigratedList": "Canciones no migradas:"
+    "notMigratedList": "Canciones no migradas:",
+    "serviceDown": "Spotify o TIDAL no responden en este momento. Vuelve a intentarlo en unos minutos.",
+    "cancel": "Cancelar",
+    "cancelling": "Cancelando...",
+    "cancelAria": "Cancelar la migración en curso",
+    "cancelled": "Migración cancelada. Tus playlists no han sido modificadas."
   },
   "error": {
     "title": "Algo salió mal",

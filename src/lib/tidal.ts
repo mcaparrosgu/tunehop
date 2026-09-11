@@ -36,7 +36,7 @@ async function getUserToken(): Promise<string | null> {
   return getValidUserAccessToken();
 }
 
-function extractArtist(node: TidalTrackNode): string {
+export function extractArtist(node: TidalTrackNode): string {
   return node.relationships?.artists?.data?.[0]?.attributes?.name ?? "";
 }
 

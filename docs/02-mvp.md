@@ -70,20 +70,20 @@ Si algo de esto falla, el producto no tiene valor. Punto.
 
 ---
 
-## 3. VERSIÓN 2 (aparcado, no se toca)
+## 3. VERSIÓN 2 (aparcado) — actualizado 2026-09-09: features recuperados al MVP
 
 | Historia | Por qué no entra en MVP |
 |----------|------------------------|
-| H7 — Lista de no encontradas | El resumen del H8 ya muestra "X de Y encontradas". La lista detallada es nice-to-have |
-| H7b — Alternativas automáticas | Complejidad extra. Con ISRC + fallback cubrimos el 90%. Las alternativas son v2 |
-| H9 — Ver playlists en destino | El usuario puede abrir Deezer manualmente. No es esencial para la migración |
-| H12 — Reintentar automáticamente | Friction adicional. H11 + un botón "Reintentar" manual basta |
-| H13 — Avisar servicio caído | Edge case. Se cubre con un mensaje de error genérico |
-| H15 — Cancelar migración | Complexidad de implementación. María puede cerrar la pestaña |
+| H7 — Lista de no encontradas | ✅ IMPLEMENTADO 2026-09-09 (detalle expandible + CSV/JSON) |
+| H7b — Alternativas automáticas | ✅ IMPLEMENTADO 2026-09-09 (fallback por nombre/artista + candidates) |
+| H9 — Ver playlists en destino | ✅ IMPLEMENTADO 2026-09-09 (botón "Abrir en TIDAL") |
+| H12 — Reintentar automáticamente | ✅ IMPLEMENTADO 2026-09-09 (backoff + detección 5xx con banner) |
+| H13 — Avisar servicio caído | ✅ IMPLEMENTADO 2026-09-09 (banner serviceDown) |
+| H15 — Cancelar migración | ✅ IMPLEMENTADO 2026-09-09 (AbortController + botón Cancelar) |
 | H16 — Álbumes guardados | Funcionalidad nueva, no core |
 | H17 — Artistas seguidos | Funcionalidad nueva, no core |
 | H18 — Liked Songs | Funcionalidad nueva, no core |
-| H19 — Instrucciones eliminar Spotify | Contenido estático, se puede añadir en 10 minutos después |
+| H19 — Instrucciones eliminar Spotify | ✅ IMPLEMENTADO 2026-09-09 (sección "Cómo dejar Spotify") |
 
 ---
 
