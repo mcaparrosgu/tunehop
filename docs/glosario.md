@@ -16,33 +16,41 @@ Reglamento Europeo de Inteligencia Artificial. Clasifica los sistemas de IA en 4
 Procesar elementos en grupos pequeños en vez de todos a la vez. Es como ir al supermercado: llevas 20 cosas en vez de 200 de golpe.
 **Ejemplo real**: Migrar 50 playlists por tanda para no saturar las APIs de Spotify y Deezer.
 
-### Consentimiento (RGPD)
-Permiso explícito que el usuario da antes de que proceses sus datos personales. Debe ser libre, informado, específico e inequívoco.
-**Ejemplo real**: El checkbox obligatorio de TuneHop antes de conectar Spotify: "He leído la Política de Privacidad y acepto que procese mis datos."
+### Briefing
+Documento breve con el encargo y el contexto de negocio antes de crear nada. Es como la nota que deja el chef al equipo de cocina antes del servicio: qué plato, para quién, con qué recursos.
+**Ejemplo real**: docs/marketing/00-briefing.md — qué es TuneHop, quién está detrás, con qué presupuesto y qué significa éxito.
 
 ### Consent screen / Pantalla de autorización
 Pantalla oficial de Spotify/Deezer donde el usuario ve qué permisos pide tu app y decide si acepta o no.
 **Ejemplo real**: Cuando pulsa "Conectar con Spotify" y aparece la pantalla de Spotify que dice "TuneHop quiere acceder a tus playlists".
 
+### Consentimiento (RGPD)
+Permiso explícito que el usuario da antes de que proceses sus datos personales. Debe ser libre, informado, específico e inequívoco.
+**Ejemplo real**: El checkbox obligatorio de TuneHop antes de conectar Spotify: "He leído la Política de Privacidad y acepto que procese mis datos."
+
 ### Cookie
 Pequeño archivo que un sitio web guarda en tu navegador para recordarte. Es como una pulsera de hospital con tu número: la llevas puesta mientras estás en el sitio.
 **Ejemplo real**: No usamos cookies en TuneHop. Los tokens viven en memoria de la sesión, no en cookies.
-
-### create-next-app
-Comando que genera un proyecto Next.js completo y configurado (TypeScript, Tailwind, carpetas, scripts). Es como pedir un piso ya amueblado en vez de construirlo ladrillo a ladrillo.
-**Ejemplo real**: `npx create-next-app@latest .` nos dio TuneHop funcionando con un solo comando.
 
 ### Crear playlist (API)
 Operación de la API de una plataforma musical que crea una playlist nueva con el nombre y las canciones que tú le indiques.
 **Ejemplo real**: Después de buscar las canciones de "Road Trip Mix" en Deezer, la app llama a Deezer API para crear esa playlist con esas canciones.
 
-### Derecho de supresión (RGPD)
-Derecho del usuario a que borres todos sus datos personales que tengas. Debe ser tan fácil como cuando pidió el servicio.
-**Ejemplo real**: El botón "Eliminar mis datos y cerrar" de TuneHop. Un clic y todo se borra.
+### create-next-app
+Comando que genera un proyecto Next.js completo y configurado (TypeScript, Tailwind, carpetas, scripts). Es como pedir un piso ya amueblado en vez de construirlo ladrillo a ladrillo.
+**Ejemplo real**: `npx create-next-app@latest .` nos dio TuneHop funcionando con un solo comando.
+
+### CTA (Call To Action / Llamada a la acción)
+Elemento que pide al visitante hacer algo concreto (botón, enlace, formulario). Es como el portero de una discoteca: la gente solo entra si la invitación es clara.
+**Ejemplo real**: El botón "Conectar con Spotify" de la home de TuneHop es la CTA principal; hasta hoy estaba en inglés ("Connect Spotify") y se corrigió por coherencia de marca.
 
 ### Deezer
 Plataforma de streaming musical francesa. Paga mejor que Spotify (~0.004-0.006$ por stream vs ~0.003$). Tiene API pública completa y gratuita.
 **Ejemplo real**: Es el destino de migración del MVP de TuneHop.
+
+### Derecho de supresión (RGPD)
+Derecho del usuario a que borres todos sus datos personales que tengas. Debe ser tan fácil como cuando pidió el servicio.
+**Ejemplo real**: El botón "Eliminar mis datos y cerrar" de TuneHop. Un clic y todo se borra.
 
 ### DPIA (Data Protection Impact Assessment)
 Evaluación de impacto sobre la privacidad. Obligatoria cuando el tratamiento de datos es de alto riesgo (perfilado masivo, vigilancia, etc.).
@@ -60,13 +68,13 @@ Reglamento General de Protección de Datos. Ley europea que regula cómo tratas 
 HTTP es la comunicación normal entre navegador y servidor. HTTPS es la versión cifrada (la "S" es de Secure). Es como hablar por teléfono normal vs. hablar con una línea encriptada.
 **Ejemplo real**: TuneHop usa HTTPS (Vercel/Railway lo hacen por defecto). Todos los tokens viajan cifrados.
 
+### Identidad visual
+El conjunto de elementos que hacen reconocible una marca a la vista: logo, colores, tipografía, iconos. Es como el uniforme de un equipo: sin él no sabes quién juega.
+**Ejemplo real**: TuneHop hoy no tiene identidad visual propia (favicon y tipografía de plantilla de Next.js); se construirá en el Paso 7 de marketing.
+
 ### ISRC (International Standard Recording Code)
 Código alfanumérico de 12 caracteres que identifica de forma única cada grabación musical en el mundo. Es el DNI de la canción.
 **Ejemplo real**: El ISRC de "Blinding Lights" de The Weeknd es el mismo en Spotify que en Deezer. Por eso funciona como identificador para buscar.
-
-### Liked Songs / Canciones guardadas
-Lista de canciones que un usuario ha marcado como "me gusta" en Spotify. Puede contener miles de canciones de muchos artistas diferentes.
-**Ejemplo real**: María tiene 5.200 canciones guardadas en 8 años. En v2 se podrán migrar con un clic.
 
 ### Layout raíz (layout.tsx)
 Plantilla que envuelve TODAS las pantallas de la app: idioma, fuentes, título de la pestaña. Es como el marco de un cuadro: rodea cualquier foto que pongas dentro.
@@ -75,6 +83,10 @@ Plantilla que envuelve TODAS las pantallas de la app: idioma, fuentes, título d
 ### Layout raíz (layout.tsx)
 Plantilla que envuelve todas las pantallas de la app. Es como el marco de un cuadro: rodea cualquier foto que pongas dentro. Su metadata controla el título de la pestaña del navegador.
 **Ejemplo real**: `src/app/layout.tsx` define el título "TuneHop" que ves en la pestaña del navegador en cada pantalla.
+
+### Liked Songs / Canciones guardadas
+Lista de canciones que un usuario ha marcado como "me gusta" en Spotify. Puede contener miles de canciones de muchos artistas diferentes.
+**Ejemplo real**: María tiene 5.200 canciones guardadas en 8 años. En v2 se podrán migrar con un clic.
 
 ### Minimización (RGPD)
 Principio de que solo debes tratar los datos estrictamente necesarios para la finalidad. No más.
@@ -104,24 +116,32 @@ Archivo que fija la versión EXACTA de cada dependencia y sus dependencias. Es c
 Archivo que fija las versiones exactas de todas las dependencias instaladas. Es el recibo congelado de la compra: dice qué compramos y a qué precio exacto.
 **Ejemplo real**: Si una compañera instalara sin lockfile, podría obtener versiones distintas de Next.js y que la app se comporte diferente. Con él, todos tenemos lo mismo.
 
+### PESTEL
+Análisis de los factores externos que afectan a un negocio: Político, Económico, Social, Tecnológico, Ecológico y Legal. Es como revisar el parte meteorológico antes de una excursión: no lo controlas, pero decides con él.
+**Ejemplo real**: Para TuneHop, el factor Social es la conciencia creciente sobre el pago a artistas; el Legal, el RGPD y los términos de uso de las APIs de Spotify y TIDAL.
+
 ### PKCE (Proof Key for Code Exchange)
 Extensión de OAuth 2.0 que añade una capa extra de seguridad. Evita que alguien intercepte el código de autorización. Es como llevar doble cerradura.
 **Ejemplo real**: Spotify recomienda PKCE para apps que pueden tener el código expuesto (como apps web sin backend seguro). TuneHop lo usa en Spotify y TIDAL.
 
-### TuneHop
-Nombre del proyecto. App web que migra playlists de Spotify a otras plataformas de streaming (Deezer, TIDAL) con un clic.
-**Ejemplo real**: tunehop.com — María entra, conecta Spotify, elige playlists, conecta Deezer, migra. 3 minutos.
+### Posicionamiento
+El lugar que una marca ocupa en la mente del cliente frente a la competencia. Es como elegir casa en un barrio: vale más la zona y la fama que los metros cuadrados.
+**Ejemplo real**: TuneHop se posiciona como la migración simple y privada (no guardamos nada) frente a herramientas más caras y genéricas; decisión consciente: no atacar a Spotify.
+
+### Público objetivo
+El grupo concreto de personas a las que se dirige un producto o campaña. Es como decidir a quién invitas a la fiesta: si invitas a todos, la música no gusta a nadie.
+**Ejemplo real**: La hipótesis inicial de TuneHop es María, 32 años, diseñadora freelance no técnica, con cientos de playlists en Spotify y ganas de apoyar plataformas que paguen mejor a los artistas.
 
 ### Rate limit
 Límite de peticiones que una API permite por unidad de tiempo. Si lo superas, te bloquea temporalmente.
 **Ejemplo real**: Spotify permite ~30 peticiones/segundo, Deezer ~50. TuneHop usa tandas de 50 playlists con pausas para no superarlos.
 
-### RGPD (ver GDPR)
-Mismo concepto, nombre en español: Reglamento General de Protección de Datos.
-
 ### Responsive
 Diseño web que se adapta automáticamente al tamaño de la pantalla (móvil, tablet, escritorio). No hay versión separada; el mismo sitio se reorganiza.
 **Ejemplo real**: TuneHop será responsive: funciona igual en el móvil de María que en su portátil.
+
+### RGPD (ver GDPR)
+Mismo concepto, nombre en español: Reglamento General de Protección de Datos.
 
 ### Scope (OAuth)
 Permiso específico que una app pide al usuario. No es "dame todo", es "dame esto y solo esto".
@@ -131,6 +151,10 @@ Permiso específico que una app pide al usuario. No es "dame todo", es "dame est
 Metodología que consiste en escribir la especificación funcional (QUÉ hace la app) ANTES de decidir la tecnología (CÓMO se construye).
 **Ejemplo real**: TuneHop usó este enfoque en el Paso 5 (spec) antes del Paso 6 (tecnología).
 
+### Squatter (okupa de dominios)
+Persona que registra dominios con nombres de marca ajenos para revenderlos caro. Es como quien aparta un número de matrícula bonito para cobrarlo a futuro.
+**Ejemplo real**: tunehop.com está libre hoy; si no se compra pronto, un squatter podría registrarlo y pedir cientos de euros por un dominio que cuesta ~10-15 €/año.
+
 ### TIDAL
 Plataforma de streaming musical de alta fidelidad (HiFi). Paga mejor que Spotify (~0.012-0.013$ por stream). Tiene API con sistema de "access tiers".
 **Ejemplo real**: Estará disponible como destino de migración en v2 de TuneHop, una vez se confirme que el tier THIRD_PARTY cubre los endpoints de búsqueda.
@@ -138,6 +162,10 @@ Plataforma de streaming musical de alta fidelidad (HiFi). Paga mejor que Spotify
 ### Token (OAuth)
 Credencial temporal que una API te da tras autenticarte. Es como una pulsera de un evento: te identifica y te da acceso, pero expira.
 **Ejemplo real**: El access_token de Spotify dura 1 hora. TuneHop lo renueva automáticamente con el refresh_token.
+
+### TuneHop
+Nombre del proyecto. App web que migra playlists de Spotify a otras plataformas de streaming (Deezer, TIDAL) con un clic.
+**Ejemplo real**: tunehop.com — María entra, conecta Spotify, elige playlists, conecta Deezer, migra. 3 minutos.
 
 ### Turbopack
 Motor de compilación de Next.js: traduce tu código TypeScript/React a lo que entiende el navegador. Es como el camarero que convierte tu pedido en platos en la cocina — el más rápido del local.

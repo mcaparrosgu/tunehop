@@ -246,3 +246,18 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **CAMBIO DE MODELO**: revisar changelogs Anthropic/OpenAI cada semana. Si se retira el modelo: evaluar reemplazo, comparar contra historial, solo cambiar si accuracy ≥ 85%. Si < 85%: NO cambiar, buscar otro modelo o ajustar prompt.
 - **VEREDICTO SEGUIR/PIVOTAR/PARAR**: fijado para 2026-11-09 (90 días). Criterios: ≥70% completan migración, <5 min tiempo medio, ≥10 usuarios reales.
 - **OBSERVABILIDAD PROPORCIONAL**: sin Sentry ni Datadog (sobre-ingeniería para MVP sin usuarios). Vercel Functions Logs + JSON estructurado = suficiente. Si crece: activar Vercel Analytics (1 clic), luego Sentry si se activa la IA.
+
+
+---
+
+## 2026-09-11 · Marketing Pasos 1-2 — Briefing y auditoría de marca
+
+- **QUÉ SE DECIDIÓ** — (1) Arrancar la pista de marketing (método de 22 pasos) con el producto técnico terminado: briefing de negocio (docs/marketing/00-briefing.md) y auditoría de marca (docs/marketing/01-auditoria.md) generados. (2) TuneHop es un negocio de una sola fundadora, sin presupuesto (máx. 50€/mes esporádicos), cuyo éxito se mide por uso real, posible venta de la app y case study; el modelo de ingresos queda pendiente de definir. (3) La auditoría detectó deuda de marca: cero identidad visual (la web parece plantilla de Next.js) e incoherencias visibles. (4) Se ejecutan los quick wins: CTA "Connect Spotify" → "Conectar con Spotify", subtítulo de la home con destino TIDAL y beneficio (en minutos), metadata con destino + promesa, README y .env.example corregidos a TIDAL (fuera Deezer y NEXTAUTH_SECRET, que el código no usa). Commit e235831. (5) El dominio tunehop.com (libre, ~10-15€/año) se comprará en el Paso 7 (identidad visual), no antes. (6) La directora creativa se llama **Corita** (preferencia de la usuaria; sustituye a Yara).
+
+- **ALTERNATIVAS DESCARTADAS** — (1) Dejar el CTA en inglés: descartado por incoherencia de marca a la vista del usuario. (2) Comprar el dominio ahora: descartado por decisión de la fundadora de no gastar hasta el Paso 7 (se asume el riesgo de squatter; si no se compra en el Paso 7, marcador en agenda). (3) Estrategia de marketing con inversión pagada: descartada por presupuesto casi nulo; la estrategia será orgánica y creativa, con el talento de la fundadora (Comunicación + Creatividad publicitaria, matrícula de honor) como recurso principal.
+
+- **POR QUÉ ESTA** — El producto ya está en producción (pasos 1-18 del manual cerrados), así que el siguiente bloque de valor es el mercado: primero saber qué vendemos y a quién antes de gastar nada. El marketing arranca con auditoría honesta (mirada hacia dentro) antes de investigar fuera, para no construir estrategia sobre supuestos. Los quick wins eran 30 minutos de trabajo que devuelven coherencia a la marca en su punto más visible.
+
+- **QUÉ SE ROMPIÓ** — No hubo rotura técnica (tsc limpio, 80 tests en verde). Se corrigió deuda acumulada: README, .env.example y la home decían cosas que el producto ya no es (Deezer como destino, CTA en inglés, metadata genérica). La web en producción aún no muestra los cambios de la home/metadata hasta el próximo deploy.
+
+- **QUÉ QUEDA PENDIENTE DE ENTENDER** — El análisis PESTEL: la fundadora lo marcó como lo que menos entendió de esta sesión (factores Político, Económico, Social, Tecnológico, Ecológico, Legal que afectan a la categoría); se explica a fondo cuando vuelva a salir (Paso 3 lo usará para investigar fuera). Pendientes registrados: cifras de éxito y modelo de negocio (briefing §4 y §10), prueba de usuarios del manual de obra sin ejecutar, dominio tunehop.com comprado en el Paso 7, y todo lo diagnosticado en la auditoría (identidad visual como prioridad).
