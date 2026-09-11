@@ -42,3 +42,4 @@ secrets/
 
 # TypeScript Build Info
 tsconfig.tsbuildinfo
+coverage/
