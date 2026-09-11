@@ -168,3 +168,20 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **POR QUÉ ESTA** — La usuaria quiere el MVP con todo lo propuesto inicialmente. Los 3 features añadidos completan la experiencia de migración (resiliencia + control + salida de Spotify). La solución usada es la más simple que funciona: AbortController nativo (sin deps), `<details>` HTML nativo (sin modal), banner condicional.
 - **QUÉ SE ROMPIÓ** — Nada. Build OK, 24 tests pasan.
 - **QUÉ QUEDA PENDIENTE** — Revisar cambios en staging/producción. Continuar con Paso 15 (guardrails).
+
+---
+
+## 2026-09-09 (8ª entrada) · Paso 15 — Guardrails (seguridad en capas)
+
+- **QUÉ SE DECIDIÓ** — Implementar `src/lib/guardrails.ts` con 6 capas de barreras (prioridad: privacidad > seguridad > disponibilidad):
+  1. **Validación de entrada**: `isValidSpotifyPlaylistId` (22 chars), `isValidISRC` (formato 12 chars), `isValidOAuthToken` (sin saltos de línea → anti header injection), `sanitizePlaylistName` (chars de control + longitud máx 100), `isSafeSearchQuery` (inyección de prompt: ignore previous, system:, [INST], <script>), `validatePlaylistIds` (dedupe + máx 100).
+  2. **Rate limiting**: `checkRateLimit` (mapa en memoria, ventana + máx requests por clave).
+  3. **Filtro PII**: `containsPII` (email, teléfono, tarjeta, DNI, IBAN, tokens API), `clearSessionData` (borra sessionStorage + cookies `tunes_`).
+  4. **Reglas deterministas**: `isValidMatchResponse` (solo 0-5, anti texto), `validateTrackCount` (máx 10.000), `isSafePlaylistName` (spam/phishing/odio).
+  5. **Validación de salida**: `validateTidalMatch` (estructura completa), `validateCandidates` (máx 5).
+  6. **Intervención humana**: `shouldEscalate` (umbrales: >50% no encontradas, ≥5 errores consecutivos, reintentos agotados).
+- **DISPARADORES DE INTERVENCIÓN HUMANA** — (1) superar umbral de fallos (notFound >50% o errores ≥5); (2) acciones sensibles (migración = crear playlists en TIDAL: ya requiere confirmación explícita del usuario pulsando "Migrar"; ninguna tool IA escribe).
+- **POR QUÉ ESTA** — Protege al usuario contra inyecciones (prompt y header), spam en nombres de playlist, y degradación de servicio. El rate limiting es in-memory (suficiente para serverless MVP; en producción escalar a Redis si hay abuso).
+- **MOLESTIAS A USUARIOS LEGÍTIMOS** — `isSafePlaylistName` puede bloquear nombres con "update" o "free" en contextos legítimos ("R&B Free" etc.) — equilibrio: matchea palabras completas (\\b), no subcadenas. El rate limit de 5 migraciones/hora solo afecta a muy pocos usuarios reales.
+- **QUÉ SE ROMPIÓ** — Nada. 80 tests pasan (56 nuevos), build OK.
+- **PRÓXIMO** — Paso 16: red team (OWASP LLM Top 10 contra el system prompt y el flujo completo).
