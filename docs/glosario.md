@@ -64,6 +64,10 @@ Plan B. Cuando el método principal falla, se usa el alternativo. Es como llevar
 Reglamento General de Protección de Datos. Ley europea que regula cómo tratas datos personales de ciudadanos de la UE.
 **Ejemplo real**: TuneHop debe cumplir RGPD porque se ofrece en la UE y trata datos personales (email, tokens, nombres de playlist).
 
+### Hipótesis sin verificar
+Afirmación que se usa como base de trabajo pero no tiene fuente primaria confirmada en la sesión actual. Es como cocinar con la sal que *crees* que hay en el bote: funcionará, pero mejor verificar antes de servir.
+**Ejemplo real**: En la investigación, "TuneMyMusic freemium con límite" está marcado como hipótesis porque su página de precios dio 404.
+
 ### HTTP vs. HTTPS
 HTTP es la comunicación normal entre navegador y servidor. HTTPS es la versión cifrada (la "S" es de Secure). Es como hablar por teléfono normal vs. hablar con una línea encriptada.
 **Ejemplo real**: TuneHop usa HTTPS (Vercel/Railway lo hacen por defecto). Todos los tokens viajan cifrados.
@@ -71,6 +75,10 @@ HTTP es la comunicación normal entre navegador y servidor. HTTPS es la versión
 ### Identidad visual
 El conjunto de elementos que hacen reconocible una marca a la vista: logo, colores, tipografía, iconos. Es como el uniforme de un equipo: sin él no sabes quién juega.
 **Ejemplo real**: TuneHop hoy no tiene identidad visual propia (favicon y tipografía de plantilla de Next.js); se construirá en el Paso 7 de marketing.
+
+### Insight
+La tensión o deseo profundo que explica por qué alguien actúa como actúa, más allá de lo que dice o de sus datos demográficos. Es como saber que alguien bebe café no por el sabor, sino porque necesita el ritual para arrancar el día.
+**Ejemplo real**: La Switcher Ética (María) *dice* que quiere irse de Spotify, pero su insight es: "No estoy dispuesta a perder horas ni a pagar una suscripción solo para irme". El insight revela el bloqueo real.
 
 ### ISRC (International Standard Recording Code)
 Código alfanumérico de 12 caracteres que identifica de forma única cada grabación musical en el mundo. Es el DNI de la canción.
@@ -87,6 +95,10 @@ Plantilla que envuelve todas las pantallas de la app. Es como el marco de un cua
 ### Liked Songs / Canciones guardadas
 Lista de canciones que un usuario ha marcado como "me gusta" en Spotify. Puede contener miles de canciones de muchos artistas diferentes.
 **Ejemplo real**: María tiene 5.200 canciones guardadas en 8 años. En v2 se podrán migrar con un clic.
+
+### Mapa de competencia
+Tabla o representación visual de quiénes compiten en tu categoría, qué venden, con qué tono y a qué precio. Es como el plano de un centro comercial: ves qué tienda hay en cada esquina y dónde queda el hueco vacío.
+**Ejemplo real**: En la investigación de TuneHop, el mapa compara Soundiiz, TuneMyMusic, FreeYourMusic, SongShift y MusConv en propuesta, tono y modelo de precio.
 
 ### Minimización (RGPD)
 Principio de que solo debes tratar los datos estrictamente necesarios para la finalidad. No más.
@@ -107,6 +119,10 @@ Comando que instala las dependencias EXACTAS que fija el package-lock.json. Es c
 ### OAuth 2.0
 Protocolo estándar para autorizar una app a acceder a tus datos en otro servicio sin darle tu contraseña. Es como dar un permiso temporal.
 **Ejemplo real**: TuneHop usa OAuth 2.0 para que el usuario autorice a la app a leer sus playlists de Spotify sin compartir su contraseña.
+
+### Oportunidad (marketing)
+La frase que resume el hueco que una marca puede ocupar, cruzando audiencia + competencia + cultura + auditoría interna. Es como encontrar el único sitio en la playa donde no hay sombrillas y el sol da perfecto.
+**Ejemplo real**: "TuneHop es la migración con criterio: la forma más simple y privada de irte de Spotify a la plataforma que paga mejor a los artistas, sin tocar tu Spotify y sin guardar nada de ti".
 
 ### package-lock.json
 Archivo que fija la versión EXACTA de cada dependencia y sus dependencias. Es como el recibo congelado de la compra: documenta qué se compró exactamente, no solo la receta.
@@ -154,6 +170,10 @@ Metodología que consiste en escribir la especificación funcional (QUÉ hace la
 ### Squatter (okupa de dominios)
 Persona que registra dominios con nombres de marca ajenos para revenderlos caro. Es como quien aparta un número de matrícula bonito para cobrarlo a futuro.
 **Ejemplo real**: tunehop.com está libre hoy; si no se compra pronto, un squatter podría registrarlo y pedir cientos de euros por un dominio que cuesta ~10-15 €/año.
+
+### Switcher Ética
+Perfil de usuario que quiere cambiar de plataforma por valores (pago a artistas, ética corporativa) pero no está dispuesto a pagar el coste de fricción (tiempo, esfuerzo, dinero). Es como quien quiere ir al supermercado ecológico pero no tiene coche: la intención es real, el obstáculo es el acceso.
+**Ejemplo real**: María, 32 años, diseñadora freelance: quiere apoyar plataformas que paguen mejor a los artistas, pero no pierde horas migrando manualmente ni paga una suscripción para hacerlo.
 
 ### TIDAL
 Plataforma de streaming musical de alta fidelidad (HiFi). Paga mejor que Spotify (~0.012-0.013$ por stream). Tiene API con sistema de "access tiers".

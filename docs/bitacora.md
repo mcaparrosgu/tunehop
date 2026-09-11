@@ -261,3 +261,18 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **QUÉ SE ROMPIÓ** — No hubo rotura técnica (tsc limpio, 80 tests en verde). Se corrigió deuda acumulada: README, .env.example y la home decían cosas que el producto ya no es (Deezer como destino, CTA en inglés, metadata genérica). La web en producción aún no muestra los cambios de la home/metadata hasta el próximo deploy.
 
 - **QUÉ QUEDA PENDIENTE DE ENTENDER** — El análisis PESTEL: la fundadora lo marcó como lo que menos entendió de esta sesión (factores Político, Económico, Social, Tecnológico, Ecológico, Legal que afectan a la categoría); se explica a fondo cuando vuelva a salir (Paso 3 lo usará para investigar fuera). Pendientes registrados: cifras de éxito y modelo de negocio (briefing §4 y §10), prueba de usuarios del manual de obra sin ejecutar, dominio tunehop.com comprado en el Paso 7, y todo lo diagnosticado en la auditoría (identidad visual como prioridad).
+
+
+---
+
+## 2026-09-11 · Marketing Paso 3 — Investigación de mercado, audiencia y competencia
+
+- **QUÉ SE DECIDIÓ** — Generar docs/marketing/02-investigacion.md con investigación real (fuentes verificadas en webs oficiales el 2026-09-11) y datos del proyecto (research/, bitácora). El documento cubre: mercado (categoría migradores madura, demanda real y en olas), audiencia (tres perfiles con insight: Switcher Ética primaria, DJ secundaria no objetivo, Cost-Cutter secundaria), competencia (mapa de 5 jugadores con propuesta, tono y precios; huecos: nadie usa valores/ética, nadie pone privacidad por delante, todos son multi-dirección y empujan a suscripción), cultura (debate del pago a artistas, TIDAL paga 3-7x más que Spotify, riesgo de importación nativa), y la Oportunidad cruzada: "TuneHop es la migración con criterio: la forma más simple y privada de irte de Spotify a la plataforma que paga mejor a los artistas, sin tocar tu Spotify y sin guardar nada de ti". Cada dato lleva fuente o marca "hipótesis sin verificar". Commit 5a9f9b2.
+
+- **ALTERNATIVAS DESCARTADAS** — (1) Inventar cifras de mercado sin fuente: descartado por regla absoluta del Paso 3. (2) Tratar al DJ como público objetivo: descartado porque la competencia ya lo sirve bien con sync y gestión de biblioteca, y TuneHop no hace eso por diseño. (3) Hacer investigación primaria (encuestas): descartado por presupuesto y tiempo; la investigación secundaria en webs oficiales + datos propios es suficiente para el plan.
+
+- **POR QUÉ ESTA** — La auditoría (Paso 2) detectó que el hueco de marca está en valores + privacidad + dirección única; la investigación confirma que la competencia no lo ocupa y que la audiencia primaria quiere exactamente eso. La Oportunidad no se inventa: se lee en la intersección de los tres anteriores.
+
+- **QUÉ SE ROMPIÓ** — Nada técnico. Dos páginas clave no respondieron (tunemymusic.com/pricing 404, tidal.com 403); esos datos se marcan como hipótesis. El mapa de competencia queda con dos casillas sin precio, lo que no invalida el hueco pero obliga a no presumir de "más barato" sin confirmar.
+
+- **QUÉ QUEDA PENDIENTE DE ENTENDER** — (1) El mapa de competencia: cómo leer la tabla comparada y qué significa el hueco en la práctica. (2) El insight de audiencia: la diferencia entre datos demográficos y la tensión que explica el comportamiento (por qué "insight" no es "perfil"). (3) Hipótesis vs verificado: por qué algunos datos llevan esa etiqueta y otros no (regla del método vs. falta de acceso a la web). Se explican en la próxima sesión antes de seguir.
