@@ -1,15 +1,17 @@
 # TuneHop
 
-Migra tus playlists de Spotify a otras plataformas musicales con un clic.
+**Producción: https://tunehop.vercel.app**
+
+Migra tus playlists de Spotify a TIDAL con un clic.
 
 ## Qué es
 
-TuneHop es una aplicación web que permite a cualquier persona con cuenta de Spotify migrar sus playlists a plataformas que pagan mejor a los artistas (Deezer, próximamente TIDAL).
+TuneHop es una aplicación web que permite a cualquier persona con cuenta de Spotify migrar sus playlists a TIDAL, la plataforma que paga mejor a los artistas.
 
 El proceso es simple:
 1. Conecta tu cuenta de Spotify
 2. Selecciona las playlists que quieres migrar
-3. Elige la plataforma destino
+3. Conecta tu cuenta de TIDAL
 4. La app busca las canciones por código universal (ISRC) y las copia
 
 Tus datos se borran al cerrar la sesión. No guardamos nada.
@@ -19,7 +21,7 @@ Tus datos se borran al cerrar la sesión. No guardamos nada.
 - Node.js 18 o superior
 - npm o yarn
 - Cuenta en Spotify Developer Dashboard
-- Cuenta en Deezer Developer Portal
+- Cuenta en TIDAL Developer Portal (developer.tidal.com)
 
 ## Instalación local
 
@@ -50,9 +52,8 @@ Rellena `.env.local` con tus claves reales:
 |---|---|
 | `SPOTIFY_CLIENT_ID` | [Spotify Developer Dashboard](https://developer.spotify.com/dashboard) |
 | `SPOTIFY_CLIENT_SECRET` | Spotify Developer Dashboard → tu app → Settings |
-| `DEEZER_APP_ID` | [Deezer Developer Portal](https://developers.deezer.com) |
-| `DEEZER_APP_SECRET` | Deezer Developer Portal → tu app |
-| `NEXTAUTH_SECRET` | Genera uno: `openssl rand -base64 32` |
+| `TIDAL_CLIENT_ID` | [TIDAL Developer Portal](https://developer.tidal.com) |
+| `TIDAL_CLIENT_SECRET` | TIDAL Developer Portal → tu app |
 
 **NUNCA subas `.env.local` a git.** Ya está en `.gitignore`.
 
@@ -61,7 +62,7 @@ Rellena `.env.local` con tus claves reales:
 1. Sube el código a GitHub
 2. Conecta el repositorio a [Vercel](https://vercel.com)
 3. Configura las variables de entorno en Vercel Dashboard → Settings → Environment Variables
-4. Configura los Redirect URIs en Spotify y Deezer apuntando a tu URL de Vercel
+4. Configura los Redirect URIs en Spotify y TIDAL apuntando a tu URL de Vercel
 
 ## Tecnologías
 

@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TuneHop",
+  title: "TuneHop — Migra playlists de Spotify a TIDAL",
   description:
-    "Migra tus playlists de Spotify a otras plataformas musicales. Tus datos se borran al cerrar la sesión.",
+    "Migra tus playlists de Spotify a TIDAL en minutos. TuneHop solo lee tu Spotify: no modifica, borra ni mueve nada. Tus datos se borran al cerrar la sesión.",
 };
 
 export default async function RootLayout({
