@@ -28,21 +28,17 @@ Documento breve con el encargo y el contexto de negocio antes de crear nada. Es 
 Modelo donde cada producto tiene su propia marca independiente, sin vínculo visible con la empresa madre (ej. Procter & Gamble: Ariel, Pampers, Gillette no llevan el nombre "P&G" en el envase). Es como una familia donde cada hijo tiene un apellido distinto y nadie sabe que son hermanos.
 **Ejemplo real**: No aplica a TuneHop; sería el caso si la fundadora vendiera la app a un tercero y este la operara bajo otro nombre.
 
-### Consentimiento (RGPD)
-Permiso explícito que el usuario da antes de que proceses sus datos personales. Debe ser libre, informado, específico e inequívoco.
-**Ejemplo real**: El checkbox obligatorio de TuneHop antes de conectar Spotify: "He leído la Política de Privacidad y acepto que procese mis datos."
-
 ### Consent screen / Pantalla de autorización
 Pantalla oficial de Spotify/Deezer donde el usuario ve qué permisos pide tu app y decide si acepta o no.
 **Ejemplo real**: Cuando pulsa "Conectar con Spotify" y aparece la pantalla de Spotify que dice "TuneHop quiere acceder a tus playlists".
 
+### Consentimiento (RGPD)
+Permiso explícito que el usuario da antes de que proceses sus datos personales. Debe ser libre, informado, específico e inequívoco.
+**Ejemplo real**: El checkbox obligatorio de TuneHop antes de conectar Spotify: "He leído la Política de Privacidad y acepto que procese mis datos."
+
 ### Cookie
 Pequeño archivo que un sitio web guarda en tu navegador para recordarte. Es como una pulsera de hospital con tu número: la llevas puesta mientras estás en el sitio.
 **Ejemplo real**: No
-
-### CTA (Call To Action / Llamada a la acción)
-Elemento que pide al visitante hacer algo concreto (botón, enlace, formulario). Es como el portero de una discoteca: la gente solo entra si la invitación es clara.
-**Ejemplo real**: El botón "Conectar con Spotify" de la home de TuneHop es la CTA principal; hasta hoy estaba en inglés ("Connect Spotify") y se corrigió por coherencia de marca.
 
 ### Crear playlist (API)
 Operación de la API de una plataforma musical para generar una playlist nueva en la cuenta del usuario.
@@ -56,13 +52,17 @@ Herramienta oficial de Next.js que genera la estructura inicial de un proyecto (
 Elemento que pide al visitante hacer algo concreto (botón, enlace, formulario). Es como el portero de una discoteca: la gente solo entra si la invitación es clara.
 **Ejemplo real**: El botón "Conectar con Spotify" de la home de TuneHop es la CTA principal; hasta hoy estaba en inglés ("Connect Spotify") y se corrigió por coherencia de marca.
 
-### Derecho de supresión (RGPD)
-Derecho del interesado a obtener la supresión de sus datos personales sin dilación indebida (Art. 17 RGPD). Es como pedir que te borren del registro de un gimnasio al darte de baja: deben hacerlo.
-**Ejemplo real**: El botón "Eliminar datos y cerrar" de TuneHop ejecuta el derecho de supresión: borra cookies, sessionStorage y cualquier rastro de la sesión.
+### CTA (Call To Action / Llamada a la acción)
+Elemento que pide al visitante hacer algo concreto (botón, enlace, formulario). Es como el portero de una discoteca: la gente solo entra si la invitación es clara.
+**Ejemplo real**: El botón "Conectar con Spotify" de la home de TuneHop es la CTA principal; hasta hoy estaba en inglés ("Connect Spotify") y se corrigió por coherencia de marca.
 
 ### Deezer
 Plataforma de streaming musical con API pública REST. Fue el destino original del MVP de TuneHop; se cambió a TIDAL porque Deezer cerró el registro de nuevas apps en 2024.
 **Ejemplo real**: En la bitácora (2026-09-03) se registró el cambio: "El destino de escritura pasa de Deezer a TIDAL: Deezer cerró el registro de nuevas apps".
+
+### Derecho de supresión (RGPD)
+Derecho del interesado a obtener la supresión de sus datos personales sin dilación indebida (Art. 17 RGPD). Es como pedir que te borren del registro de un gimnasio al darte de baja: deben hacerlo.
+**Ejemplo real**: El botón "Eliminar datos y cerrar" de TuneHop ejecuta el derecho de supresión: borra cookies, sessionStorage y cualquier rastro de la sesión.
 
 ### DPIA (Data Protection Impact Assessment)
 Evaluación de impacto en la protección de datos: análisis obligatorio bajo RGPD cuando el tratamiento puede entrañar alto riesgo para derechos y libertades.
@@ -187,6 +187,10 @@ Persona que registra dominios con nombres de marca ajenos para revenderlos caro.
 Perfil de usuario que quiere cambiar de plataforma por valores (pago a artistas, ética corporativa) pero no está dispuesto a pagar el coste de fricción (tiempo, esfuerzo, dinero). Es como quien quiere ir al supermercado ecológico pero no tiene coche: la intención es real, el obstáculo es el acceso.
 **Ejemplo real**: María, 32 años, diseñadora freelance: quiere apoyar plataformas que paguen mejor a los artistas, pero no pierde horas migrando manualmente ni paga una suscripción para hacerlo.
 
+### Tagline
+Frase corta que resume la promesa central de una marca y acompaña al nombre (a menudo en el logo o hero). Es como el lema que dice un personaje al presentarse: "Soy X, y hago Y".
+**Ejemplo real**: TuneHop usa "Tu música, donde pagan mejor. En minutos." como tagline principal (elegida entre 6 opciones en el Paso 6).
+
 ### TIDAL
 Plataforma de streaming musical con audio HiFi/HiRes y mejor pago por stream (~$0.012-0.013 vs $0.003-0.005 de Spotify). API v2 JSON:API en openapi.tidal.com/v2 (registro en developer.tidal.com).
 **Ejemplo real**: Destino de escritura de TuneHop (decisión 2026-09-03). OAuth Authorization Code, scopes: playlists.modify, user.read.
@@ -195,9 +199,17 @@ Plataforma de streaming musical con audio HiFi/HiRes y mejor pago por stream (~$
 Credencial temporal (access token) que autoriza a la app a actuar en nombre del usuario. Tiene expiración (ej. 1h) y se renueva con refresh token. Es como el pase de backstage: caduca al acabar el concierto.
 **Ejemplo real**: TuneHop guarda tokens solo en memoria de sesión (server-side), nunca en BD ni localStorage; se borran al cerrar la pestaña.
 
+### Tono de voz
+La forma consistente en que una marca "habla" en todos sus puntos de contacto. Se define en ejes (cercano/formal, serio/lúdico, experto/accesible, neutro/apasionado) con posición y ejemplos. Es como la personalidad de alguien: no es lo que dice, es cómo lo dice.
+**Ejemplo real**: TuneHop = cercano sin confianzudo, serio en la promesa/ligero en la forma, experto invisible, convencida no evangelizadora.
+
 ### Turbopack
 Bundler de nueva generación (Rust) incluido en Next.js 15+. Más rápido que Webpack en dev (HMR instantáneo) y compila solo lo que cambia.
 **Ejemplo real**: TuneHop usa Turbopack vía `next dev --turbopack` (Next.js 16); los builds en Vercel también lo usan.
+
+### Vocabulario prohibido
+Lista de palabras, clichés y giros de la categoría que la marca se compromete a NO usar porque diluyen su posicionamiento o la hacen sonar como la competencia. Es como los alimentos que un celíaco no puede comer: no es preferencia, es supervivencia de la marca.
+**Ejemplo real**: TuneHop prohíbe "transferir", "sincronizar", "gratis", "seguro", "fácil", "huir", "plataforma destino" — y define qué usar en su lugar.
 
 ### WCAG (Web Content Accessibility Guidelines)
 Guías de accesibilidad web (W3C). Niveles A, AA, AAA. AA es el estándar profesional: contraste, navegación teclado, etiquetas ARIA, foco visible.

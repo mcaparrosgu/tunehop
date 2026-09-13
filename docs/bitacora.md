@@ -306,3 +306,18 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **QUÉ SE ROMPIÓ** — Nada técnico. Decisión de arquetipo validada explícitamente por la fundadora antes de cerrar el documento (regla de la skill).
 
 - **QUÉ QUEDA PENDIENTE DE ENTENDER** — La fundadora no marcó "no entendí" explícito en esta sesión (la respuesta al question tool no llegó clara). Queda pendiente aclarar: arquetipos (Mark & Pearson), fórmula Ries & Trout, diferencia UVP vs posicionamiento, y por qué el territorio a evitar son líneas rojas no preferencias. Se explicarán cuando se usen en los siguientes pasos.
+
+
+---
+
+## 2026-09-11 · Marketing Paso 6 — Identidad verbal
+
+- **QUÉ SE DECIDIÓ** — Identidad verbal completa en docs/marketing/05-identidad-verbal.md (commit b350920). Naming TuneHop justificado vs estrategia (no se reabre). Tono de voz en 4 ejes (cercano/formal, serio/lúdico, experto/accesible, neutro/apasionado) con ejemplos reales. Mensajes clave en 3 niveles: N1 promesa central, N2 cuatro pilares, N3 pruebas de confianza. Tagline elegida: "Tu música, donde pagan mejor. En minutos." (Opción 1 de 6). Vocabulario prohibido: 10 palabras/clichés de categoría con alternativa TuneHop. Copy real en 3 contextos: web hero, red social (280 chars), atención al cliente (respuesta real a incidencia de canciones faltantes).
+
+- **ALTERNATIVAS DESCARTADAS** — (1) Taglines 2-6: descartadas por perder promesa ética, promesa de tiempo, o claridad. (2) Tono "experto visible": descartado por territorio a evitar §7.1 (no parecer herramienta de IT). (3) Mensaje "gratis" como gancho: descartado por atraer Perfil C y devaluar promesa ética. (4) Lenguaje de ruptura ("huir", "escapar"): descartado por contradecir posicionamiento neutro.
+
+- **POR QUÉ ESTA** — La identidad verbal deriva directo del arquetipo Explorador+Sabio y la personalidad (Libre, Honesta, Con criterio, Ligera). Cada eje de tono, cada mensaje, cada palabra prohibida protege el posicionamiento. El copy real en 3 contextos es la prueba de fuego: si no sabes escribirlo, la estrategia no está lo bastante afilada.
+
+- **QUÉ SE ROMPIÓ** — Nada técnico. El copy de web (hero) ya existía parcialmente en messages/es.json; este documento pasa a ser la fuente de verdad verbal. Cualquier discrepancia futura se resuelve a favor de este documento.
+
+- **QUÉ QUEDA PENDIENTE DE ENTENDER** — La fundadora no marcó "no entendí" explícito en esta sesión (respuesta question tool no llegó). Pendiente de aclarar cuando se use: definición práctica de tono de voz, jerarquía de mensajes, diferencia tagline vs promesa, por qué vocabulario prohibido son líneas rojas, y por qué copy real (no descripción) en 3 contextos.
