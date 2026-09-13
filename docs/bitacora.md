@@ -321,3 +321,18 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **QUÉ SE ROMPIÓ** — Nada técnico. El copy de web (hero) ya existía parcialmente en messages/es.json; este documento pasa a ser la fuente de verdad verbal. Cualquier discrepancia futura se resuelve a favor de este documento.
 
 - **QUÉ QUEDA PENDIENTE DE ENTENDER** — La fundadora no marcó "no entendí" explícito en esta sesión (respuesta question tool no llegó). Pendiente de aclarar cuando se use: definición práctica de tono de voz, jerarquía de mensajes, diferencia tagline vs promesa, por qué vocabulario prohibido son líneas rojas, y por qué copy real (no descripción) en 3 contextos.
+
+
+---
+
+## 2026-09-11 · Marketing Paso 7 — Identidad visual
+
+- **QUÉ SE DECIDIÓ** — Identidad visual completa en docs/marketing/06-identidad-visual.md (commit e4355ab). Referencias: señalética transporte, estilo suizo, TIDAL, apps privacidad-first, contraste con Spotify. Logo: wordmark TuneHop + glifo "salto preciso" (nace de la h de hop, trazo monolineal que curva y aterriza en punto). Paleta mínima: Negro #0A0A0A, Blanco #FAFAFA, Teal eléctrico #00E5A0 (acento único, solo CTA/focus/glifo), Rojo error, Ámbar warning, Grises bordes. Tipografía: Space Grotesk (primaria, variable, geométrica humanista) + JetBrains Mono (secundaria, solo código/ISRC). Sistema gráfico: iconografía monolineal 2px, foto documental técnico, motion ease-out-expo 150-300ms. Aplicaciones clave: web app (prioridad 1), favicon/app icon (2), OG image/redes (3). Qué evitar: 9 errores de categoría (verde Spotify, ondas, degradados, ilustraciones amigables, CTAs múltiples, dashboards, tipografía decorativa, iconos rellenos). Tokens JSON para skill frontend (Passe-Partout).
+
+- **ALTERNATIVAS DESCARTADAS** — (1) Verde como acento: descartado por ser territorio Spotify. (2) Logo con nota musical/flecha genérica: descartado por cliché de categoría. (3) Paleta amplia con secundarios: descartada por principio "mínima, funcional, semántica". (4) Tipografía serif/Display decorativa: descartada por territorio a evitar (no IT, no decorativa). (5) Ilustraciones lifestyle: descartadas por foto documental (Sabio) vs cliché de categoría.
+
+- **POR QUÉ ESTA** — Cada decisión visual deriva del arquetipo Explorador+Sabio y la personalidad (Libre, Honesta, Con criterio, Ligera). El Teal puentea a TIDAL sin copiarla; el Negro/Blanco da autoridad y claridad; Space Grotesk es técnica pero humana; el glifo "salto preciso" encarna el nombre y la promesa. Los tokens JSON son fuente única para implementación en frontend.
+
+- **QUÉ SE ROMPIÓ** — Nada técnico. La web actual (tunehop.vercel.app) usa plantilla Next.js (Geist, favicon default, sin logo). Este documento es la spec para rehacerla; el deploy real vendrá en la fase de producción de piezas (Paso 16).
+
+- **QUÉ QUEDA PENDIENTE DE ENTENDER** — La fundadora no marcó "no entendí" explícito (respuesta question tool deduplicada). Pendiente de aclarar cuando se implemente: concepto de logo (glifo desde la h), por qué paleta mínima y teal no para texto, tipografía variable font, sistema gráfico monolineal/foto documental/motion, y qué son design tokens para frontend.

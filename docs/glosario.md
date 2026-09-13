@@ -64,6 +64,10 @@ Plataforma de streaming musical con API pública REST. Fue el destino original d
 Derecho del interesado a obtener la supresión de sus datos personales sin dilación indebida (Art. 17 RGPD). Es como pedir que te borren del registro de un gimnasio al darte de baja: deben hacerlo.
 **Ejemplo real**: El botón "Eliminar datos y cerrar" de TuneHop ejecuta el derecho de supresión: borra cookies, sessionStorage y cualquier rastro de la sesión.
 
+### Design tokens
+Valores de diseño (color, tipografía, espaciado, radio, motion) codificados como pares nombre-valor, independientes de plataforma. Es como la receta de un plato: da igual la cocina (web, iOS, Android), los ingredientes y proporciones son los mismos.
+**Ejemplo real**: TuneHop define `--color-accent: #00E5A0`, `--font-primary: Space Grotesk`, `--spacing-base: 4px` en un JSON que la skill `frontend` consume para generar CSS, Tailwind config, y componentes React coherentes.
+
 ### DPIA (Data Protection Impact Assessment)
 Evaluación de impacto en la protección de datos: análisis obligatorio bajo RGPD cuando el tratamiento puede entrañar alto riesgo para derechos y libertades.
 **Ejemplo real**: TuneHop no requiere DPIA (solo lectura OAuth, datos en sesión, sin profiling), pero el análisis se documenta en docs/03-legal.md.
@@ -75,6 +79,10 @@ Plan B automático cuando la vía principal falla. Es como llevar llave de repue
 ### GDPR / RGPD
 Reglamento General de Protección de Datos (UE 2016/679). Marco legal que regula cómo se tratan los datos personales en la UE.
 **Ejemplo real**: TuneHop cumple RGPD: consentimiento previo (checkbox), minimización (solo lectura playlists), supresión real (botón borrar datos), transparencia (política de privacidad).
+
+### Glifo
+Símbolo gráfico que representa una marca, a menudo extraído o derivado de una letra del logotipo. Es como la inicial iluminada de un manuscrito: nace de la letra, pero vive solo como señal.
+**Ejemplo real**: El glifo de TuneHop nace de la pierna derecha de la 'h' de "hop": se alarga, curva y aterriza en un punto preciso (el salto). Funciona solo como favicon/app icon.
 
 ### Hipótesis sin verificar
 Afirmación que se usa como base de trabajo pero no tiene fuente primaria confirmada en la sesión actual. Es como cocinar con la sal que *crees* que hay en el bote: funcionará, pero mejor verificar antes de servir.
@@ -119,6 +127,10 @@ Modelo de arquitectura donde un solo nombre cubre todo el negocio. Es como una t
 ### Minimización (RGPD)
 Principio de RGPD: solo recoger y tratar los datos estrictamente necesarios para el fin declarado. Es como llevar a la playa solo la toalla y el protector: lo justo, nada de "por si acaso".
 **Ejemplo real**: TuneHop solo lee playlists (scope playlist-read-private), no pide perfil, email, ni biblioteca completa.
+
+### Monolineal
+Estilo de iconografía o letra donde todos los trazos tienen el mismo grosor (una sola línea). Es como dibujar con un rotulador de punta fina sin variar la presión: limpio, técnico, escalable.
+**Ejemplo real**: La iconografía de TuneHop es monolineal 2px, esquinas 2px, óptico 20x20px. Coherente en todo el sistema, sin rellenos ni duotono.
 
 ### MVP (Minimum Viable Product)
 Versión mínima de un producto que entrega valor real a usuarios reales y permite aprender. No es "incompleto", es "lo mínimo que sirve".
@@ -175,6 +187,10 @@ Ver GDPR / RGPD.
 Permiso concreto que la app solicita al usuario (ej. "playlist-read-private"). Es como pedir la llave solo del trastero, no la de toda la casa.
 **Ejemplo real**: TuneHop pide solo `playlist-read-private` y `user-read-email` en Spotify; en TIDAL pide `playlists.modify` y `user.read`.
 
+### Space Grotesk
+Familia tipográfica sans-serif geométrica humanista (Google Fonts, variable, SIL OFL). x-height generosa, personalidad en mayúsculas, legible en cuerpo. Gratuita, auto-hospedable, un solo archivo variable (wght 300-700).
+**Ejemplo real**: Tipografía primaria de TuneHop — encarna Sabio (orden, criterio) y Explorador (geometría viva), no monoespaciada (no IT), no redonda (no infantil).
+
 ### Spec-driven development
 Metodología: escribir la especificación funcional (qué hace el producto) ANTES de elegir tecnología ni escribir código. La spec es la fuente de verdad; el código la implementa.
 **Ejemplo real**: docs/04-spec.md de TuneHop se escribió antes de docs/05-plan-tecnico.md; el código sigue a la spec, no al revés.
@@ -206,6 +222,10 @@ La forma consistente en que una marca "habla" en todos sus puntos de contacto. S
 ### Turbopack
 Bundler de nueva generación (Rust) incluido en Next.js 15+. Más rápido que Webpack en dev (HMR instantáneo) y compila solo lo que cambia.
 **Ejemplo real**: TuneHop usa Turbopack vía `next dev --turbopack` (Next.js 16); los builds en Vercel también lo usan.
+
+### Variable font
+Un solo archivo de fuente que contiene múltiples pesos, anchos, estilos (ej. wght 300-700) en lugar de un archivo por cada peso. Es como una navaja suiza tipográfica: menos peticiones HTTP, más control, mismo diseño.
+**Ejemplo real**: Space Grotesk y JetBrains Mono en TuneHop son variable fonts: un archivo cada una cubre Regular, Medium, SemiBold, Bold para UI, hero, código.
 
 ### Vocabulario prohibido
 Lista de palabras, clichés y giros de la categoría que la marca se compromete a NO usar porque diluyen su posicionamiento o la hacen sonar como la competencia. Es como los alimentos que un celíaco no puede comer: no es preferencia, es supervivencia de la marca.
