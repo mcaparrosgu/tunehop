@@ -276,3 +276,18 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **QUÉ SE ROMPIÓ** — Nada técnico. Dos páginas clave no respondieron (tunemymusic.com/pricing 404, tidal.com 403); esos datos se marcan como hipótesis. El mapa de competencia queda con dos casillas sin precio, lo que no invalida el hueco pero obliga a no presumir de "más barato" sin confirmar.
 
 - **QUÉ QUEDA PENDIENTE DE ENTENDER** — (1) El mapa de competencia: cómo leer la tabla comparada y qué significa el hueco en la práctica. (2) El insight de audiencia: la diferencia entre datos demográficos y la tensión que explica el comportamiento (por qué "insight" no es "perfil"). (3) Hipótesis vs verificado: por qué algunos datos llevan esa etiqueta y otros no (regla del método vs. falta de acceso a la web). Se explican en la próxima sesión antes de seguir.
+
+
+---
+
+## 2026-09-11 · Marketing Paso 4 — Arquitectura de marca
+
+- **QUÉ SE DECIDIÓ** — Arquitectura de marca única: TuneHop es un solo producto, una sola fundadora, sin portfolio. Documento generado en docs/marketing/03-arquitectura-marca.md (f16d138). La decisión se resuelve en dos frases como pide el método: "arquitectura de marca única, no aplica portfolio". Se añade un disparador futuro por si el negocio crece.
+
+- **ALTERNATIVAS DESCARTADAS** — (1) Marca madre con sub-marcas: descartada por no haber segundo producto ni línea distinta. (2) Casa de marcas: descartada por no haber unidades que deban operar sin vínculo. (3) Dejar el paso sin documento: descartado por regla del método (cada paso genera su archivo, aunque sea breve).
+
+- **POR QUÉ ESTA** — El método obliga a decidir la arquitectura ANTES del posicionamiento (Paso 5). Si no se decide, se arrastra ambigüedad a la estrategia. Escribirlo, aunque sea obvio, blinda que el posicionamiento hable de UNA marca, no de un portfolio imaginario.
+
+- **QUÉ SE ROMPIÓ** — Nada. Paso trivial por diseño, no por error.
+
+- **QUÉ QUEDA PENDIENTE DE ENTENDER** — La fundadora no marcó ningún "no entendí" explícito para este paso. Queda el entendimiento de que este paso existe para blindar, no para inventar complejidad: si en el futuro alguien dice "esto no encaja bajo TuneHop" y es un negocio distinto, se cambia el modelo.

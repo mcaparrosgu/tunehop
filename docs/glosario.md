@@ -12,6 +12,10 @@ Nivel de permiso que una API te da al registrarte como desarrollador. Es como la
 Reglamento Europeo de Inteligencia Artificial. Clasifica los sistemas de IA en 4 niveles de riesgo (prohibido, alto, limitado, mínimo) y asigna obligaciones según el nivel.
 **Ejemplo real**: TuneHop es riesgo mínimo porque no usa IA, solo OAuth y búsqueda por código.
 
+### Arquitectura de marca
+La estructura que organiza cómo se relacionan la marca principal con sus productos, sub-marcas o líneas de negocio. Es como el árbol genealógico de una familia: ves quién es el abuelo, los hijos, los nietos y si todos usan el mismo apellido.
+**Ejemplo real**: TuneHop tiene arquitectura de marca única (un solo producto, un solo nombre); si mañana saca "TuneHop Analytics" para artistas, sería marca madre con sub-marcas.
+
 ### Batch / Tanda
 Procesar elementos en grupos pequeños en vez de todos a la vez. Es como ir al supermercado: llevas 20 cosas en vez de 200 de golpe.
 **Ejemplo real**: Migrar 50 playlists por tanda para no saturar las APIs de Spotify y Deezer.
@@ -19,6 +23,10 @@ Procesar elementos en grupos pequeños en vez de todos a la vez. Es como ir al s
 ### Briefing
 Documento breve con el encargo y el contexto de negocio antes de crear nada. Es como la nota que deja el chef al equipo de cocina antes del servicio: qué plato, para quién, con qué recursos.
 **Ejemplo real**: docs/marketing/00-briefing.md — qué es TuneHop, quién está detrás, con qué presupuesto y qué significa éxito.
+
+### Casa de marcas
+Modelo donde cada producto tiene su propia marca independiente, sin vínculo visible con la empresa madre (ej. Procter & Gamble: Ariel, Pampers, Gillette no llevan el nombre "P&G" en el envase). Es como una familia donde cada hijo tiene un apellido distinto y nadie sabe que son hermanos.
+**Ejemplo real**: No aplica a TuneHop; sería el caso si la fundadora vendiera la app a un tercero y este la operara bajo otro nombre.
 
 ### Consent screen / Pantalla de autorización
 Pantalla oficial de Spotify/Deezer donde el usuario ve qué permisos pide tu app y decide si acepta o no.
@@ -99,6 +107,14 @@ Lista de canciones que un usuario ha marcado como "me gusta" en Spotify. Puede c
 ### Mapa de competencia
 Tabla o representación visual de quiénes compiten en tu categoría, qué venden, con qué tono y a qué precio. Es como el plano de un centro comercial: ves qué tienda hay en cada esquina y dónde queda el hueco vacío.
 **Ejemplo real**: En la investigación de TuneHop, el mapa compara Soundiiz, TuneMyMusic, FreeYourMusic, SongShift y MusConv en propuesta, tono y modelo de precio.
+
+### Marca madre con sub-marcas
+Modelo donde una marca principal respalda a productos con nombre propio pero vinculado (ej. "Google Maps", "Google Drive", "YouTube by Google"). Es como una madre que presenta a sus hijos: "Este es mi hijo Pablo, esta es mi hija Ana".
+**Ejemplo real**: Si TuneHop lanza "TuneHop Sync" y "TuneHop Export", pasaría a marca madre con sub-marcas.
+
+### Marca única
+Modelo de arquitectura donde un solo nombre cubre todo el negocio. Es como una tienda que solo vende una cosa y se llama igual que la cosa.
+**Ejemplo real**: TuneHop hoy es marca única: el negocio, la web, la app y el producto se llaman TuneHop.
 
 ### Minimización (RGPD)
 Principio de que solo debes tratar los datos estrictamente necesarios para la finalidad. No más.
