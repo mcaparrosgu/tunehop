@@ -291,3 +291,18 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **QUÉ SE ROMPIÓ** — Nada. Paso trivial por diseño, no por error.
 
 - **QUÉ QUEDA PENDIENTE DE ENTENDER** — La fundadora no marcó ningún "no entendí" explícito para este paso. Queda el entendimiento de que este paso existe para blindar, no para inventar complejidad: si en el futuro alguien dice "esto no encaja bajo TuneHop" y es un negocio distinto, se cambia el modelo.
+
+
+---
+
+## 2026-09-11 · Marketing Paso 5 — Estrategia de marca
+
+- **QUÉ SE DECIDIÓ** — Estrategia completa en docs/marketing/04-estrategia-marca.md (commit 63668ef). Propósito: libertad de elegir plataforma sin fricción técnica. Visión/misión alineadas. Arquetipo confirmado por la fundadora: **Explorador (primario) + Sabio (secundario)**. Posicionamiento Ries & Trout: "Para la Switcher Ética, TuneHop es la herramienta de migración que te deja irte a la plataforma que paga mejor a los artistas en minutos, sin tocar tu Spotify y sin guardar nada, porque usa ISRC universal, procesa en sesión y borra al cerrar". UVP: 5 patas diferenciales (simple + destino ético + privacidad radical + dirección única + neutro). Personalidad: 4 rasgos (Libre, Honesta, Con criterio, Ligera) con ejemplos y anti-ejemplos. Territorio a evitar: 6 líneas rojas (no IT, no anti-Spotify, no todo-a-todo, no profiling, no suscripción disfrazada, no complejidad expuesta).
+
+- **ALTERNATIVAS DESCARTADAS** — (1) Arquetipo Forajido/Rebelde: descartado por contradecir el posicionamiento neutro y la promesa de privacidad seria. (2) Sabio primario + Explorador secundario: descartado por riesgo de sonar técnico/frío para una usuaria no técnica. (3) Explorador + Cuidador: descartado por perder el filo de "con criterio / con datos". (4) Propósito "migrar playlists": descartado por ser función, no propósito (el propósito es la libertad que la función habilita).
+
+- **POR QUÉ ESTA** — El arquetipo Explorador ocupa el territorio libre en la categoría (nadie vende libertad de movimiento); el Sabio aporta la credibilidad que la promesa ética y de privacidad necesita. El posicionamiento nace de cruzar la Oportunidad de la investigación con la auditoría interna. Los 4 rasgos de personalidad y los 6 territorios a evitar blinden el tono y el diseño de las siguientes fases.
+
+- **QUÉ SE ROMPIÓ** — Nada técnico. Decisión de arquetipo validada explícitamente por la fundadora antes de cerrar el documento (regla de la skill).
+
+- **QUÉ QUEDA PENDIENTE DE ENTENDER** — La fundadora no marcó "no entendí" explícito en esta sesión (la respuesta al question tool no llegó clara). Queda pendiente aclarar: arquetipos (Mark & Pearson), fórmula Ries & Trout, diferencia UVP vs posicionamiento, y por qué el territorio a evitar son líneas rojas no preferencias. Se explicarán cuando se usen en los siguientes pasos.
