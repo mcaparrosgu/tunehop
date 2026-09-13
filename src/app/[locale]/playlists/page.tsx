@@ -178,7 +178,7 @@ export default function Playlists() {
         </div>
 
         <div className="mb-4 flex items-center gap-3">
-          <Button onClick={selectAll} variant="outline" className="flex-1" aria-label={allSelected ? t("playlists.deselectAllAria") : t("playlists.selectAllAria")}>
+          <Button onClick={selectAll} variant="secondary" className="flex-1" aria-label={allSelected ? t("playlists.deselectAllAria") : t("playlists.selectAllAria")}>
             {allSelected ? t("playlists.deselectAll") : t("playlists.selectAll")}
           </Button>
         </div>

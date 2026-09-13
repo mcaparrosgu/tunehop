@@ -537,7 +537,7 @@ export default function Migrando() {
             <Button href="/playlists" className="flex-1" aria-label={t("migrando.retryAria")}>
               {t("migrando.retry")}
             </Button>
-            <Button onClick={handleClearData} variant="outline" className="flex-1" aria-label={t("migrando.closeAria")}>
+            <Button onClick={handleClearData} variant="secondary" className="flex-1" aria-label={t("migrando.closeAria")}>
               {t("migrando.close")}
             </Button>
           </div>
@@ -640,7 +640,7 @@ export default function Migrando() {
                 {t("migrando.confirmReview", { count: String(chosenCount) })}
               </Button>
             </div>
-            <Button onClick={handleClearData} variant="outline" aria-label={t("migrando.closeAria")}>
+            <Button onClick={handleClearData} variant="secondary" aria-label={t("migrando.closeAria")}>
               {t("migrando.close")}
             </Button>
           </div>
@@ -688,7 +688,7 @@ export default function Migrando() {
                   setProgress({ stage: "error", message: t("migrando.cancelled"), current: 0, total: 0, error: "CANCELLED" });
                   setCancelling(false);
                 }}
-                variant="outline"
+                variant="secondary"
                 disabled={cancelling}
                 aria-label={t("migrando.cancelAria")}
               >
@@ -769,7 +769,7 @@ export default function Migrando() {
                       setTimeout(() => setCopied(false), 2500);
                     }).catch(() => {});
                   }}
-                  variant="outline"
+                  variant="secondary"
                   className="shrink-0"
                   aria-label={t("migrando.copyLinkAria")}
                 >
@@ -807,13 +807,13 @@ export default function Migrando() {
             )}
 
             <div className="mt-4 flex flex-wrap gap-2">
-              <Button onClick={copySummary} variant="outline" className="text-sm" aria-label={t("migrando.copySummaryAria")}>
+              <Button onClick={copySummary} variant="secondary" className="text-sm" aria-label={t("migrando.copySummaryAria")}>
                 {copied ? t("migrando.copiedList") : t("migrando.copySummary")}
               </Button>
-              <Button onClick={exportCsv} variant="outline" className="text-sm" aria-label={t("migrando.csvAria")}>
+              <Button onClick={exportCsv} variant="secondary" className="text-sm" aria-label={t("migrando.csvAria")}>
                 {t("migrando.csvDownload")}
               </Button>
-              <Button onClick={exportJson} variant="outline" className="text-sm" aria-label={t("migrando.exportJsonAria")}>
+              <Button onClick={exportJson} variant="secondary" className="text-sm" aria-label={t("migrando.exportJsonAria")}>
                 {t("migrando.exportJson")}
               </Button>
             </div>
@@ -824,7 +824,7 @@ export default function Migrando() {
           <Button href="/playlists" className="flex-1" aria-label={t("migrando.morePlaylistsAria")}>
             {t("migrando.morePlaylists")}
           </Button>
-          <Button onClick={handleClearData} variant="outline" className="flex-1" aria-label={t("migrando.clearDataAria")}>
+          <Button onClick={handleClearData} variant="secondary" className="flex-1" aria-label={t("migrando.clearDataAria")}>
             {t("migrando.clearData")}
           </Button>
         </div>
