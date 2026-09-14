@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TuneHop — H con curva ascendente asimétrica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --bg: #FAFAFA; --fg: #0A0A0A; --border: #E5E5E5; --accent: #C1E32B; }
+  body { font-family: 'Space Grotesk', sans-serif; background: var(--bg); color: var(--fg); line-height: 1.6; }
+  header { padding: 24px 32px; border-bottom: 1px solid var(--border); }
+  header h1 { font-size: 1.3rem; font-weight: 700; }
+  header p { opacity: 0.6; font-size: 0.9rem; max-width: 780px; }
+  .regla { margin-top: 8px; display: inline-block; background: var(--accent); color: #0A0A0A; border-radius: 4px; padding: 4px 12px; font-size: 0.8rem; font-weight: 700; }
+  main { max-width: 1200px; margin: 0 auto; padding: 32px 24px 80px; }
+  .colores { display: flex; gap: 10px; margin-bottom: 28px; flex-wrap: wrap; }
+  .color-btn { border: 2px solid var(--border); background: var(--bg); border-radius: 9999px; padding: 10px 20px; font-family: 'Space Grotesk'; font-size: 0.9rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 150ms; }
+  .color-btn .dot { width: 16px; height: 16px; border-radius: 50%; }
+  .color-btn.active { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,0,0,0.06); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .card { border: 1px solid var(--border); border-radius: 16px; padding: 22px; display: flex; flex-direction: column; gap: 14px; background: #0A0A0A; transition: transform 150ms, box-shadow 150ms; }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.15); }
+  .card .curva-name { font-weight: 700; font-size: 1rem; color: #FAFAFA; }
+  .card .curva-desc { font-size: 0.8rem; color: rgba(250,250,250,0.6); }
+  .wordmark-demo { display: flex; align-items: center; justify-content: center; gap: 2px; padding: 24px 16px; border-radius: 12px; background: #0A0A0A; }
+  .wm { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 2.4rem; letter-spacing: 0.01em; line-height: 1; color: #FAFAFA; }
+  .wm.letra { display: inline-flex; }
+  .wm.letra svg { width: 40px; height: 40px; color: var(--accent); margin: 0 2px; }
+  .fav-row { display: flex; align-items: center; gap: 10px; justify-content: center; }
+  .fav-label { font-size: 0.72rem; color: rgba(250,250,250,0.55); }
+  .favicon { width: 28px; height: 28px; color: var(--accent); display: inline-flex; }
+  .favicon svg { width: 28px; height: 28px; }
+  .nota { margin-top: 40px; padding: 18px 22px; border-left: 4px solid var(--accent); background: rgba(0,0,0,0.02); border-radius: 0 12px 12px 0; font-size: 0.9rem; }
+  .nota code { font-family: 'JetBrains Mono'; font-size: 0.85em; }
+  @media (max-width: 640px) { main { padding: 20px 16px 60px; } .wm { font-size: 1.8rem; } .wm.letra svg { width: 30px; height: 30px; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>TuneHop — H · curva ascendente asimétrica (la mejora fluye)</h1>
+  <p>La barra de la H ya no es recta: es una <strong>curva que sube con aceleración</strong> — el gesto de una mejora que fluye, no de un sube rígido. Elige curvatura y color.</p>
+  <span class="regla" id="reglaColor">Elige curva y color → implemento</span>
+</header>
+<main>
+  <div class="colores" role="radiogroup" aria-label="Elegir color de acento">
+    
+    <button class="color-btn" data-color="ambar" onclick="setColor('ambar')" role="radio" aria-checked="false">
+      <span class="dot" style="background:#FFC300"></span>
+      Ámbar
+      <span style="font-family:'JetBrains Mono';font-size:0.7rem;opacity:0.6">#FFC300</span>
+    </button>
+    <button class="color-btn" data-color="coral" onclick="setColor('coral')" role="radio" aria-checked="false">
+      <span class="dot" style="background:#FF6B4A"></span>
+      Coral
+      <span style="font-family:'JetBrains Mono';font-size:0.7rem;opacity:0.6">#FF6B4A</span>
+    </button>
+    <button class="color-btn" data-color="lima" onclick="setColor('lima')" role="radio" aria-checked="false">
+      <span class="dot" style="background:#C1E32B"></span>
+      Lima
+      <span style="font-family:'JetBrains Mono';font-size:0.7rem;opacity:0.6">#C1E32B</span>
+    </button>
+    <button class="color-btn" data-color="dorado" onclick="setColor('dorado')" role="radio" aria-checked="false">
+      <span class="dot" style="background:#F5B700"></span>
+      Dorado
+      <span style="font-family:'JetBrains Mono';font-size:0.7rem;opacity:0.6">#F5B700</span>
+    </button>
+  </div>
+
+  <h2 style="font-size:1.1rem;margin-bottom:16px;opacity:0.8">3 curvaturas ascendentes</h2>
+  <div class="grid">
+    
+    <div class="card">
+      <p class="curva-name">A · Swoosh ascendente</p>
+      <p class="curva-desc">Sale desde abajo del palo izquierdo y sube con una curva continua (como un trazo de mejora que acelera). Sin interrupciones, elegante.</p>
+      <div class="wordmark-demo">
+        <span class="wm">Tune</span>
+        <span class="wm letra">
+<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <path d="M4 3 V21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M20 3 V21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M5.5 18 C10 17, 14 10, 18.5 6" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+</svg></span>
+        <span class="wm">op</span>
+      </div>
+      <div class="fav-row">
+        <span class="fav-label">Favicon 16px:</span>
+        <span class="favicon">
+<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <path d="M4 3 V21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M20 3 V21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M5.5 18 C10 17, 14 10, 18.5 6" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+</svg></span>
+      </div>
+    </div>
+    <div class="card">
+      <p class="curva-name">B · Gancho de despegue</p>
+      <p class="curva-desc">Sale horizontal y de pronto despega con curva hacia arriba: el 'hop' real — primero avanza, luego salta.</p>
+      <div class="wordmark-demo">
+        <span class="wm">Tune</span>
+        <span class="wm letra">
+<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <path d="M4 3 V21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M20 3 V21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M6 15 H12 C14 15, 16 13, 18 7" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+</svg></span>
+        <span class="wm">op</span>
+      </div>
+      <div class="fav-row">
+        <span class="fav-label">Favicon 16px:</span>
+        <span class="favicon">
+<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <path d="M4 3 V21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M20 3 V21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M6 15 H12 C14 15, 16 13, 18 7" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+</svg></span>
+      </div>
+    </div>
+    <div class="card">
+      <p class="curva-name">C · Curva con flecha final</p>
+      <p class="curva-desc">La curva ascendente remata con una pequeña punta de flecha: la mejora explícita, manteniendo la curva.</p>
+      <div class="wordmark-demo">
+        <span class="wm">Tune</span>
+        <span class="wm letra">
+<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <path d="M4 3 V21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M20 3 V21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M5.5 18 C10 16, 14 10, 17 6.5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M17 6.5 L13.5 6.2 M17 6.5 L16.8 10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+</svg></span>
+        <span class="wm">op</span>
+      </div>
+      <div class="fav-row">
+        <span class="fav-label">Favicon 16px:</span>
+        <span class="favicon">
+<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <path d="M4 3 V21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M20 3 V21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M5.5 18 C10 16, 14 10, 17 6.5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M17 6.5 L13.5 6.2 M17 6.5 L16.8 10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+</svg></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="nota">
+    <strong>Elige:</strong> la curvatura que más te convenza (A-C). Mi recomendación: <strong>A (swoosh)</strong> — es la única que en 16px se lee inequívocamente como "curva de mejora"; el gancho (B) puede parecer una "z", y la flecha (C) se pierde a ese tamaño.
+    <br><br>Cuando confirmes (ej. "A, lima"), implemento <code>Logo.tsx</code>, <code>icon.svg</code>, favicon, <code>globals.css</code>, <code>brand-book.html</code> y el manual de marca.
+  </div>
+</main>
+
+<script>
+  var ACENTOS = {
+    "ambar":  { hex: "#FFC300", hover: "#E0A800" },
+    "coral":  { hex: "#FF6B4A", hover: "#E85433" },
+    "lima":   { hex: "#C1E32B", hover: "#A8C71F" },
+    "dorado": { hex: "#F5B700", hover: "#D89F00" },
+  };
+  function setColor(id) {
+    var a = ACENTOS[id];
+    document.querySelectorAll('.color-btn').forEach(function(b) {
+      var active = b.dataset.color === id;
+      b.classList.toggle('active', active);
+      b.setAttribute('aria-checked', active ? 'true' : 'false');
+    });
+    document.documentElement.style.setProperty('--accent', a.hex);
+    document.getElementById('reglaColor').style.background = a.hex;
+  }
+  setColor('lima');
+</script>
+</body>
+</html>

@@ -16,18 +16,13 @@ interface LogoProps extends SVGProps<SVGSVGElement> {
 }
 
 const GLIFO_PATH = (
-  <path
-    d="M12 24 C12 24 16 20 16 16 C16 12 12 8 8 8 C4 8 2 12 2 16 C2 20 6 24 12 24 Z"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  />
-);
-
-const GLIFO_DOT = (
-  <circle cx="12" cy="8" r="2.5" fill="currentColor" />
+  <>
+    {/* Palos de la H */}
+    <path d="M4 3 V21" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+    <path d="M20 3 V21" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+    {/* Barra de la H saliendo volando por encima */}
+    <path d="M4 12 Q12 2 20 12" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+  </>
 );
 
 export default function Logo({
@@ -61,7 +56,6 @@ export default function Logo({
         {...props}
       >
         {GLIFO_PATH}
-        {GLIFO_DOT}
       </svg>
     );
   }
@@ -80,7 +74,6 @@ export default function Logo({
         className={`${colorClass} animate-hop`}
       >
         {GLIFO_PATH}
-        {GLIFO_DOT}
       </svg>
     </span>
   );

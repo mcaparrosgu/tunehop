@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TuneHop — Explorador de logo v3 (tipográfico)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --bg: #FAFAFA; --fg: #0A0A0A; --border: #E5E5E5; --accent: #FFC300; }
+  body { font-family: 'Space Grotesk', sans-serif; background: var(--bg); color: var(--fg); line-height: 1.6; }
+  header { padding: 24px 32px; border-bottom: 1px solid var(--border); }
+  header h1 { font-size: 1.3rem; font-weight: 700; }
+  header p { opacity: 0.6; font-size: 0.9rem; max-width: 780px; }
+  .regla { margin-top: 8px; display: inline-block; background: var(--accent); color: #0A0A0A; border-radius: 4px; padding: 4px 12px; font-size: 0.8rem; font-weight: 700; }
+  main { max-width: 1200px; margin: 0 auto; padding: 32px 24px 80px; }
+  .colores { display: flex; gap: 10px; margin-bottom: 28px; flex-wrap: wrap; }
+  .color-btn { border: 2px solid var(--border); background: var(--bg); border-radius: 9999px; padding: 10px 20px; font-family: 'Space Grotesk'; font-size: 0.9rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 150ms; }
+  .color-btn .dot { width: 16px; height: 16px; border-radius: 50%; }
+  .color-btn.active { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,0,0,0.06); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 20px; }
+  .card { border: 1px solid var(--border); border-radius: 16px; padding: 22px; display: flex; flex-direction: column; gap: 14px; transition: transform 150ms, box-shadow 150ms; background: var(--bg); }
+  .card.dark { background: #0A0A0A; border-color: #2A2A2A; }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+  .concepto { font-weight: 700; font-size: 1rem; }
+  .nota-letra { font-size: 0.8rem; opacity: 0.65; }
+  .wordmark-demo { display: flex; align-items: center; justify-content: center; gap: 2px; border-radius: 12px; padding: 20px 16px; min-height: 84px; }
+  .wordmark-demo.claro { background: #FAFAFA; border: 1px solid #E5E5E5; }
+  .wordmark-demo.oscuro { background: #0A0A0A; }
+  .wm { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 2.4rem; letter-spacing: 0.01em; line-height: 1; }
+  .wm.neutro { color: #0A0A0A; }
+  .wm.neutro-inv { color: #FAFAFA; }
+  .wm.letra { display: inline-flex; }
+  .wm.letra svg { width: 40px; height: 40px; color: var(--accent); margin: 0 2px; }
+  .favicon-row { display: flex; align-items: center; gap: 10px; justify-content: center; }
+  .fav-label { font-size: 0.72rem; opacity: 0.55; }
+  .favicon-dark { width: 28px; height: 28px; display: inline-flex; }
+  .favicon-dark svg { width: 28px; height: 28px; }
+  .detalle { font-size: 0.72rem; opacity: 0.55; text-align: center; }
+  .nota { margin-top: 40px; padding: 18px 22px; border-left: 4px solid var(--accent); background: rgba(0,0,0,0.02); border-radius: 0 12px 12px 0; font-size: 0.9rem; }
+  .nota code { font-family: 'JetBrains Mono'; font-size: 0.85em; }
+  @media (max-width: 640px) { main { padding: 20px 16px 60px; } .wm { font-size: 1.8rem; } .wm.letra svg { width: 30px; height: 30px; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>TuneHop — Explorador de logo v3 (tipográfico, bicolor)</h1>
+  <p>Nuevo enfoque: <strong>sin símbolo separado</strong>. El logo es la palabra con una LETRA VIVA — el salto integrado en la tipografía que ya te gusta. Favicon = esa letra sola a 16px.</p>
+  <span class="regla">Elige color arriba → todas las tarjetas cambian el acento</span>
+</header>
+<main>
+  <div class="colores" id="colorPicker" role="radiogroup" aria-label="Elegir color de acento">
+    
+    <button class="color-btn" data-color="ambar" onclick="setColor('ambar')" role="radio" aria-checked="false">
+      <span class="dot" style="background:#FFC300"></span>
+      Ámbar (tu actual)
+      <span style="font-family:'JetBrains Mono';font-size:0.7rem;opacity:0.6">#FFC300</span>
+    </button>
+    <button class="color-btn" data-color="coral" onclick="setColor('coral')" role="radio" aria-checked="false">
+      <span class="dot" style="background:#FF6B4A"></span>
+      Coral
+      <span style="font-family:'JetBrains Mono';font-size:0.7rem;opacity:0.6">#FF6B4A</span>
+    </button>
+    <button class="color-btn" data-color="lima" onclick="setColor('lima')" role="radio" aria-checked="false">
+      <span class="dot" style="background:#C1E32B"></span>
+      Lima
+      <span style="font-family:'JetBrains Mono';font-size:0.7rem;opacity:0.6">#C1E32B</span>
+    </button>
+    <button class="color-btn" data-color="dorado" onclick="setColor('dorado')" role="radio" aria-checked="false">
+      <span class="dot" style="background:#F5B700"></span>
+      Dorado topacio
+      <span style="font-family:'JetBrains Mono';font-size:0.7rem;opacity:0.6">#F5B700</span>
+    </button>
+  </div>
+
+  <h2 style="font-size:1.1rem;margin-bottom:16px;opacity:0.8">3 letras vivas × bicolor (claro y oscuro) × tu color</h2>
+  <div class="grid">
+    
+    <div class="card">
+      <div class="concepto">Variante “H”</div>
+      <p class="nota-letra">La barra de la H sale volando por encima — el salto está en el corazón del nombre.</p>
+      <div class="wordmark-demo claro">
+        <span class="wm neutro">Tune</span>
+        <span class="wm letra">
+<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <path d="M4 3 V21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M20 3 V21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M4 12 Q12 2 20 12" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+</svg></span>
+        <span class="wm neutro">Hop</span>
+      </div>
+      <div class="favicon-row">
+        <span class="fav-label">Favicon 16px:</span>
+        <span class="favicon-dark" style="color:#FFC300">
+<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <path d="M4 3 V21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M20 3 V21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M4 12 Q12 2 20 12" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+</svg></span>
+      </div>
+      <p class="detalle">Claro: Tune<b>H</b>op · bicolor (negro + acento)</p>
+    </div>
+    <div class="card dark">
+      <div class="concepto" style="color:#FAFAFA">Variante “H” (oscuro)</div>
+      <p class="nota-letra" style="color:rgba(250,250,250,0.6)">La barra de la H sale volando por encima — el salto está en el corazón del nombre.</p>
+      <div class="wordmark-demo oscuro">
+        <span class="wm neutro-inv">Tune</span>
+        <span class="wm letra">
+<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <path d="M4 3 V21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M20 3 V21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M4 12 Q12 2 20 12" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+</svg></span>
+        <span class="wm neutro-inv">Hop</span>
+      </div>
+      <div class="favicon-row">
+        <span class="fav-label" style="color:rgba(250,250,250,0.6)">Favicon 16px:</span>
+        <span class="favicon-dark" style="color:#FFC300">
+<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <path d="M4 3 V21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M20 3 V21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M4 12 Q12 2 20 12" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+</svg></span>
+      </div>
+      <p class="detalle" style="color:rgba(250,250,250,0.5)">Oscuro: blanco + acento</p>
+    </div>
+    <div class="card">
+      <div class="concepto">Variante “p”</div>
+      <p class="nota-letra">La cola de la p de 'hop' se eleva y deja una estela con flecha — la p salta literalmente.</p>
+      <div class="wordmark-demo claro">
+        <span class="wm neutro">Tune</span>
+        <span class="wm letra">
+<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <circle cx="8" cy="15" r="5.5" stroke="currentColor" stroke-width="3"/>
+  <path d="M13.5 20 V5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M13.5 5 C17 2.5 19.5 4 21 8.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="3 3"/>
+  <path d="M21 8.5 L17.5 7 M21 8.5 L18.5 10.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+</svg></span>
+        <span class="wm neutro">Hop</span>
+      </div>
+      <div class="favicon-row">
+        <span class="fav-label">Favicon 16px:</span>
+        <span class="favicon-dark" style="color:#FFC300">
+<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <circle cx="8" cy="15" r="5.5" stroke="currentColor" stroke-width="3"/>
+  <path d="M13.5 20 V5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M13.5 5 C17 2.5 19.5 4 21 8.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+</svg></span>
+      </div>
+      <p class="detalle">Claro: Tune<b>H</b>op · bicolor (negro + acento)</p>
+    </div>
+    <div class="card dark">
+      <div class="concepto" style="color:#FAFAFA">Variante “p” (oscuro)</div>
+      <p class="nota-letra" style="color:rgba(250,250,250,0.6)">La cola de la p de 'hop' se eleva y deja una estela con flecha — la p salta literalmente.</p>
+      <div class="wordmark-demo oscuro">
+        <span class="wm neutro-inv">Tune</span>
+        <span class="wm letra">
+<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <circle cx="8" cy="15" r="5.5" stroke="currentColor" stroke-width="3"/>
+  <path d="M13.5 20 V5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M13.5 5 C17 2.5 19.5 4 21 8.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="3 3"/>
+  <path d="M21 8.5 L17.5 7 M21 8.5 L18.5 10.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+</svg></span>
+        <span class="wm neutro-inv">Hop</span>
+      </div>
+      <div class="favicon-row">
+        <span class="fav-label" style="color:rgba(250,250,250,0.6)">Favicon 16px:</span>
+        <span class="favicon-dark" style="color:#FFC300">
+<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <circle cx="8" cy="15" r="5.5" stroke="currentColor" stroke-width="3"/>
+  <path d="M13.5 20 V5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M13.5 5 C17 2.5 19.5 4 21 8.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+</svg></span>
+      </div>
+      <p class="detalle" style="color:rgba(250,250,250,0.5)">Oscuro: blanco + acento</p>
+    </div>
+    <div class="card">
+      <div class="concepto">Variante “T”</div>
+      <p class="nota-letra">La barra de la T despega en diagonal — la inicial de TuneHop arranca hacia arriba.</p>
+      <div class="wordmark-demo claro">
+        <span class="wm neutro">Tune</span>
+        <span class="wm letra">
+<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <path d="M3 7 H9 M9 7 L17 3.5 H21" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M12 6 V21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+</svg></span>
+        <span class="wm neutro">Hop</span>
+      </div>
+      <div class="favicon-row">
+        <span class="fav-label">Favicon 16px:</span>
+        <span class="favicon-dark" style="color:#FFC300">
+<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <path d="M3 7 H9 M9 7 L17 3.5 H21" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M12 6 V21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+</svg></span>
+      </div>
+      <p class="detalle">Claro: Tune<b>H</b>op · bicolor (negro + acento)</p>
+    </div>
+    <div class="card dark">
+      <div class="concepto" style="color:#FAFAFA">Variante “T” (oscuro)</div>
+      <p class="nota-letra" style="color:rgba(250,250,250,0.6)">La barra de la T despega en diagonal — la inicial de TuneHop arranca hacia arriba.</p>
+      <div class="wordmark-demo oscuro">
+        <span class="wm neutro-inv">Tune</span>
+        <span class="wm letra">
+<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <path d="M3 7 H9 M9 7 L17 3.5 H21" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M12 6 V21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+</svg></span>
+        <span class="wm neutro-inv">Hop</span>
+      </div>
+      <div class="favicon-row">
+        <span class="fav-label" style="color:rgba(250,250,250,0.6)">Favicon 16px:</span>
+        <span class="favicon-dark" style="color:#FFC300">
+<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <path d="M3 7 H9 M9 7 L17 3.5 H21" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M12 6 V21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+</svg></span>
+      </div>
+      <p class="detalle" style="color:rgba(250,250,250,0.5)">Oscuro: blanco + acento</p>
+    </div>
+  </div>
+
+  <div class="nota">
+    <strong>Preguntas para elegir:</strong> 1. ¿La letra viva se siente un salto sin necesitar explicación? 2. ¿Te la crees como favicon a 16px?
+    3. ¿El bicolor (base + acento) es el sistema? 4. ¿Qué color te hace decir "ese es TuneHop"?
+    <br><br>Cuando elijas (ej. "Letra p, color coral"), implemento <code>Logo.tsx</code>, <code>icon.svg</code>, <code>globals.css</code> y brand book.
+  </div>
+</main>
+
+<script>
+  var ACENTOS = {
+    "ambar":  { hex: "#FFC300", hover: "#E0A800" },
+    "coral":  { hex: "#FF6B4A", hover: "#E85433" },
+    "lima":   { hex: "#C1E32B", hover: "#A8C71F" },
+    "dorado": { hex: "#F5B700", hover: "#D89F00" },
+  };
+  function setColor(id) {
+    var a = ACENTOS[id];
+    document.querySelectorAll('.color-btn').forEach(function(b) {
+      var active = b.dataset.color === id;
+      b.classList.toggle('active', active);
+      b.setAttribute('aria-checked', active ? 'true' : 'false');
+    });
+    document.documentElement.style.setProperty('--accent', a.hex);
+    document.getElementById('regla-color').style.background = a.hex;
+  }
+  setColor('ambar');
+</script>
+</body>
+</html>

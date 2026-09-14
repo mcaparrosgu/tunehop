@@ -13,8 +13,8 @@
   --color-fg-inverse: #FAFAFA;
 
   /* Acento único: Teal eléctrico — SOLO para CTA primario (texto negro), focus ring, glifo, éxito */
-  --color-accent: #00E5A0;
-  --color-accent-hover: #00B886;
+  --color-accent: #C1E32B;
+  --color-accent-hover: #A8C71F;
   --color-accent-foreground: #0A0A0A; /* texto sobre acento: NEGRO */
 
   /* Funcionales */
@@ -28,7 +28,7 @@
   --color-border-inverse: #2A2A2A;
 
   /* Focus visible (accesibilidad) */
-  --color-focus: #00E5A0;
+  --color-focus: #C1E32B;
 
   /* ---- Tipografía ---- */
   --font-primary: var(--font-space-grotesk);
