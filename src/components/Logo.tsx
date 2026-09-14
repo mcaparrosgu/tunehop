@@ -65,13 +65,14 @@ export default function Logo({
       <span className="text-display font-bold tracking-[0.02em]" aria-hidden="true">
         TuneHop
       </span>
+      {/* La H salta en acento; el texto del wordmark usa el color de la página */}
       <svg
         width="28"
         height="28"
         viewBox="0 0 24 24"
         fill="none"
         aria-hidden={ariaHidden}
-        className={`${colorClass} animate-hop`}
+        className={`text-[var(--color-accent)] animate-hop`}
       >
         {GLIFO_PATH}
       </svg>
