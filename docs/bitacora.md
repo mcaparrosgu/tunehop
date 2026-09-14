@@ -351,3 +351,18 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **QUÉ SE ROMPIÓ** — Nada técnico. La búsqueda de marcas se hizo con herramientas públicas gratuitas (no bases de datos profesionales de similitud fonética/visual); por eso el documento marca explícitamente "pendiente de verificación profesional" en cada punto crítico.
 
 - **QUÉ QUEDA PENDIENTE DE ENTENDER** — La fundadora marcó las 4 áreas: (1) Claims regulados (publicidad comparativa, superlativos, RGPD) — por qué "3-7x más" y "mejor" requieren prueba legal, no solo técnica. (2) Registrabilidad nombre/logo (clases Niza, distintividad, búsqueda preliminar) — qué significa "sugerente vs descriptivo", qué cubren las clases. (3) Dominios/handles — por qué comprar ya si no hay campaña activa (riesgo squatter, coste bajo, opción real). (4) Recomendación abogado — diferencia entre obligatorio (riesgo legal/fincanciero alto), recomendado (riesgo reputacional/operativo), y seguro asumir (búsqueda básica sin hallazgos). Se explican en la siguiente sesión antes de Paso 9.
+
+
+---
+
+## 2026-09-11 · Marketing Paso 9 — Manual de marca (brand book)
+
+- **QUÉ SE DECIDIÓ** — Manual completo en docs/marketing/08-manual-marca.md (commit 033e9cc). Consolida: resumen ejecutivo (posicionamiento + personalidad + tagline), identidad verbal resumida (tono 4 ejes, mensajes 3 niveles, tagline, vocabulario prohibido), identidad visual resumida (logo concept "salto preciso", paleta exacta, tipografía Space Grotesk/JetBrains Mono, sistema gráfico, apps clave), estado legal (tabla con 5 activos y acción requerida), usos correctos/incorrectos (logo, color, tipografía, voz con ejemplos), checklist de coherencia (visual, verbal, legal, calidad), tokens JSON fuente única. Cierra Fase A (Cimientos de marca). Publicado como Artifact navegable (markdown estructurado).
+
+- **ALTERNATIVAS DESCARTADAS** — (1) Manual solo visual (sin verbal/legal): descartado por Fase A = cimientos completos. (2) Manual en PDF estático: descartado por markdown navegable + tokens JSON = usable por dev y diseñador. (3) Incluir piezas de campaña (Pasos 10+): descartado por Fase B separada. (4) No poner estado legal: descartado por transparencia — el manual dice qué está pendiente de abogado.
+
+- **POR QUÉ ESTA** — El brand book es el entregable que convierte estrategia en activo usable. Sin él, cada pieza nueva (landing, email, red social, soporte) reinventa la marca. Con él, cualquiera (tú mañana, un freelance, un comprador) aplica la marca coherente en 5 minutos. El checklist de coherencia es la herramienta operativa diaria.
+
+- **QUÉ SE ROMPIÓ** — Nada. El manual refleja lo ya implementado en código (tokens CSS, Logo, Button, Home) y lo decidido en Pasos 1-8. La coherencia entre docs y código está verificada.
+
+- **QUÉ QUEDA PENDIENTE DE ENTENDER** — La fundadora marcó las 4 áreas: (1) Brand book / manual de marca — para qué sirve y por qué cierra Fase A (activo tangible vs docs sueltos). (2) Usos correctos/incorrectos — por qué son reglas duras (coherencia = confianza) y no sugerencias estéticas. (3) Checklist de coherencia — cómo se usa en práctica (revisa antes de publicar, no después). (4) Estado legal en el manual — por qué va ahí si está pendiente de abogado (transparencia: el equipo sabe qué NO lanzar hasta que el abogado dé ok). Se explican al iniciar Fase B.

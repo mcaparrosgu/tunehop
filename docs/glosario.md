@@ -20,6 +20,10 @@ La estructura que organiza cómo se relacionan la marca principal con sus produc
 Procesar elementos en grupos pequeños en vez de todos a la vez. Es como ir al supermercado: llevas 20 cosas en vez de 200 de golpe.
 **Ejemplo real**: Migrar 50 playlists por tanda para no saturar las APIs de Spotify y Deezer.
 
+### Brand book (Manual de marca)
+Documento único que consolida toda la identidad de una marca (verbal, visual, legal, usos) para que cualquiera la aplique coherente sin reinventarla. Es como la partitura de una orquesta: cada músico lee lo mismo y suena junto.
+**Ejemplo real**: docs/marketing/08-manual-marca.md de TuneHop — resume posicionamiento, tono, mensajes, logo, color, tipografía, estado legal, usos correctos/incorrectos, checklist y tokens JSON.
+
 ### Briefing
 Documento breve con el encargo y el contexto de negocio antes de crear nada. Es como la nota que deja el chef al equipo de cocina antes del servicio: qué plato, para quién, con qué recursos.
 **Ejemplo real**: docs/marketing/00-briefing.md — qué es TuneHop, quién está detrás, con qué presupuesto y qué significa éxito.
@@ -27,6 +31,10 @@ Documento breve con el encargo y el contexto de negocio antes de crear nada. Es 
 ### Casa de marcas
 Modelo donde cada producto tiene su propia marca independiente, sin vínculo visible con la empresa madre (ej. Procter & Gamble: Ariel, Pampers, Gillette no llevan el nombre "P&G" en el envase). Es como una familia donde cada hijo tiene un apellido distinto y nadie sabe que son hermanos.
 **Ejemplo real**: No aplica a TuneHop; sería el caso si la fundadora vendiera la app a un tercero y este la operara bajo otro nombre.
+
+### Checklist de coherencia
+Lista de verificación rápida (sí/no) para revisar cualquier pieza de comunicación antes de publicarla. Es como la lista de pre-vuelo de un piloto: no confías en la memoria, marcas cada punto.
+**Ejemplo real**: El manual de TuneHop incluye checklist de 4 bloques (visual, verbal, legal/técnico, calidad) — se usa antes de lanzar un post, un email, una landing, un ticket de soporte.
 
 ### Claim regulado
 Afirmación publicitaria que la ley somete a requisitos especiales de prueba, veracidad o formulación (publicidad comparativa, superlativos, salud, finanzas, sostenibilidad, privacidad). Es como un medicamento: no basta con que funcione, hay que demostrarlo con el protocolo que exige la autoridad.
@@ -87,6 +95,10 @@ Evaluación de impacto en la protección de datos: análisis obligatorio bajo RG
 ### Fallback
 Plan B automático cuando la vía principal falla. Es como llevar llave de repuesto: si la principal no abre, usas la otra sin parar el viaje.
 **Ejemplo real**: Si no se encuentra la canción por ISRC, TuneHop hace fallback buscando por nombre + artista en varios países (US, ES, GB, MX, DE).
+
+### Fase A (Cimientos de marca)
+Primera fase del método de marketing (22 pasos): Pasos 1-9 (Briefing → Auditoría → Investigación → Arquitectura → Estrategia → Identidad verbal → Identidad visual → Protección legal → Manual de marca). Define QUIÉN es la marca ANTES de decidir QUÉ decir y DÓNDE.
+**Ejemplo real**: TuneHop completó la Fase A el 2026-09-11; el brand book (Paso 9) la cierra. Fase B (La idea y su validación) empieza con Paso 10.
 
 ### GDPR / RGPD
 Reglamento General de Protección de Datos (UE 2016/679). Marco legal que regula cómo se tratan los datos personales en la UE.
@@ -235,6 +247,9 @@ Plataforma de streaming musical con audio HiFi/HiRes y mejor pago por stream (~$
 Credencial temporal (access token) que autoriza a la app a actuar en nombre del usuario. Tiene expiración (ej. 1h) y se renueva con refresh token. Es como el pase de backstage: caduca al acabar el concierto.
 **Ejemplo real**: TuneHop guarda tokens solo en memoria de sesión (server-side), nunca en BD ni localStorage; se borran al cerrar la pestaña.
 
+### Token de diseño
+Ver Design tokens.
+
 ### Tono de voz
 La forma consistente en que una marca "habla" en todos sus puntos de contacto. Se define en ejes (cercano/formal, serio/lúdico, experto/accesible, neutro/apasionado) con posición y ejemplos. Es como la personalidad de alguien: no es lo que dice, es cómo lo dice.
 **Ejemplo real**: TuneHop = cercano sin confianzudo, serio en la promesa/ligero en la forma, experto invisible, convencida no evangelizadora.
@@ -242,6 +257,10 @@ La forma consistente en que una marca "habla" en todos sus puntos de contacto. S
 ### Turbopack
 Bundler de nueva generación (Rust) incluido en Next.js 15+. Más rápido que Webpack en dev (HMR instantáneo) y compila solo lo que cambia.
 **Ejemplo real**: TuneHop usa Turbopack vía `next dev --turbopack` (Next.js 16); los builds en Vercel también lo usan.
+
+### Usos correctos / incorrectos
+Tabla de ejemplos pares (✅ sí / ❌ no) que muestra la aplicación práctica de las reglas de marca. No son opiniones: son la traducción operativa de la estrategia. Es como el código de vestimenta de un restaurante: "chaqueta sí / chanclas no" — no hay debate.
+**Ejemplo real**: En el manual de TuneHop, logo (espacio de respeto, variante correcta), color (Teal solo CTA primario con texto negro), tipografía (Space Grotesk UI, JetBrains Mono solo código), voz (cercano sin confianzudo, cero palabras prohibidas).
 
 ### Variable font
 Un solo archivo de fuente que contiene múltiples pesos, anchos, estilos (ej. wght 300-700) en lugar de un archivo por cada peso. Es como una navaja suiza tipográfica: menos peticiones HTTP, más control, mismo diseño.
