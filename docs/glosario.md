@@ -28,6 +28,14 @@ Documento breve con el encargo y el contexto de negocio antes de crear nada. Es 
 Modelo donde cada producto tiene su propia marca independiente, sin vínculo visible con la empresa madre (ej. Procter & Gamble: Ariel, Pampers, Gillette no llevan el nombre "P&G" en el envase). Es como una familia donde cada hijo tiene un apellido distinto y nadie sabe que son hermanos.
 **Ejemplo real**: No aplica a TuneHop; sería el caso si la fundadora vendiera la app a un tercero y este la operara bajo otro nombre.
 
+### Claim regulado
+Afirmación publicitaria que la ley somete a requisitos especiales de prueba, veracidad o formulación (publicidad comparativa, superlativos, salud, finanzas, sostenibilidad, privacidad). Es como un medicamento: no basta con que funcione, hay que demostrarlo con el protocolo que exige la autoridad.
+**Ejemplo real**: "TIDAL paga ~3-7x más por stream que Spotify" es claim comparativo cuantitativo (Ley 3/1991 Art. 10); "la plataforma que paga mejor" es superlativo absoluto (Autocontrol); "privacidad radical / borrado real" es claim de RGPD (Arts. 5, 17, 25).
+
+### Clases de Niza
+Sistema internacional (Arreglo de Niza) que agrupa productos y servicios en 45 clases para el registro de marcas. Es como los pasillos de un supermercado: cada marca se registra en el pasillo (clase) donde vende.
+**Ejemplo real**: TuneHop debería registrar en Clase 9 (software/apps), 38 (streaming/telecom), 41 (entretenimiento/música), 42 (SaaS/desarrollo).
+
 ### Consent screen / Pantalla de autorización
 Pantalla oficial de Spotify/Deezer donde el usuario ve qué permisos pide tu app y decide si acepta o no.
 **Ejemplo real**: Cuando pulsa "Conectar con Spotify" y aparece la pantalla de Spotify que dice "TuneHop quiere acceder a tus playlists".
@@ -67,6 +75,10 @@ Derecho del interesado a obtener la supresión de sus datos personales sin dilac
 ### Design tokens
 Valores de diseño (color, tipografía, espaciado, radio, motion) codificados como pares nombre-valor, independientes de plataforma. Es como la receta de un plato: da igual la cocina (web, iOS, Android), los ingredientes y proporciones son los mismos.
 **Ejemplo real**: TuneHop define `--color-accent: #00E5A0`, `--font-primary: Space Grotesk`, `--spacing-base: 4px` en un JSON que la skill `frontend` consume para generar CSS, Tailwind config, y componentes React coherentes.
+
+### Distintividad (marca)
+Capacidad de una marca para identificar el origen empresarial de un producto/servicio y distinguirlo de los demás. Escala: genérica (no registrable) → descriptiva (difícil) → sugerente (registrable) → arbitraria/fantástica (fuerte).
+**Ejemplo real**: "TuneHop" es sugerente (evoca música + salto, no describe la función literal) → registrable si no hay colisión. "Playlist Migrator" sería descriptiva → difícil de registrar.
 
 ### DPIA (Data Protection Impact Assessment)
 Evaluación de impacto en la protección de datos: análisis obligatorio bajo RGPD cuando el tratamiento puede entrañar alto riesgo para derechos y libertades.
@@ -111,6 +123,10 @@ Archivo de Next.js App Router que define la estructura HTML común a toda la app
 ### Liked Songs / Canciones guardadas
 Biblioteca personal de tracks guardados por el usuario en Spotify (corazón). No es una playlist, pero se comporta como una en la API.
 **Ejemplo real**: TuneHop no migra "Liked Songs" en el MVP (solo playlists creadas por el usuario); está documentado como fuera de alcance en docs/02-mvp.md.
+
+### Likelihood of confusion (riesgo de confusión)
+Estándar legal para denegar una marca: si el consumidor medio puede creer que dos marcas vienen de la misma empresa (por similitud visual, fonética, conceptual + proximidad de productos/servicios). Es como dos gemelos vestidos igual en la misma fiesta: la gente confunde quién es quién.
+**Ejemplo real**: "TuneHop" vs "SongShift" — fonética distinta, conceptual distinta (hop vs shift), misma clase → riesgo bajo. Pero lo decide un abogado con búsqueda de similitud profesional.
 
 ### Mapa de competencia
 Tabla o representación visual de quiénes compiten en tu categoría, qué venden, con qué tono y a qué precio. Es como el plano de un centro comercial: ves qué tienda hay en cada esquina y dónde queda el hueco vacío.
@@ -198,6 +214,10 @@ Metodología: escribir la especificación funcional (qué hace el producto) ANTE
 ### Squatter (okupa de dominios)
 Persona que registra dominios con nombres de marca ajenos para revenderlos caro. Es como quien aparta un número de matrícula bonito para cobrarlo a futuro.
 **Ejemplo real**: tunehop.com está libre hoy; si no se compra pronto, un squatter podría registrarlo y pedir cientos de euros por un dominio que cuesta ~10-15 €/año.
+
+### Superlativo publicitario
+Claim que sitúa al producto en el grado máximo de una cualidad ("el mejor", "el único", "la número 1", "la más rápida"). La ley exige prueba incontrovertible; si no la hay, es publicidad engañosa.
+**Ejemplo real**: "La plataforma que paga mejor a los artistas" (tagline TuneHop) es superlativo → requiere prueba de que NINGUNA otra plataforma paga más (Qobuz, Apple Music también pagan bien).
 
 ### Switcher Ética
 Perfil de usuario que quiere cambiar de plataforma por valores (pago a artistas, ética corporativa) pero no está dispuesto a pagar el coste de fricción (tiempo, esfuerzo, dinero). Es como quien quiere ir al supermercado ecológico pero no tiene coche: la intención es real, el obstáculo es el acceso.

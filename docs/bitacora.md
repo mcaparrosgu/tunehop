@@ -336,3 +336,18 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **QUÉ SE ROMPIÓ** — Nada técnico. La web actual (tunehop.vercel.app) usa plantilla Next.js (Geist, favicon default, sin logo). Este documento es la spec para rehacerla; el deploy real vendrá en la fase de producción de piezas (Paso 16).
 
 - **QUÉ QUEDA PENDIENTE DE ENTENDER** — La fundadora no marcó "no entendí" explícito (respuesta question tool deduplicada). Pendiente de aclarar cuando se implemente: concepto de logo (glifo desde la h), por qué paleta mínima y teal no para texto, tipografía variable font, sistema gráfico monolineal/foto documental/motion, y qué son design tokens para frontend.
+
+
+---
+
+## 2026-09-11 · Marketing Paso 8 — Protección legal
+
+- **QUÉ SE DECIDIÓ** — Documento docs/marketing/07-proteccion-legal.md (commit f3fdc34). Análisis sombrero negro: registrabilidad "TuneHop" (búsquedas preliminares EUIPO/OEPM/USPTO/web/stores: sin colisiones idénticas; distintividad media-alta; clases 9,35,38,41,42). Logo: wordmark + glifo "salto preciso" registrables (denominativa + figurativa + mixta). Claims regulados identificados: 6 claims de riesgo (pago artistas comparativo, superlativo "mejor", privacidad radical/borrado real, "sin email/tarjeta/suscripción/cuenta", "código abierto", rendimiento "en minutos/3 clics") + claims seguros. Dominios/handles: tunehop.com/.app/.es libres (comprar ya); @tunehop en redes por verificar y reservar. Recomendación en 3 niveles: obligatorio abogado (informe viabilidad, registro, revisión claims, cesión derechos logo), recomendado antes de escalar (dominios, handles, política privacidad/Términos, auditoría borrado real, repo público), seguro asumir (sin colisiones idénticas visibles, glifo sin choque visual, claims funcionales verificables, arquitectura única simplifica).
+
+- **ALTERNATIVAS DESCARTADAS** — (1) No hacer búsqueda preliminar: descartado por regla del Paso 8 (primera pasada obligatoria). (2) Registrar solo denominativa: descartado por recomendar wordmark + mixta (glifo refuerza). (3) Ignorar claims de pago a artistas: descartado por ser el claim central de la UVP y estar regulado (publicidad comparativa Art. 10 LCD). (4) Dejar dominios para después: descartado por riesgo squatter alto (nombre corto, compuesto, app pública).
+
+- **POR QUÉ ESTA** — El Paso 8 es el filtro antes del brand book (Paso 9). Si hay colisión de marca o claim ilegal, el brand book se construye sobre arena. La primera pasada analítica (no abogado) señala riesgos reales y accionables, y separa lo que requiere profesional de lo que se puede avanzar.
+
+- **QUÉ SE ROMPIÓ** — Nada técnico. La búsqueda de marcas se hizo con herramientas públicas gratuitas (no bases de datos profesionales de similitud fonética/visual); por eso el documento marca explícitamente "pendiente de verificación profesional" en cada punto crítico.
+
+- **QUÉ QUEDA PENDIENTE DE ENTENDER** — La fundadora marcó las 4 áreas: (1) Claims regulados (publicidad comparativa, superlativos, RGPD) — por qué "3-7x más" y "mejor" requieren prueba legal, no solo técnica. (2) Registrabilidad nombre/logo (clases Niza, distintividad, búsqueda preliminar) — qué significa "sugerente vs descriptivo", qué cubren las clases. (3) Dominios/handles — por qué comprar ya si no hay campaña activa (riesgo squatter, coste bajo, opción real). (4) Recomendación abogado — diferencia entre obligatorio (riesgo legal/fincanciero alto), recomendado (riesgo reputacional/operativo), y seguro asumir (búsqueda básica sin hallazgos). Se explican en la siguiente sesión antes de Paso 9.
