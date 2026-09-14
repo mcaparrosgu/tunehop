@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TuneHop — Brand Book</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+/* ─── RESET & BASE ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #FAFAFA; --bg-inv: #0A0A0A;
+  --fg: #0A0A0A; --fg-inv: #FAFAFA;
+  --accent: #00E5A0; --accent-h: #00B886; --accent-fg: #0A0A0A;
+  --error: #FF453A; --error-fg: #FAFAFA;
+  --warning: #FFCC00; --warning-fg: #0A0A0A;
+  --border: #E5E5E5; --border-inv: #2A2A2A;
+  --focus: #00E5A0;
+  --font-pri: 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-6: 24px; --space-8: 32px; --space-12: 48px;
+  --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px;
+  --motion-fast: 150ms; --motion-base: 200ms;
+  --easing: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #0A0A0A; --bg-inv: #FAFAFA; --fg: #FAFAFA; --fg-inv: #0A0A0A; --border: #2A2A2A; --border-inv: #E5E5E5; }
+}
+[data-theme="dark"] { --bg: #0A0A0A; --bg-inv: #FAFAFA; --fg: #FAFAFA; --fg-inv: #0A0A0A; --border: #2A2A2A; --border-inv: #E5E5E5; }
+[data-theme="light"] { --bg: #FAFAFA; --bg-inv: #0A0A0A; --fg: #0A0A0A; --fg-inv: #FAFAFA; --border: #E5E5E5; --border-inv: #2A2A2A; }
+
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-pri); background: var(--bg); color: var(--fg); line-height: 1.6; min-height: 100vh; display: grid; grid-template-columns: 280px 1fr; transition: background var(--motion-base), color var(--motion-base); }
+.skip-link { position: absolute; top: -100%; left: var(--space-4); padding: var(--space-2) var(--space-4); background: var(--accent); color: var(--accent-fg); border-radius: var(--radius-sm); z-index: 100; }
+.skip-link:focus { top: var(--space-4); }
+
+/* ─── SIDEBAR ─── */
+.sidebar { position: sticky; top: 0; height: 100vh; padding: var(--space-6) var(--space-4); border-right: 1px solid var(--border); background: var(--bg); overflow-y: auto; }
+.sidebar-header { display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-8); padding-bottom: var(--space-4); border-bottom: 1px solid var(--border); }
+.logo-glyph { color: var(--accent); flex-shrink: 0; animation: hop 2s var(--easing) infinite; }
+.logo-wordmark { font-family: var(--font-pri); font-weight: 700; font-size: 1.25rem; letter-spacing: 0.02em; color: var(--fg); }
+@keyframes hop { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
+.nav-list { list-style: none; display: flex; flex-direction: column; gap: var(--space-1); }
+.nav-list a { display: block; padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); color: var(--fg); text-decoration: none; font-size: 0.9rem; transition: background var(--motion-fast), color var(--motion-fast); }
+.nav-list a:hover { background: var(--border); }
+.nav-list a.active { background: var(--accent); color: var(--accent-fg); font-weight: 600; }
+.theme-toggle { position: absolute; bottom: var(--space-6); left: 50%; transform: translateX(-50%); width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg); color: var(--fg); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background var(--motion-fast), border-color var(--motion-fast); }
+.theme-toggle:hover { border-color: var(--accent); }
+.theme-toggle .icon-sun { display: none; }
+.theme-toggle .icon-moon { display: block; }
+[data-theme="light"] .theme-toggle .icon-sun { display: block; }
+[data-theme="light"] .theme-toggle .icon-moon { display: none; }
+
+/* ─── CONTENT ─── */
+.content { padding: var(--space-8) var(--space-12) var(--space-16); max-width: 900px; }
+.page-header { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--border); }
+.page-header h1 { font-size: clamp(2rem, 4vw + 1rem, 3rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: var(--space-2); }
+.subtitle { color: var(--fg); opacity: 0.6; font-size: 1rem; }
+
+section { margin-bottom: var(--space-16); scroll-margin-top: var(--space-8); }
+section h2 { font-size: clamp(1.5rem, 2.5vw + 0.5rem, 2rem); font-weight: 700; margin-bottom: var(--space-6); padding-bottom: var(--space-3); border-bottom: 2px solid var(--accent); display: inline-block; }
+section h3 { font-size: 1.125rem; font-weight: 600; margin: var(--space-6) 0 var(--space-3); color: var(--fg); }
+section h4 { font-size: 1rem; font-weight: 600; margin: var(--space-4) 0 var(--space-2); color: var(--fg); opacity: 0.8; }
+section p { margin-bottom: var(--space-3); }
+section ul, section ol { margin: var(--space-3) 0 var(--space-3) var(--space-6); }
+section li { margin-bottom: var(--space-2); }
+section code { font-family: var(--font-mono); font-size: 0.875em; background: var(--border); padding: 2px 6px; border-radius: var(--radius-sm); }
+section pre { background: var(--bg-inv); color: var(--fg-inv); padding: var(--space-4); border-radius: var(--radius-md); overflow-x: auto; margin: var(--space-4) 0; }
+section pre code { background: none; padding: 0; font-size: 0.8rem; line-height: 1.7; }
+section blockquote { border-left: 3px solid var(--accent); padding-left: var(--space-4); margin: var(--space-4) 0; opacity: 0.8; font-style: italic; }
+section table { width: 100%; border-collapse: collapse; margin: var(--space-4) 0; font-size: 0.9rem; }
+section th, section td { padding: var(--space-3); border: 1px solid var(--border); text-align: left; }
+section th { background: var(--bg-inv); color: var(--fg-inv); font-weight: 600; }
+section tr:nth-child(even) { background: var(--border); opacity: 0.3; }
+
+/* ─── PALETA VISUAL ─── */
+.palette-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--space-4); margin: var(--space-4) 0; }
+.palette-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-4); transition: transform var(--motion-fast), box-shadow var(--motion-fast); }
+.palette-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+.palette-swatch { width: 100%; height: 80px; border-radius: var(--radius-sm); margin-bottom: var(--space-3); position: relative; }
+.palette-swatch::after { content: attr(data-hex); position: absolute; bottom: -1.5em; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-size: 0.75rem; color: var(--fg); opacity: 0.7; white-space: nowrap; }
+.palette-info h4 { margin: 0 0 var(--space-1); font-size: 0.875rem; font-weight: 600; }
+.palette-info p { margin: 0; font-size: 0.8rem; opacity: 0.7; }
+
+/* ─── LOGO VARIANTS ─── */
+.logo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-4); margin: var(--space-4) 0; }
+.logo-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-6); text-align: center; }
+.logo-card.dark { background: var(--bg-inv); }
+.logo-wordmark-large { font-family: var(--font-pri); font-weight: 700; font-size: 2rem; letter-spacing: 0.02em; display: flex; align-items: center; justify-content: center; gap: var(--space-3); }
+.logo-glyph-large { width: 40px; height: 40px; color: var(--accent); animation: hop 2s var(--easing) infinite; }
+
+/* ─── CHECKLIST INTERACTIVA ─── */
+.checklist { display: flex; flex-direction: column; gap: var(--space-3); }
+.checklist-group { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-4); }
+.checklist-group summary { font-weight: 600; cursor: pointer; padding: var(--space-2) 0; list-style: none; }
+.checklist-group summary::-webkit-details-marker { display: none; }
+.checklist-group summary::before { content: "+"; display: inline-block; width: 1.5em; text-align: center; transition: transform var(--motion-fast); color: var(--accent); }
+.checklist-group[open] summary::before { transform: rotate(45deg); }
+.checklist-item { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) 0 var(--space-2) var(--space-6); font-size: 0.9rem; }
+.checklist-item input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--accent); cursor: pointer; flex-shrink: 0; }
+.checklist-item label { cursor: pointer; flex: 1; }
+
+/* ─── TOKENS COPY ─── */
+.token-block { position: relative; }
+.token-block button { position: absolute; top: var(--space-3); right: var(--space-3); padding: var(--space-1) var(--space-3); font-size: 0.75rem; background: var(--accent); color: var(--accent-fg); border: none; border-radius: var(--radius-sm); cursor: pointer; font-family: var(--font-pri); font-weight: 600; transition: background var(--motion-fast); }
+.token-block button:hover { background: var(--accent-h); }
+.token-block.copied button { background: var(--error); }
+
+/* ─── FOOTER ─── */
+.page-footer { margin-top: var(--space-16); padding-top: var(--space-8); border-top: 1px solid var(--border); text-align: center; opacity: 0.6; font-size: 0.875rem; }
+.disclaimer { font-size: 0.8rem; opacity: 0.5; margin-top: var(--space-2); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1024px) {
+  body { grid-template-columns: 1fr; }
+  .sidebar { position: fixed; left: 0; top: 0; bottom: 0; width: 280px; z-index: 50; transform: translateX(-100%); transition: transform var(--motion-base) var(--easing); box-shadow: 4px 0 24px rgba(0,0,0,0.15); }
+  .sidebar.open { transform: translateX(0); }
+  .content { padding: var(--space-6) var(--space-4) var(--space-12); }
+}
+@media (max-width: 640px) {
+  .page-header h1 { font-size: 1.75rem; }
+  section h2 { font-size: 1.25rem; }
+  .palette-grid { grid-template-columns: 1fr; }
+}
+
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Saltar al contenido</a>
+
+<nav class="sidebar" id="sidebar" aria-label="Navegación del brand book">
+  <div class="sidebar-header">
+    <svg class="logo-glyph" viewBox="0 0 24 24" fill="none" aria-hidden="true" width="32" height="32">
+      <path d="M12 24 C12 24 16 20 16 16 C16 12 12 8 8 8 C4 8 2 12 2 16 C2 20 6 24 12 24 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="12" cy="8" r="2.5" fill="currentColor"/>
+    </svg>
+    <span class="logo-wordmark">TuneHop</span>
+  </div>
+  <ul class="nav-list">
+    <li><a href="#resumen" data-section="resumen">1. Resumen ejecutivo</a></li>
+    <li><a href="#verbal" data-section="verbal">2. Identidad verbal</a></li>
+    <li><a href="#visual" data-section="visual">3. Identidad visual</a></li>
+    <li><a href="#legal" data-section="legal">4. Estado legal</a></li>
+    <li><a href="#usos" data-section="usos">5. Usos correctos/incorrectos</a></li>
+    <li><a href="#checklist" data-section="checklist">6. Checklist de coherencia</a></li>
+    <li><a href="#tokens" data-section="tokens">7. Tokens de diseño</a></li>
+  </ul>
+  <button class="theme-toggle" id="themeToggle" aria-label="Alternar modo oscuro/claro" title="Modo oscuro/claro">
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  </button>
+</nav>
+
+<main id="main" class="content">
+  <header class="page-header">
+    <h1>TuneHop — Brand Book</h1>
+    <p class="subtitle">Manual de marca navegable · Fase A completada · 2026-09-11</p>
+  </header>
+
+  <section id="resumen"><h2>1. Resumen ejecutivo</h2><p>---</p></section><section id="verbal"><h2>2. Identidad verbal</h2><p><em>Contenido no extraído automáticamente. Ver docs/marketing/08-manual-marca.md</em></p></section><section id="visual"><h2>3. Identidad visual</h2><p><em>Contenido no extraído automáticamente. Ver docs/marketing/08-manual-marca.md</em></p></section><section id="legal"><h2>4. Estado legal</h2><p><em>Contenido no extraído automáticamente. Ver docs/marketing/08-manual-marca.md</em></p></section><section id="usos"><h2>5. Usos correctos e incorrectos</h2><p><em>Contenido no extraído automáticamente. Ver docs/marketing/08-manual-marca.md</em></p></section><section id="checklist"><h2>6. Checklist de coherencia</h2><p><em>Contenido no extraído automáticamente. Ver docs/marketing/08-manual-marca.md</em></p></section><section id="tokens"><h2>7. Tokens de diseño</h2><p><em>Contenido no extraído automáticamente. Ver docs/marketing/08-manual-marca.md</em></p></section>
+
+  <footer class="page-footer">
+    <p>TuneHop Brand Book · Fase A (Cimientos de marca) completada · Corita, directora creativa</p>
+    <p class="disclaimer">Este manual no sustituye revisión legal profesional. Claims regulados pendientes de abogado.</p>
+  </footer>
+</main>
+
+<script>
+
+// ─── THEME TOGGLE ───
+const toggle = document.getElementById('themeToggle');
+const html = document.documentElement;
+const saved = localStorage.getItem('theme');
+if (saved) { html.setAttribute('data-theme', saved); }
+toggle.addEventListener('click', () => {
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+});
+
+// ─── SIDEBAR MOBILE ───
+const sidebar = document.getElementById('sidebar');
+if (window.innerWidth <= 1024) {
+  const btn = document.createElement('button');
+  btn.className = 'menu-toggle';
+  btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path d="M3 12h18M3 6h18M3 18h18"/></svg>';
+  btn.setAttribute('aria-label', 'Abrir menú');
+  btn.style.cssText = 'position:fixed;top:16px;left:16px;z-index:60;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--bg);color:var(--fg);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.1);';
+  document.body.appendChild(btn);
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:40;opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s;';
+  document.body.appendChild(overlay);
+  btn.addEventListener('click', () => { sidebar.classList.toggle('open'); overlay.style.opacity = sidebar.classList.contains('open') ? '1' : '0'; overlay.style.visibility = sidebar.classList.contains('open') ? 'visible' : 'hidden'; });
+  overlay.addEventListener('click', () => { sidebar.classList.remove('open'); overlay.style.opacity = '0'; overlay.style.visibility = 'hidden'; });
+  document.querySelectorAll('.nav-list a').forEach(a => a.addEventListener('click', () => { sidebar.classList.remove('open'); overlay.style.opacity = '0'; overlay.style.visibility = 'hidden'; }));
+}
+
+// ─── ACTIVE NAV ON SCROLL ───
+const sections = document.querySelectorAll('main section[id]');
+const navLinks = document.querySelectorAll('.nav-list a');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + id));
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => observer.observe(s));
+
+// ─── CHECKLIST PERSISTENCE ───
+document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(cb => {
+  const key = 'checklist-' + cb.closest('section').id + '-' + cb.closest('.checklist-group').querySelector('summary').textContent.trim() + '-' + cb.nextElementSibling.textContent.trim();
+  const saved = localStorage.getItem(key);
+  if (saved === 'true') cb.checked = true;
+  cb.addEventListener('change', () => localStorage.setItem(key, cb.checked));
+});
+
+// ─── COPY TOKENS ───
+document.querySelectorAll('.token-block button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const pre = btn.closest('.token-block').querySelector('pre code');
+    navigator.clipboard.writeText(pre.textContent).then(() => {
+      btn.closest('.token-block').classList.add('copied');
+      btn.textContent = '¡Copiado!';
+      setTimeout(() => { btn.closest('.token-block').classList.remove('copied'); btn.textContent = 'Copiar JSON'; }, 2000);
+    });
+  });
+});
+
+// ─── SMOOTH SCROLL OFFSET ───
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); history.pushState(null, '', a.getAttribute('href')); }
+  });
+});
+
+</script>
+</body>
+</html>
