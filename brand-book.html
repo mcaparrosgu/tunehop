@@ -60,7 +60,8 @@ code { font-family: var(--font-mono); font-size: 0.85em; padding: 2px 6px; borde
 .logo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-bottom: 18px; }
 .logo-card { border-radius: var(--r-md); padding: 32px 20px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; }
 .logo-label { font-size: 0.78rem; opacity: 0.65; }
-.wordmark { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: 0.02em; display: inline-flex; align-items: center; gap: 10px; }
+.wordmark { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: 0.02em; display: inline-flex; align-items: baseline; }
+.wordmark .glifo { width: 0.78em; height: 0.78em; vertical-align: baseline; }
 /* TIPOGRAFÍA */
 .tipo-card { border-radius: var(--r-md); padding: 20px; }
 .tipo-display { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; }
@@ -124,11 +125,11 @@ code { font-family: var(--font-mono); font-size: 0.85em; padding: 2px 6px; borde
 <body>
 <a href="#resumen" class="skip-link">Saltar al contenido</a>
 <header class="topbar">
-  <span class="wordmark">TuneHop <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="glifo" aria-hidden="true">
+  <span class="wordmark">Tune<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="glifo" aria-hidden="true">
   <path d="M4 3 V21" fill="none" stroke="#FFC300" stroke-width="3" stroke-linecap="round"/>
   <path d="M20 3 V21" fill="none" stroke="#FFC300" stroke-width="3" stroke-linecap="round"/>
   <path d="M4 12 Q12 2 20 12" fill="none" stroke="#FFC300" stroke-width="3" stroke-linecap="round"/>
-</svg></span>
+</svg>op</span>
   <nav aria-label="Secciones" style="display:flex;gap:4px;flex-wrap:wrap;margin-left:12px">
     <a href="#resumen" style="color:var(--fg);opacity:0.7;font-size:0.8rem;text-decoration:none;padding:4px 8px">Resumen</a>
     <a href="#paleta" style="color:var(--fg);opacity:0.7;font-size:0.8rem;text-decoration:none;padding:4px 8px">Paleta</a>
@@ -151,11 +152,11 @@ code { font-family: var(--font-mono); font-size: 0.85em; padding: 2px 6px; borde
   
     <div class="resumen-card" style="border:1px solid #E5E5E5;background:#FAFAFA">
       <div class="resumen-head" style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
-        <span class="wordmark" style="font-size:2rem">TuneHop <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="glifo" aria-hidden="true">
+        <span class="wordmark" style="font-size:2rem">Tune<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="glifo" aria-hidden="true">
   <path d="M4 3 V21" fill="none" stroke="#FFC300" stroke-width="3" stroke-linecap="round"/>
   <path d="M20 3 V21" fill="none" stroke="#FFC300" stroke-width="3" stroke-linecap="round"/>
   <path d="M4 12 Q12 2 20 12" fill="none" stroke="#FFC300" stroke-width="3" stroke-linecap="round"/>
-</svg></span>
+</svg>op</span>
       </div>
       <p class="tagline-big" style="color:#0A0A0A">Tu música, donde pagan mejor. <span style="color:#FFC300">En minutos.</span></p>
       <p style="color:#0A0A0A;opacity:0.85;margin-top:12px">TuneHop migra playlists de Spotify a TIDAL usando códigos universales ISRC: solo lee tu Spotify, solo escribe en TIDAL, procesa todo en tu sesión y borra todo al cerrar. Sin email, sin tarjeta, sin cuenta.</p>
@@ -261,19 +262,19 @@ code { font-family: var(--font-mono); font-size: 0.85em; padding: 2px 6px; borde
   
     <div class="logo-grid">
       <div class="logo-card" style="background:#FAFAFA;border:1px solid #E5E5E5">
-        <span class="wordmark" style="color:#0A0A0A">TuneHop <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="glifo" aria-hidden="true">
+        <span class="wordmark" style="color:#0A0A0A">Tune<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="glifo" aria-hidden="true">
   <path d="M4 3 V21" fill="none" stroke="#FFC300" stroke-width="3" stroke-linecap="round"/>
   <path d="M20 3 V21" fill="none" stroke="#FFC300" stroke-width="3" stroke-linecap="round"/>
   <path d="M4 12 Q12 2 20 12" fill="none" stroke="#FFC300" stroke-width="3" stroke-linecap="round"/>
-</svg></span>
+</svg>op</span>
         <p class="logo-label">Principal — wordmark + glifo</p>
       </div>
       <div class="logo-card dark" style="background:#0A0A0A">
-        <span class="wordmark" style="color:#FAFAFA">TuneHop <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="glifo" aria-hidden="true">
+        <span class="wordmark" style="color:#FAFAFA">Tune<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="glifo" aria-hidden="true">
   <path d="M4 3 V21" fill="none" stroke="#FFC300" stroke-width="3" stroke-linecap="round"/>
   <path d="M20 3 V21" fill="none" stroke="#FFC300" stroke-width="3" stroke-linecap="round"/>
   <path d="M4 12 Q12 2 20 12" fill="none" stroke="#FFC300" stroke-width="3" stroke-linecap="round"/>
-</svg></span>
+</svg>op</span>
         <p class="logo-label" style="color:#FAFAFA">Sobre fondo negro</p>
       </div>
       <div class="logo-card" style="background:#FAFAFA;border:1px solid #E5E5E5">
@@ -384,7 +385,11 @@ code { font-family: var(--font-mono); font-size: 0.85em; padding: 2px 6px; borde
         <h4 style="color:#FFC300">✓ CORRECTO</h4>
         <div class="uso-item">
           <div class="mini" style="background:#0A0A0A;color:#FAFAFA">
-            <span class="wordmark" style="font-size:1.4rem">TuneHop</span>
+            <span class="wordmark" style="font-size:1.4rem">Tune<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="glifo" aria-hidden="true">
+  <path d="M4 3 V21" fill="none" stroke="#FFC300" stroke-width="3" stroke-linecap="round"/>
+  <path d="M20 3 V21" fill="none" stroke="#FFC300" stroke-width="3" stroke-linecap="round"/>
+  <path d="M4 12 Q12 2 20 12" fill="none" stroke="#FFC300" stroke-width="3" stroke-linecap="round"/>
+</svg>op</span>
           </div>
           <p>Wordmark sobre negro, espacio limpio</p>
         </div>

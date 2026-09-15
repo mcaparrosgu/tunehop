@@ -1,7 +1,8 @@
 /**
- * Logo / Glifo de TuneHop
- * El glifo nace de la 'h' de "hop": la pierna derecha se alarga, curva y aterriza en un punto preciso.
- * Variante wordmark: "TuneHop" + glifo a la derecha.
+ * Logo / Wordmark de TuneHop
+ * Una sola palabra: "Tune" + H (glifo diseñado, SIEMPRE ámbar, con barra voladora) + "op".
+ * La H sustituye a la letra tipográfica: esa es la gracia del logo.
+ * Variante wordmark: Tune[H]op en línea tipográfica.
  * Variante compacta: solo glifo (favicon, avatar).
  */
 import type { SVGProps } from "react";
@@ -61,21 +62,24 @@ export default function Logo({
   }
 
   return (
-    <span className={`inline-flex items-center gap-2 ${className}`} {...(props as React.HTMLAttributes<HTMLSpanElement>)}>
-      <span className="text-display font-bold tracking-[0.02em]" aria-hidden="true">
-        TuneHop
-      </span>
-      {/* La H salta en acento; el texto del wordmark usa el color de la página */}
+    <span
+      role="img"
+      aria-label="TuneHop"
+      className={className}
+      {...(props as React.HTMLAttributes<HTMLSpanElement>)}
+    >
+      <span aria-hidden="true">Tune</span>
+      {/* La H sustituye a la letra tipográfica dentro del nombre: SIEMPRE en ámbar.
+          Altura ~cap-height de Space Grotesk y apoyada en la línea base (align-baseline). */}
       <svg
-        width="28"
-        height="28"
         viewBox="0 0 24 24"
         fill="none"
-        aria-hidden={ariaHidden}
-        className={`text-[var(--color-accent)] animate-hop`}
+        aria-hidden="true"
+        className="inline-block h-[0.74em] w-[0.74em] align-baseline text-[var(--color-accent)]"
       >
         {GLIFO_PATH}
       </svg>
+      <span aria-hidden="true">op</span>
     </span>
   );
 }
