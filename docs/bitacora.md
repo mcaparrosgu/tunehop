@@ -388,3 +388,15 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **LECCIÓN** — En Tailwind v4, `text-[var(--custom-property)]` se resuelve como COLOR (foreground), no como font-size. Para font-size, usar clases CSS predefinidas en globals.css o `text-[length:var(--custom-property)]` con el prefijo explícito.
 
 - **ARCHIVOS TOCADOS** — globals.css (token display ampliado), page.tsx (clase `text-display` + `max-w-4xl`), layout.tsx (viewport export), Logo.tsx (comentario actualizado).
+
+## 2026-09-15 · Brief Creativo (Paso 10 Marketing)
+
+- **QUÉ SE HIZO** — Se completó el Brief Creativo del Paso 10 del método de marketing (Marketing · Edición Claude Code). Se generó el documento `docs/marketing/09-brief-creativo.md` siguiendo la estructura de 8 secciones que exige la skill: Objetivo, Target, Insight, Single-Minded Proposition, Reason to Believe, Tono, Mandatorios, KPIs. Se añadió una novena sección (contexto para el creativo) con notas de diseño UX/UI.
+
+- **DECISIONES CLAVE** — (1) **SMP:** *"Migra y disfruta de tus playlists en alta calidad en minutos"* — elegido sobre las opciones "libre de playlists" y "tu música, tu forma" porque comunica beneficio funcional tangible (migración + calidad). (2) **Target prioritario:** el 60% migrante que llega ya convencido (no necesita awareness, necesita CTA). (3) **RTB estrella:***firma solo una vez, Spotify aprueba en un clic* — reducido de 3 RTBs a 1 efectivo. (4) **Tono:**_empático, directo y cercano_ — heredado de identidad verbal; Evita techno-bro, Evita corporate. (5) **Budget:** ~0€全年 — solo guerrilla digital + boca a boca + shorts orgánicos. (6) **Nombre del director creativo:** Corita (correcto, no "Yara").
+
+- **CONTEXTO TÉCNICO** — El brief se apoya en la spec del producto (`docs/04-spec.md`) y el manual de marca (`docs/marketing/08-manual-marca.md`). La interfaz (Hero azul oscuro + logo + frase) alinea la experiencia visual con el tono y los colores de la identidad. No hay IA envuelta en la migración (se confirmó en Paso 7: IA no participa en el flujo determinista de migración).
+
+- **ERROR DETECTADO Y CORREGIDO** — La skill `director-creativo` define el personaje como "Yara", pero el nombre real de la directora creativa es Corita. Se corrigió en `09-brief-creativo.md` pero NO se modificó la skill (estaría fuera del alcance de este paso).
+
+- **QUÉ QUEDA PENDIENTE** — Paso 11 del método de marketing: La Gran Idea (concepto creativo central que nace de este brief). No hay pendientes técnicos del MVP neste paso.

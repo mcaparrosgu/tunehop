@@ -80,6 +80,10 @@ Plataforma de streaming musical con API pública REST. Fue el destino original d
 Derecho del interesado a obtener la supresión de sus datos personales sin dilación indebida (Art. 17 RGPD). Es como pedir que te borren del registro de un gimnasio al darte de baja: deben hacerlo.
 **Ejemplo real**: El botón "Eliminar datos y cerrar" de TuneHop ejecuta el derecho de supresión: borra cookies, sessionStorage y cualquier rastro de la sesión.
 
+### Brief creativo (marketing)
+Documento de agencia que define los parámetros clave de una campaña: objetivo, target, insight, Single-Minded Proposition, Reasons to Believe, tono, mandatorios y KPIs. Es como el plano que le dan al arquitecto antes de que empiece a diseñar: sin él, cada uno construye lo que le da la gana.
+**Ejemplo real**: TuneHop completó su brief creativo en el Paso 10 del método de marketing; documento en `docs/marketing/09-brief-creativo.md`.
+
 ### Design tokens
 Valores de diseño (color, tipografía, espaciado, radio, motion) codificados como pares nombre-valor, independientes de plataforma. Es como la receta de un plato: da igual la cocina (web, iOS, Android), los ingredientes y proporciones son los mismos.
 **Ejemplo real**: TuneHop define `--color-accent: #00E5A0`, `--font-primary: Space Grotesk`, `--spacing-base: 4px` en un JSON que la skill `frontend` consume para generar CSS, Tailwind config, y componentes React coherentes.
@@ -204,6 +208,10 @@ El grupo concreto de personas a las que se dirige un producto o campaña. Es com
 Límite de peticiones que una API permite en un ventana de tiempo. Es como el semáforo de una autopista: si pasas demasiado rápido, te paran.
 **Ejemplo real**: Spotify permite ~100 req/30s por usuario; TuneHop procesa en tandas de 20 tracks y respeta Retry-After para no ser bloqueada.
 
+### Reason to Believe / RTB
+Prueba concreta que respalda la Single-Minded Proposition — el "por qué debería creerte". Es como cuando alguien te dice "soy bueno cocinando" y saca una foto de un plato espectacular: sin la foto, es solo una frase bonita.
+**Ejemplo real**: TuneHop usa como RTB principal: "firmas solo una vez, Spotify aprueba en un clic" — la prueba de que la migración es realmente fácil y rápida.
+
 ### Responsive
 Diseño web que se adapta al tamaño de pantalla (móvil, tablet, desktop) sin perder usabilidad. Es como el agua: toma la forma del vaso donde la pones.
 **Ejemplo real**: TuneHop usa Tailwind CSS con breakpoints `sm:`, `md:`, `lg:` para que la selección de playlists funcione igual en móvil y desktop.
@@ -214,6 +222,10 @@ Ver GDPR / RGPD.
 ### Scope (OAuth)
 Permiso concreto que la app solicita al usuario (ej. "playlist-read-private"). Es como pedir la llave solo del trastero, no la de toda la casa.
 **Ejemplo real**: TuneHop pide solo `playlist-read-private` y `user-read-email` en Spotify; en TIDAL pide `playlists.modify` y `user.read`.
+
+### Single-Minded Proposition / SMP
+La una cosa — y solo una — que la campaña debe comunicar en la mente del público. Es como el tweet de tu vida: si solo pudieras decir una frase, ¿cuál sería?
+**Ejemplo real**: TuneHop eligió como SMP: *"Migra y disfruta de tus playlists en alta calidad en minutos"* — el beneficio funcional tangible que la marca debe_installar.
 
 ### Space Grotesk
 Familia tipográfica sans-serif geométrica humanista (Google Fonts, variable, SIL OFL). x-height generosa, personalidad en mayúsculas, legible en cuerpo. Gratuita, auto-hospedable, un solo archivo variable (wght 300-700).
