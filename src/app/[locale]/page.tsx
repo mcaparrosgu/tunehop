@@ -8,10 +8,10 @@ export default async function Home() {
 
   return (
     <main className="flex flex-1 flex-col items-center justify-center px-4 py-12 sm:py-20">
-      <section className="container-main w-full max-w-2xl py-10 sm:py-16 text-center">
+      <section className="container-main w-full max-w-4xl py-10 sm:py-16 text-center">
         {/* Logo + Tagline */}
         <div className="flex flex-col items-center gap-4 sm:gap-6">
-          <Logo variant="wordmark" color="fg" className="text-[var(--text-display)] font-bold tracking-tight" />
+          <Logo variant="wordmark" color="fg" className="text-display" />
           <p className="text-h2 font-medium text-[var(--color-fg)] max-w-lg">
             {t("home.tagline")}
           </p>

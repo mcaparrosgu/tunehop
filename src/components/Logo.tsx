@@ -70,12 +70,13 @@ export default function Logo({
     >
       <span aria-hidden="true">Tune</span>
       {/* La H sustituye a la letra tipográfica dentro del nombre: SIEMPRE en ámbar.
-          Altura ~cap-height de Space Grotesk y apoyada en la línea base (align-baseline). */}
+          Más grande que el resto (~cap-height × 1.3) y apoyada en la línea base.
+          Se sale por arriba: la protagonista del nombre. */}
       <svg
         viewBox="0 0 24 24"
         fill="none"
         aria-hidden="true"
-        className="inline-block h-[0.74em] w-[0.74em] align-baseline text-[var(--color-accent)]"
+        className="inline-block h-[1em] w-[1em] align-baseline -mb-[0.06em] text-[var(--color-accent)]"
       >
         {GLIFO_PATH}
       </svg>

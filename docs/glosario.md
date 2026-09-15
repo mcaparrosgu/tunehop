@@ -243,6 +243,10 @@ Frase corta que resume la promesa central de una marca y acompaña al nombre (a 
 Plataforma de streaming musical con audio HiFi/HiRes y mejor pago por stream (~$0.012-0.013 vs $0.003-0.005 de Spotify). API v2 JSON:API en openapi.tidal.com/v2 (registro en developer.tidal.com).
 **Ejemplo real**: Destino de escritura de TuneHop (decisión 2026-09-03). OAuth Authorization Code, scopes: playlists.modify, user.read.
 
+### Tailwind CSS
+Framework CSS utility-first: cada clase = un estilo atómico (`text-sm`, `bg-accent`, `rounded-lg`). En v4, `@theme inline` mapea custom properties a utilidades. Ojo: `text-[var(--x)]` se resuelve como COLOR, no font-size — usar `text-[length:var(--x)]` o clase CSS predefinida.
+**Ejemplo real**: TuneHop usa Tailwind v4 con tokens en `@theme inline`. El bug del logo pequeño se resolvió cambiando `text-[var(--text-display)]` por la clase `.text-display` predefinida en globals.css.
+
 ### Token (OAuth)
 Credencial temporal (access token) que autoriza a la app a actuar en nombre del usuario. Tiene expiración (ej. 1h) y se renueva con refresh token. Es como el pase de backstage: caduca al acabar el concierto.
 **Ejemplo real**: TuneHop guarda tokens solo en memoria de sesión (server-side), nunca en BD ni localStorage; se borran al cerrar la pestaña.
@@ -265,6 +269,10 @@ Tabla de ejemplos pares (✅ sí / ❌ no) que muestra la aplicación práctica 
 ### Variable font
 Un solo archivo de fuente que contiene múltiples pesos, anchos, estilos (ej. wght 300-700) en lugar de un archivo por cada peso. Es como una navaja suiza tipográfica: menos peticiones HTTP, más control, mismo diseño.
 **Ejemplo real**: Space Grotesk y JetBrains Mono en TuneHop son variable fonts: un archivo cada una cubre Regular, Medium, SemiBold, Bold para UI, hero, código.
+
+### Viewport (Next.js 16)
+Export que define metadata del viewport: `themeColor`, `width`, `initialScale`, `maximumScale`. En Next.js 16, `themeColor` se movió de `metadata` a `viewport` (antes daba warning).
+**Ejemplo real**: TuneHop define `export const viewport: Viewport = { themeColor: "#0A0A0A" }` en layout.tsx.
 
 ### Vocabulario prohibido
 Lista de palabras, clichés y giros de la categoría que la marca se compromete a NO usar porque diluyen su posicionamiento o la hacen sonar como la competencia. Es como los alimentos que un celíaco no puede comer: no es preferencia, es supervivencia de la marca.

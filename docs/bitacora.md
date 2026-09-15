@@ -378,3 +378,13 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **ARCHIVOS TOCADOS** — Logo.tsx (wordmark integrado + role="img" aria-label="TuneHop"), icon.svg, globals.css (acento, hover, focus, warning→azafrán), brand-book.html (regenerado con script, script actualizado como fuente de verdad), docs/marketing/06-identidad-visual.md y 08-manual-marca.md (logo + paleta + tasas WCAG + checklist + tokens JSON). Commits: a4de9c9 (logo H+lima), fd2243d (ámbar), 2fb1718 (wordmark integrado).
 
 - **QUÉ QUEDA PENDIENTE DE ENTENDER** — La fundadora sufrió sobre-iteración del detalle de la barra de la H (diagonal vs curva vs escalón) que terminó descartada en favor de la H original con curva voladora. Lección anotada: cuando la usuaria dice "es muy frustrante", congelar de inmediato sin nuevas variantes.
+
+## 2026-09-15 · Logo: tamaño display + warning themeColor
+
+- **QUÉ SE ARREGLÓ** — (1) Logo era visualmente pequeño en el hero. Causa raíz: `text-[var(--text-display)]` en Tailwind v4 se interpretaba como **color** (no font-size) porque `text-*` es color por defecto en v4. Solución: usar la clase `.text-display` predefinida en globals.css que sí define `font-size: var(--text-display)` explícitamente. (2) `--text-display` subido de `clamp(2.5rem, 5vw + 1rem, 4rem)` a `clamp(3.5rem, 12vw + 2rem, 8rem)` (hasta 128px). (3) Contenedor del hero ampliado de `max-w-2xl` (672px) a `max-w-4xl` (896px) para que el logo respire.
+
+- **WARNING THEMECOLOR** — Next.js 16 exige `themeColor` en `export const viewport`, no en `metadata`. Movido en layout.tsx. Warning desaparece.
+
+- **LECCIÓN** — En Tailwind v4, `text-[var(--custom-property)]` se resuelve como COLOR (foreground), no como font-size. Para font-size, usar clases CSS predefinidas en globals.css o `text-[length:var(--custom-property)]` con el prefijo explícito.
+
+- **ARCHIVOS TOCADOS** — globals.css (token display ampliado), page.tsx (clase `text-display` + `max-w-4xl`), layout.tsx (viewport export), Logo.tsx (comentario actualizado).
