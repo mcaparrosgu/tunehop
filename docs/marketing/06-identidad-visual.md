@@ -17,13 +17,13 @@
 |---|---|---|
 | **Sistemas de señalética de transporte (Vignelli, MTA, AIGA)** | Claridad instantánea, iconografía universal, jerarquía sin ruido. | La usuaria no es técnica: la interfaz debe leerse como una señal de "salida" o "transbordo", no como un dashboard. |
 | **Editorial suiza / International Typographic Style (Müller-Brockmann, Hofmann)** | Grilla, alineación, espacio en blanco como herramienta, tipografía como protagonista. | Refuerza el arquetipo Sabio (orden, criterio, verdad) sin rigidez. |
-| **Identidad de TIDAL (actual)** | Negro profundo, cian/teal como acento, tipografía sans geométrica, fotografía de artistas en B/N. | TuneHop vive en la órbita de TIDAL como destino; la coherencia visual genera confianza de "mismo mundo". |
+| **Identidad de TIDAL (actual)** | Negro profundo, cian/teal como acento, tipografía sans geométrica, fotografía de artistas en B/N. | TuneHop vive en la órbita de TIDAL como destino (negro + geométrica + B/N), pero **no** copia su acento frío: el Ámbar de TuneHop es cálido, el "oro" del pago justo a los artistas. Coherencia de mundo, no clon. |
 | **Signal / Proton / apps de privacidad primera** | Paleta restringida, iconografía de candado/escudo sutil, cero ruido visual. | Refuerza "privacidad radical" sin usar el candado cliché. |
 | **Spotify (solo como contraste)** | Verde neón, ondas, energía de descubrimiento. | TuneHop **no** usa verde, no usa ondas, no usa "energía de descubrimiento". Es el opuesto visual deliberado. |
 
 **Moodboard conceptual (para diseñador):**
 - **Fondo**: Negro puro (#0A0A0A) / Blanco puro (#FAFAFA) — sin grises intermedios en elementos clave.
-- **Acento único**: **Teal eléctrico #00E5A0** (puente visual con TIDAL, pero más vivo, más "salto").
+- **Acento único**: **Ámbar #FFC300** — el oro del pago justo: la recompensa del artista, el valor de lo migrado. Cálido, vivo, con el "salto" del hop.
 - **Tipografía**: Geométrica, legible a 12px, con personalidad en mayúsculas (logo) y cuerpo limpio.
 - **Iconografía**: Trazo único (monolinear), esquinas redondeadas 2px, tamaño 20px/24px.
 - **Fotografía**: Solo si sirve — músicos en estudio, cables, vinilos, manos en controles. Nunca "gente feliz con auriculares" (cliché de categoría).
@@ -36,22 +36,24 @@
 **Idea central: "El salto preciso"**
 
 - **Wordmark** (logotipo tipográfico) como base — el nombre *es* la marca (arquitectura única).
-- **Glifo / símbolo**: Una **línea que salta** — trazo monolinear que dibuja una curva ascendente (el "hop") y aterriza en un punto preciso (el ISRC, el destino, la decisión).
-- **Relación**: El glifo nace de la **h minúscula de "hop"** — la pierna derecha de la h se alarga y salta. Es propio, no genérico.
-- **Función**: El glifo funciona solo (favicon, app icon, avatar social) y acompañado (wordmark horizontal).
-- **Personalidad**: Explorador (el salto) + Sabio (la precisión del aterrizaje).
+- **Glifo / símbolo**: La **H de "hop" dibujada** — dos palos verticales y la barra central que **sale volando por encima** en una curva ascendente. Es la "h" convertida en gesto: el hop (el salto) + la precisión del aterrizaje.
+- **Integración**: El glifo **sustituye a la letra H dentro del nombre**: `Tune` + `H`(glifo) + `op`. Es una sola palabra continua en línea tipográfica — la gracia del logo es que la H amarilla ES la letra, no un anexo.
+- **Color del glifo**: **SIEMPRE Ámbar** `#FFC300`, independiente del color del texto del wordmark (negro sobre claro, blanco sobre oscuro).
+- **Tamaño y alineación**: El glifo se dimensiona a la cap-height de Space Grotesk (~0.74em del font-size) y se apoya en la línea base (`align-baseline`) como una letra más.
+- **Personalidad**: Explorador (el salto / la barra que vuela) + Sabio (la precisión de los palos rectos).
 
 **Variantes necesarias:**
-1. **Principal horizontal**: `TuneHop` + glifo a la derecha (espaciado 1x altura de x).
-2. **Compacto / Avatar**: Solo glifo (circular, 1:1).
-3. **Monocromático**: Negro sobre blanco / Blanco sobre negro / Teal sobre negro / Negro sobre teal.
-4. **Favicon**: Glifo en 32x32, 16x16, 48x48 (SVG + PNG).
+1. **Principal (wordmark integrado)**: `Tune` + `H`(glifo ámbar) + `op` — pegado, sin gap, en línea tipográfica.
+2. **Compacto / Avatar**: Solo el glifo H (circular, 1:1).
+3. **Monocromático**: Negro sobre blanco / Blanco sobre negro / Glifo Ámbar sobre negro (la H ámbar es la constante en todas las variantes).
+4. **Favicon**: Glifo H en 32x32, 16x16, 48x48 (SVG + PNG).
 
 **Qué NO es el logo:**
 - No es una nota musical (cliché).
 - No es una flecha genérica (cliché).
 - No es un "play" modificado (territorio a evitar: "Play" saturado).
 - No usa degradados, sombras, 3D, efectos de capa.
+- La barra de la H **no** es una diagonal recta ni un escalón: es una curva superior que vuela por encima de los palos.
 
 ---
 
@@ -63,12 +65,14 @@
 |---|---|---|---|
 | **Negro profundo** | `#0A0A0A` | Fondo principal (dark), texto principal (light), wordmark | Autoridad, foco, lienzo neutro. Arquetipo Sabio. |
 | **Blanco puro** | `#FAFAFA` | Fondo principal (light), texto principal (dark), espacio | Respiración, claridad, honestidad. |
-| **Teal eléctrico (Acento)** | `#00E5A0` | **Solo**: CTA primario, focus states, glifo en favicon, indicador de éxito, enlaces clave | El "hop": energía, vida, movimiento, puente a TIDAL. **Nunca** para texto largo. |
-| **Teal oscuro (Hover/Pressed)** | `#00B886` | Hover/active de CTA, focus visible accesible | Estado interactivo, consistente. |
+| **Ámbar (Acento de marca)** | `#FFC300` | **Solo**: la H del wordmark, CTA primario (texto NEGRO), focus states, glifo en favicon, indicador de éxito, enlaces clave | El "hop": energía, vida, movimiento, el oro del pago justo. **Nunca** para texto largo. |
+| **Ámbar oscuro (Hover/Pressed)** | `#E0A800` | Hover/active de CTA, focus visible accesible | Estado interactivo, consistente. |
 | **Rojo funcional (Error)** | `#FF453A` | Solo: mensajes de error destructivos, botones "Eliminar datos" | Peligro real, no decorativo. Cumple WCAG AA sobre negro y blanco. |
-| **Ámbar funcional (Advertencia)** | `#FFCC00` | Solo: estados de revisión manual, "atención requerida" | Precaución, no error. Cumple WCAG AA sobre negro. |
+| **Azafrán funcional (Advertencia)** | `#FF9F0A` | Solo: estados de revisión manual, "atención requerida" | Precaución, no error. **Distinto a propósito** del ámbar de marca para no romper semántica. Cumple WCAG AA sobre negro. |
 | **Gris 100 (Bordes sutiles light)** | `#E5E5E5` | Divisores, inputs inactivos, contenedores light | Estructura sin peso visual. |
 | **Gris 900 (Bordes sutiles dark)** | `#2A2A2A` | Divisores, inputs inactivos, contenedores dark | Estructura sin peso visual. |
+
+> **Nota de color**: el Ámbar de marca (`#FFC300`, amarillo dorado) y el Azafrán de advertencia (`#FF9F0A`, naranja) son **deliberadamente distintos**. Nunca usar el ámbar para avisar ni el azafrán para acentuar.
 
 **Tokens CSS para `frontend` (Passe-Partout):**
 ```css
@@ -77,13 +81,13 @@
   --color-bg-inverse: #0A0A0A;
   --color-fg: #0A0A0A;
   --color-fg-inverse: #FAFAFA;
-  --color-accent: #00E5A0;
-  --color-accent-hover: #00B886;
+  --color-accent: #FFC300;
+  --color-accent-hover: #E0A800;
   --color-error: #FF453A;
-  --color-warning: #FFCC00;
+  --color-warning: #FF9F0A;
   --color-border: #E5E5E5;
   --color-border-inverse: #2A2A2A;
-  --color-focus: #00E5A0; /* visible focus ring */
+  --color-focus: #FFC300; /* visible focus ring */
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -95,14 +99,14 @@
 ```
 
 **Accesibilidad (WCAG AA verificado):**
-- Teal `#00E5A0` sobre Negro `#0A0A0A` → 7.8:1 ✅
-- Teal `#00E5A0` sobre Blanco `#FAFAFA` → 1.9:1 ❌ (NO usar para texto; solo UI decorativo/cta background)
-- Blanco sobre Teal → 1.3:1 ❌ (NO usar)
-- Negro sobre Teal → 10.2:1 ✅ (CTA texto: Negro sobre fondo Teal)
+- Ámbar `#FFC300` sobre Negro `#0A0A0A` → 11.9:1 ✅ (glifo de la H, CTA hover)
+- Ámbar `#FFC300` sobre Blanco `#FAFAFA` → 1.9:1 ❌ (NO usar para texto; solo UI decorativo/fondo CTA)
+- Negro sobre Ámbar → 10.2:1 ✅ (CTA texto: Negro sobre fondo Ámbar)
 - Rojo `#FF453A` sobre Negro/Blanco → 7.2:1 / 5.1:1 ✅
-- Ámbar `#FFCC00` sobre Negro → 12.6:1 ✅
+- Azafrán `#FF9F0A` sobre Negro → 10.1:1 ✅
+- Ámbar `#FFC300` sobre Negro (glifo 16px favicon) → distinguible incluso a 16px ✅
 
-**Regla de uso del Teal**: **Solo como fondo de CTA primario (con texto negro), anillo de focus, glifo decorativo, indicador de éxito.** Nunca para texto, nunca para fondos grandes, nunca en gradientes.
+**Regla de uso del Ámbar**: **Solo como fondo de CTA primario (con texto negro), la H del wordmark, anillo de focus, glifo decorativo, indicador de éxito.** Nunca para texto, nunca para fondos grandes, nunca en gradientes. El Azafrán (advertencia) **nunca** se usa para acentuar: solo para avisos de revisión manual.
 
 ---
 
@@ -148,7 +152,7 @@
 - **Estilo**: Monolineal (trazo único 2px), esquinas redondeadas 2px, óptico 20x20px / 24x24px.
 - **Familia**: Lucide / Phosphor (MIT license) como base, customizadas para coherencia.
 - **Iconos clave custom**: `hop-arrow` (el glifo del logo), `isrc-tag`, `session-lock`, `check-precise`.
-- **Color**: `currentColor` (hereda del texto) / Teal solo para estado éxito/activo.
+- **Color**: `currentColor` (hereda del texto) / Ámbar solo para estado éxito/activo.
 
 ### Patrones / Texturas
 - **No hay patrones decorativos**. El espacio en blanco y la grilla son el patrón.
@@ -156,7 +160,7 @@
 
 ### Fotografía / Ilustración
 - **Estilo**: Documental técnico — fotos reales de: cables de audio, mesas de mezclas, vinilos, manos ajustando controles, pantallas de código, estudios.
-- **Tratamiento**: Alto contraste B/N + overlay Teal 10% (solo en hero/landing).
+- **Tratamiento**: Alto contraste B/N + overlay Ámbar 10% (solo en hero/landing).
 - **Prohibido**: Fotos de stock "lifestyle", gente sonriendo con auriculares, abstractos de ondas de sonido, degradados neón.
 
 ### Movimiento (Motion)
@@ -169,20 +173,20 @@
 ## 6. APLICACIONES CLAVE (donde se ve primero)
 
 ### A. Web app (https://tunehop.vercel.app) — **Prioridad 1**
-- Hero con tagline + CTA Teal (texto negro) + glifo animado sutil (salto al hover).
-- Formulario de consentimiento: fondo Negro, texto Blanco, CTA Teal.
-- Selección de playlists: tarjetas Blancas sobre fondo Gris 100 (light) / Gris 900 (dark), hover → borde Teal.
-- Revisión manual: tarjetas con acento Ámbar (advertencia), botones Teal (acción), Rojo (omitir/eliminar).
+- Hero con wordmark `Tune` + H ámbar + `op`, tagline + CTA Ámbar (texto negro) + H animada sutil (salto al hover).
+- Formulario de consentimiento: fondo Negro, texto Blanco, CTA Ámbar.
+- Selección de playlists: tarjetas Blancas sobre fondo Gris 100 (light) / Gris 900 (dark), hover → borde Ámbar.
+- Revisión manual: tarjetas con acento Azafrán (advertencia `#FF9F0A`), botones Ámbar (acción), Rojo (omitir/eliminar).
 - Estados de carga: skeleton con pulso Gris 200 / Gris 800.
 - **Tokens `frontend`**: La skill `frontend` (Passe-Partout) recoge `--color-*`, `--text-*`, `--spacing-*`, `--radius-*` (4px base, 8px tarjetas, 12px modales).
 
 ### B. Favicon / App Icon / Avatar social — **Prioridad 2**
-- Glifo solo (hop-arrow), centrado, Teal sobre Negro (dark) / Negro sobre Blanco (light).
+- Glifo H solo, centrado, Ámbar sobre Negro (dark) / Negro sobre Blanco (light).
 - SVG escalable + PNG 512x512, 192x192, 48x48, 32x32, 16x16.
 - `manifest.json` con `theme_color: #0A0A0A`, `background_color: #0A0A0A`.
 
 ### C. Redes sociales / OG image / Compartir migración — **Prioridad 3**
-- Template 1200x630: Fondo Negro, wordmark blanco centrado, tagline Teal, glifo grande sutil de fondo (opacity 5%).
+- Template 1200x630: Fondo Negro, wordmark blanco centrado, tagline Ámbar, H grande sutil de fondo (opacity 5%).
 - Exportación JSON: mismo estilo, con resumen de migración (X playlists, Y canciones, Z% encontradas).
 
 ---
@@ -191,7 +195,7 @@
 
 | Error de categoría | Por qué TuneHop no lo comete |
 |---|---|
-| **Verde Spotify / Azul genérico tech** | Paleta propia (Negro/Blanco/Teal). El Teal es puente a TIDAL, no "tech blue". |
+| **Verde Spotify / Azul genérico tech** | Paleta propia (Negro/Blanco/Ámbar). El Ámbar es el oro del pago justo, no "tech blue". |
 | **Ondas de sonido / Ecualizadores / Notas musicales** | Iconografía de "salto preciso" (línea + punto), no de "audio". |
 | **Degradados neón / Glassmorphism / Efectos de moda** | Color plano, contraste alto, cero efectos decorativos. Sabio no decora. |
 | **Ilustraciones "amigables" / Personajes / Mascotas** | Fotografía documental o nada. La marca no es un personaje. |
@@ -215,13 +219,13 @@ La skill `frontend` (marco Passe-Partout) debe recibir estos **tokens de diseño
     "bgInverse": "#0A0A0A",
     "fg": "#0A0A0A",
     "fgInverse": "#FAFAFA",
-    "accent": "#00E5A0",
-    "accentHover": "#00B886",
+    "accent": "#FFC300",
+    "accentHover": "#E0A800",
     "error": "#FF453A",
-    "warning": "#FFCC00",
+    "warning": "#FF9F0A",
     "border": "#E5E5E5",
     "borderInverse": "#2A2A2A",
-    "focus": "#00E5A0"
+    "focus": "#FFC300"
   },
   "font": {
     "primary": "Space Grotesk",
@@ -241,4 +245,4 @@ La skill `frontend` (marco Passe-Partout) debe recibir estos **tokens de diseño
 }
 ```
 
-**Próximo paso lógico**: `mkt-08-proteccion-legal` (búsqueda de registrabilidad del naming/logo y chequeo de claims regulados) — antes de cerrar el brand book (Paso 9).
+**Próximo paso lógico**: `mkt-08-proteccion-legal` (búsqueda de registrabilidad del naming/logo y chequeo de claims regulados) — antes de cerrar el brand book (Paso 9). *(Nota: identidad visual actualizada el 2026-09-15 — logo final H ámbar integrada + paleta Ámbar/Azafrán, ver bitácora.)*

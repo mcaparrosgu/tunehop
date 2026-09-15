@@ -70,28 +70,28 @@
 
 ### Logo — Concepto: "El salto preciso"
 
-**Wordmark**: `TuneHop` (Space Grotesk Bold, tracking +10) + glifo a la derecha (gap 1x altura de x).
-**Glifo**: Nace de la pierna derecha de la **'h' de "hop"** → se alarga, curva y aterriza en un punto preciso. Trazo monolineal 2.5px, esquina redondeada, punto de aterrizaje (círculo 2.5px).
+**Wordmark integrado**: `Tune` + **H (glifo) SIEMPRE en Ámbar `#FFC300`** + `op` — una sola palabra en línea tipográfica; la H ámbar **sustituye a la letra** (esa es la gracia del logo). Glifo dimensionado a la cap-height de Space Grotesk (~0.74em) y apoyado en la línea base como una letra más.
+**Glifo H**: Dos palos verticales rectos (precisión, Sabio) + barra central que **sale volando por encima** en curva ascendente (el hop, Explorador). Trazo 3px, esquinas redondeadas (linecap round). ViewBox 24x24: `M4 3 V21`, `M20 3 V21`, barra `M4 12 Q12 2 20 12`.
 **Variantes**:
-- Principal horizontal: wordmark + glifo
-- Compacta / Avatar: solo glifo (circular 1:1)
-- Monocromáticas: Negro sobre blanco / Blanco sobre negro / Teal sobre negro / Negro sobre teal
-- Favicon: glifo 32x32, 16x16, 48x48 (SVG + PNG)
+- Principal: `Tune` + H ámbar + `op` (texto negro sobre claro / blanco sobre oscuro)
+- Compacta / Avatar: solo glifo H (circular 1:1)
+- Monocromáticas: Negro sobre blanco / Blanco sobre negro / H ámbar sobre negro
+- Favicon: glifo H 32x32, 16x16, 48x48 (SVG + PNG)
 
 ### Paleta de color — Mínima, semántica, WCAG AA
 
 | Rol | Hex | Uso exclusivo |
 |---|---|---|
-| Negro profundo | `#0A0A0A` | Fondo dark, texto light, wordmark |
+| Negro profundo | `#0A0A0A` | Fondo dark, texto light, wordmark (texto) |
 | Blanco puro | `#FAFAFA` | Fondo light, texto dark, espacio |
-| **Teal eléctrico (Acento)** | `#00E5A0` | **SOLO**: CTA primario (texto NEGRO), focus ring, glifo favicon, indicador éxito |
-| Teal hover/pressed | `#00B886` | Hover/active CTA, focus visible |
+| **Ámbar (Acento de marca)** | `#FFC300` | **SOLO**: la H del wordmark, CTA primario (texto NEGRO), focus ring, glifo favicon, indicador éxito |
+| Ámbar oscuro (Hover/Pressed) | `#E0A800` | Hover/active CTA, focus visible |
 | Rojo funcional (Error) | `#FF453A` | Errores destructivos, botón "Eliminar datos" |
-| Ámbar funcional (Advertencia) | `#FFCC00` | Revisión manual, atención requerida |
+| Azafrán funcional (Advertencia) | `#FF9F0A` | Revisión manual, atención requerida (**distinto a propósito** del ámbar de marca) |
 | Gris 100 (Bordes light) | `#E5E5E5` | Divisores, inputs light |
 | Gris 900 (Bordes dark) | `#2A2A2A` | Divisores, inputs dark |
 
-**Regla de oro del Teal**: **NUNCA** para texto, **NUNCA** para fondos grandes, **NUNCA** en gradientes. Solo: fondo CTA primario (con texto negro), anillo focus, glifo decorativo, éxito.
+**Regla de oro del Ámbar**: **NUNCA** para texto, **NUNCA** para fondos grandes, **NUNCA** en gradientes. Solo: fondo CTA primario (con texto negro), la H del wordmark, anillo focus, glifo decorativo, éxito. El **Azafrán** (advertencia) nunca se usa para acentuar.
 
 ### Tipografía
 
@@ -111,16 +111,16 @@
 
 ### Sistema gráfico
 
-- **Iconografía**: Monolineal 2px, esquinas 2px, óptico 20x20/24x24, `currentColor` (Teal solo éxito/activo). Base: Lucide/Phosphor MIT + custom (`hop-arrow`, `isrc-tag`, `session-lock`).
-- **Fotografía**: Documental técnico (cables, mesas de mezclas, vinilos, manos en controles, pantallas de código). Tratamiento: B/N alto contraste + overlay Teal 10% (solo hero). **Prohibido**: lifestyle, gente feliz con auriculares, ondas abstractas, degradados neón.
+- **Iconografía**: Monolineal 2px, esquinas 2px, óptico 20x20/24x24, `currentColor` (Ámbar solo éxito/activo). Base: Lucide/Phosphor MIT + custom (`hop-arrow`, `isrc-tag`, `session-lock`).
+- **Fotografía**: Documental técnico (cables, mesas de mezclas, vinilos, manos en controles, pantallas de código). Tratamiento: B/N alto contraste + overlay Ámbar 10% (solo hero). **Prohibido**: lifestyle, gente feliz con auriculares, ondas abstractas, degradados neón.
 - **Motion**: 150ms (micro), 200ms (transiciones), 300ms (modales). Easing: `cubic-bezier(0.25, 0.46, 0.45, 0.94)` (ease-out-expo = "hop"). Respeta `prefers-reduced-motion`.
 - **Grilla**: Base 4px (4, 8, 12, 16, 24, 32, 48, 64). Radios: 4px (sm), 8px (md), 12px (lg), 9999px (full).
 
 ### Aplicaciones clave (prioridad)
 
 1. **Web app** (tunehop.vercel.app) — Hero, consentimiento, selección playlists, revisión manual, resultados.
-2. **Favicon / App icon / Avatar social** — Glifo solo, Teal sobre Negro / Negro sobre Blanco.
-3. **OG image / Redes / Compartir migración** — 1200x630: Negro, wordmark blanco, tagline Teal, glifo sutil 5% opacity.
+2. **Favicon / App icon / Avatar social** — Glifo solo, Ámbar sobre Negro / Negro sobre Blanco.
+3. **OG image / Redes / Compartir migración** — 1200x630: Negro, wordmark blanco, tagline Ámbar, H sutil 5% opacity.
 
 ---
 
@@ -144,10 +144,10 @@
 
 | ✅ CORRECTO | ❌ INCORRECTO |
 |---|---|
-| Wordmark + glifo horizontal, espacio 1x altura de x | Glifo separado del wordmark en uso principal |
-| Glifo solo en favicon, avatar, app icon (1:1) | Glifo solo en hero o header web (usa wordmark) |
-| Negro sobre fondo blanco / Blanco sobre fondo negro | Logo en color sobre fondo de color (salvo Teal/negro) |
-| Teal sobre Negro (favicon) / Negro sobre Blanco | Teal sobre Blanco (contraste 1.9:1 — falla WCAG) |
+| Wordmark `Tune` + H ámbar + `op` en línea tipográfica | Glifo separado del wordmark en uso principal |
+| Glifo H solo en favicon, avatar, app icon (1:1) | Glifo solo en hero o header web (usa wordmark) |
+| Negro sobre fondo blanco / Blanco sobre fondo negro | Logo en color sobre fondo de color (salvo H ámbar sobre negro) |
+| H Ámbar sobre Negro (favicon) / Negro sobre Blanco | Ámbar sobre Blanco (contraste 1.9:1 — falla WCAG) |
 | Espacio de respeto = altura de la 'T' perimetral | Elementos tocando el logo (texto, bordes, otros logos) |
 | Tamaño mínimo: 24px altura wordmark / 16px glifo | Escalar por debajo del mínimo legible |
 
@@ -155,8 +155,8 @@
 
 | ✅ CORRECTO | ❌ INCORRECTO |
 |---|---|
-| CTA primario: fondo Teal `#00E5A0` + texto Negro `#0A0A0A` | Texto en Teal sobre Blanco (contraste 1.9:1 — falla AA) |
-| Focus ring: Teal `#00E5A0` 2px + offset 2px | Focus ring en azul genérico / verde Spotify / gris |
+| CTA primario: fondo Ámbar `#FFC300` + texto Negro `#0A0A0A` | Texto en Ámbar sobre Blanco (contraste 1.9:1 — falla AA) |
+| Focus ring: Ámbar `#FFC300` 2px + offset 2px | Focus ring en azul genérico / verde Spotify / gris |
 | Fondo Negro `#0A0A0A` + texto Blanco `#FAFAFA` (dark) | Fondos grises intermedios / "temas" decorativos |
 | Blanco `#FAFAFA` + texto Negro `#0A0A0A` (light) | Degradados, glassmorphism, sombras decorativas |
 | Rojo `#FF453A` solo para error destructivo | Rojo para acentos decorativos / botones primarios |
@@ -185,12 +185,12 @@
 ## 6. CHECKLIST DE COHERENCIA (revisa antes de publicar cualquier pieza)
 
 **Identidad visual**
-- [ ] Logo: variante correcta (wordmark+glifo / solo glifo) + espacio de respeto
-- [ ] Paleta: solo Negro, Blanco, Teal (acento), Rojo error, Ámbar warning, Grises bordes
-- [ ] Teal: **solo** CTA primario (texto negro), focus ring, glifo, éxito — nunca texto, nunca fondo grande
+- [ ] Logo: variante correcta (wordmark integrado `Tune`+H ámbar+`op` / solo glifo H) + espacio de respeto
+- [ ] Paleta: solo Negro, Blanco, Ámbar (acento marca), Rojo error, Azafrán warning, Grises bordes
+- [ ] Ámbar: **solo** la H del wordmark, CTA primario (texto negro), focus ring, glifo, éxito — nunca texto, nunca fondo grande
 - [ ] Tipografía: Space Grotesk (UI/hero/body) + JetBrains Mono (solo código/ISRC/JSON)
 - [ ] Contraste WCAG AA verificado en todos los pares texto/fondo
-- [ ] Iconografía: monolineal 2px, `currentColor`, Teal solo éxito/activo
+- [ ] Iconografía: monolineal 2px, `currentColor`, Ámbar solo éxito/activo
 - [ ] Motion: easing hop (ease-out-expo), respeta `prefers-reduced-motion`
 
 **Identidad verbal**
@@ -223,16 +223,16 @@
     "bgInverse": "#0A0A0A",
     "fg": "#0A0A0A",
     "fgInverse": "#FAFAFA",
-    "accent": "#00E5A0",
-    "accentHover": "#00B886",
+    "accent": "#FFC300",
+    "accentHover": "#E0A800",
     "accentFg": "#0A0A0A",
     "error": "#FF453A",
     "errorFg": "#FAFAFA",
-    "warning": "#FFCC00",
+    "warning": "#FF9F0A",
     "warningFg": "#0A0A0A",
     "border": "#E5E5E5",
     "borderInverse": "#2A2A2A",
-    "focus": "#00E5A0"
+    "focus": "#FFC300"
   },
   "font": {
     "primary": "Space Grotesk",

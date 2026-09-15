@@ -366,3 +366,15 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **QUÉ SE ROMPIÓ** — Nada. El manual refleja lo ya implementado en código (tokens CSS, Logo, Button, Home) y lo decidido en Pasos 1-8. La coherencia entre docs y código está verificada.
 
 - **QUÉ QUEDA PENDIENTE DE ENTENDER** — La fundadora marcó las 4 áreas: (1) Brand book / manual de marca — para qué sirve y por qué cierra Fase A (activo tangible vs docs sueltos). (2) Usos correctos/incorrectos — por qué son reglas duras (coherencia = confianza) y no sugerencias estéticas. (3) Checklist de coherencia — cómo se usa en práctica (revisa antes de publicar, no después). (4) Estado legal en el manual — por qué va ahí si está pendiente de abogado (transparencia: el equipo sabe qué NO lanzar hasta que el abogado dé ok). Se explican al iniciar Fase B.
+
+## 2026-09-15 · Marketing Paso 7/9 — Identidad visual FINAL: logo H ámbar integrado + paleta
+
+- **QUÉ SE DECIDIÓ** — La fundadora fijó el logo definitivo (tras iterar exploradores v1-v3): **wordmark integrado `Tune` + H(glifo) + `op`**, donde la H ámbar SUSTITUYE a la letra tipográfica dentro del nombre (esa es la gracia). La H: dos palos verticales + barra central que sale volando por encima en curva ascendente (`M4 12 Q12 2 20 12`), trazo 3px redondeado, siempre en Ámbar `#FFC300` independiente del color del texto. Color de acento **Ámbar`#FFC300`** (hover `#E0A800`) en sustitución del teal `#00E5A0` inicial. Wordmark: negro sobre claro / blanco sobre oscuro, solo la H en color.
+
+- **EDGE CASE RESUELTO** — El warning funcional era Ámbar `#FFCC00`, casi idéntico al nuevo acento `#FFC300` (diferían 3 unidades de verde). Dos ámbares casi iguales con roles distintos rompen la semántica visual (CTA vs "atención"). Se movió el warning a **Azafrán `#FF9F0A`** (naranja), deliberadamente distinto. Actualizado en globals.css + ambos docs.
+
+- **POR QUÉ ÁMBAR Y NO OTRO COLOR VIVO** — (1) Contraste: ámbar sobre blanco es 1.9:1 (falla WCAG como texto); sobre negro es 11.9:1. El wordmark completo en color sería ilegible en CTA/footer. (2) El acento vale por escaso: solo la H en color apunta al hop (movimiento + color al mismo sitio) y no compite con el CTA.
+
+- **ARCHIVOS TOCADOS** — Logo.tsx (wordmark integrado + role="img" aria-label="TuneHop"), icon.svg, globals.css (acento, hover, focus, warning→azafrán), brand-book.html (regenerado con script, script actualizado como fuente de verdad), docs/marketing/06-identidad-visual.md y 08-manual-marca.md (logo + paleta + tasas WCAG + checklist + tokens JSON). Commits: a4de9c9 (logo H+lima), fd2243d (ámbar), 2fb1718 (wordmark integrado).
+
+- **QUÉ QUEDA PENDIENTE DE ENTENDER** — La fundadora sufrió sobre-iteración del detalle de la barra de la H (diagonal vs curva vs escalón) que terminó descartada en favor de la H original con curva voladora. Lección anotada: cuando la usuaria dice "es muy frustrante", congelar de inmediato sin nuevas variantes.
