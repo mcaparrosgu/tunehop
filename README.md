@@ -16,6 +16,20 @@ El proceso es simple:
 
 Tus datos se borran al cerrar la sesión. No guardamos nada.
 
+## Modelo de acceso (importante)
+
+La API de Spotify limita las apps en **modo desarrollo a 5 usuarios** y la cuota extendida solo se concede a organizaciones (≥250.000 MAU). Por eso TuneHop **no** es una app pública única que lea Spotify en nombre de todo el mundo: es **un motor con varias puertas de entrada**.
+
+| Puerta | Entrada | ¿Usa la API de Spotify? | Estado |
+|---|---|---|---|
+| 1. Beta cerrada | Login de Spotify (máx. 5 personas) | Sí | Funciona |
+| 2. Autoalojado (tu propia app) | Login con tu Client ID | Sí (la tuya) | Pendiente |
+| 4. Archivo | Subes un CSV/JSON exportado | **No** | Pendiente (prioridad) |
+| 5. Playlist pública | Enlace público, sin login | Sí (datos públicos) | Pendiente |
+| 6. Open source autoalojado | = puerta 2 + guía | Sí | Pendiente |
+
+Detalle y plan en [`docs/tech-decision-puertas.md`](docs/tech-decision-puertas.md).
+
 ## Requisitos
 
 - Node.js 18 o superior
@@ -27,7 +41,7 @@ Tus datos se borran al cerrar la sesión. No guardamos nada.
 
 ```bash
 # Clonar el repositorio
-git clone https://github.com/tu-usuario/tunehop.git
+git clone https://github.com/mcaparrosgu/tunehop.git
 cd tunehop
 
 # Instalar dependencias

@@ -400,3 +400,21 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **ERROR DETECTADO Y CORREGIDO** — La skill `director-creativo` define el personaje como "Yara", pero el nombre real de la directora creativa es Corita. Se corrigió en `09-brief-creativo.md` pero NO se modificó la skill (estaría fuera del alcance de este paso).
 
 - **QUÉ QUEDA PENDIENTE** — Paso 11 del método de marketing: La Gran Idea (concepto creativo central que nace de este brief). No hay pendientes técnicos del MVP neste paso.
+
+## 2026-09-24 · Hallazgo: la puerta de la API de Spotify → modelo de puertas
+
+- **QUÉ SE DESCUBRIÓ** — La Web API de Spotify limita las apps en **modo desarrollo a 5 usuarios autenticados** (en *allowlist*). Para pasar a **cuota extendida** hay que solicitarlo, y desde el **15/05/2025** Spotify solo acepta solicitudes de **organizaciones** (no personas), con requisitos de servicio lanzado y **≥250.000 MAU**. Es un círculo cerrado para una persona: el límite de 5 no lo rompe tener las claves en `.env.local`, porque el límite es **por app**, no por instalación.
+
+- **IMPACTO** — El plan del proyecto suponía publicar en Vercel con acceso público. Ese supuesto era falso. Auditoría: grep en `docs/`, `research/` y `seguridad/` el mismo día → **0 menciones** a «5 usuarios», «cuota», «allowlist» o «modo desarrollo». No había plan de contingencia.
+
+- **DECISIÓN** — Se adopta el **modelo de puertas**: **un único motor** (lista → resolver por ISRC + fallback → escribir en TIDAL) y varias puertas de entrada. La puerta pública principal pasa a ser la **puerta 4 (archivo)**: la persona exporta su playlist y la sube; TuneHop **no usa la API de Spotify**, con lo que desaparece el límite de 5, la cuota extendida y la revisión. La puerta 1 (beta cerrada de 5 personas) se mantiene para la demo. Documento completo: `docs/tech-decision-puertas.md`.
+
+- **ACOMPAÑAMIENTO (aclaración)** — La idea de la **guía para personas no técnicas** se reubica: pertenece a las puertas **2 y 6** (autoalojado, donde hay que crear apps en paneles ajenos). La puerta 4 **no necesita guía** (exportar → subir → conectar TIDAL). Pedir guía para la puerta 4 sería resolver un problema inexistente.
+
+- **VERIFICACIONES (24/09/2026)** — (1) Spotify *Quota modes* y política → confirman el límite. (2) **Client Credentials** no consume plazas de los 5, pero solo accede a datos públicos. (3) **PKCE** permite operar **sin `*_SECRET`**. (4) **TIDAL** no es cuello de botella (API v2 pública de escritura; credenciales ya funcionando). (5) **Exportify** sigue activo y su CSV **incluye ISRC por defecto** → el motor actual se reutiliza sin degradar; usa un Client ID público + PKCE en el navegador, y funciona porque tiene cuota extendida aprobada (no copiable).
+
+- **ORDEN DE CONSTRUCCIÓN** — 1) Motor (existe) → 2) **Puerta 4** → 3) Puerta 5 (playlist pública vía Client Credentials) → 4) Puerta 2 (login propio + guía `/setup`) → 5) Puerta 6 (autoalojamiento).
+
+- **LO QUE NO SE HARÁ** — Copiar el Client ID público de Exportify (depender de cuota ajena). App de escritorio sin tracción. Secretos en git.
+
+- **QUÉ QUEDA PENDIENTE** — (1) Implementar el parser CSV + UI de subida de la puerta 4. (2) Confirmar el esquema exacto del JSON de «Descargar tus datos» de Spotify (¿trae ISRC?). (3) Decidir puerta 5 y 2 tras validar la 4.
