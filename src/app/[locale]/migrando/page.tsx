@@ -80,8 +80,10 @@ export default function Migrando() {
     if (uploadedRaw) {
       try {
         const uploaded: UploadedPlaylist = JSON.parse(uploadedRaw);
-        runMigration([], uploaded);
-        return;
+        if (uploaded.tracks && uploaded.tracks.length > 0) {
+          runMigration([], uploaded);
+          return;
+        }
       } catch {
         // Archivo corrupto en sesión: caer a la vía Spotify
       }
