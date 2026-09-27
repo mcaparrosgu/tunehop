@@ -20,9 +20,13 @@ export default function Destino() {
         {!conectado ? (
           <>
             <div className="mt-6">
-              <Button href="/api/tidal/auth" className="w-full py-4 text-lg" aria-label={t("destino.tidal")}>
+              <a
+                href="/api/tidal/auth"
+                className="btn-primary w-full py-4 text-lg text-center"
+                aria-label={t("destino.tidal")}
+              >
                 {t("destino.tidal")}
-              </Button>
+              </a>
             </div>
           </>
         ) : (

@@ -72,7 +72,7 @@ export default function ArchivoPage() {
       })),
     };
 
-    sessionStorage.setItem("tunehop:uploadedPlaylist", JSON.stringify(uploaded));
+    localStorage.setItem("tunehop:uploadedPlaylist", JSON.stringify(uploaded));
     router.push("/destino");
   };
 

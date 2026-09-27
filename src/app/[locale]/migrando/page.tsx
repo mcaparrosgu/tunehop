@@ -76,7 +76,9 @@ export default function Migrando() {
 
   useEffect(() => {
     // Puerta 4 (archivo): si hay una playlist subida en sesión, migrar desde ahí
-    const uploadedRaw = sessionStorage.getItem("tunehop:uploadedPlaylist");
+    // Puerta 4 (archivo): localStorage porque el OAuth cambia de pestaña
+    let uploadedRaw = localStorage.getItem("tunehop:uploadedPlaylist");
+    if (!uploadedRaw) uploadedRaw = sessionStorage.getItem("tunehop:uploadedPlaylist");
     if (uploadedRaw) {
       try {
         const uploaded: UploadedPlaylist = JSON.parse(uploadedRaw);
@@ -85,7 +87,7 @@ export default function Migrando() {
           return;
         }
       } catch {
-        // Archivo corrupto en sesión: caer a la vía Spotify
+        // Archivo corrupto: caer a vía Spotify
       }
     }
 
@@ -97,6 +99,14 @@ export default function Migrando() {
 
     runMigration(selectedIds);
   }, []);
+
+  /** Limpia los datos de la Puerta 4 (archivo) tras consumirlos */
+  const cleanupUploadedPlaylist = () => {
+    try {
+      localStorage.removeItem("tunehop:uploadedPlaylist");
+      sessionStorage.removeItem("tunehop:uploadedPlaylist");
+    } catch { /* noop */ }
+  };
 
   const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -558,6 +568,8 @@ export default function Migrando() {
     });
     try {
       sessionStorage.clear();
+      localStorage.removeItem("tunehop:uploadedPlaylist");
+      localStorage.removeItem("tunehop:migratedPlaylists");
     } catch {
       // noop
     }
