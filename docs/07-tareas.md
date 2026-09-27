@@ -262,4 +262,20 @@
 
 ---
 
+## HITO 13 — Puerta 4 (migrar desde archivo) ✅
+
+**Qué ves cuando este hito termina**: Subes un CSV de Exportify, TuneHop parsea las canciones, las resuelve en TIDAL y crea la playlist — sin conectar Spotify.
+
+| # | Tarea | Archivos | Cómo compruebo | Depende de |
+|---|---|---|---|---|
+| ✅ T66 | Parser CSV con soporte i18n (EN/ES), BOM, comas escapadas | `src/lib/csv-parser.ts` | Tests pasan (11 tests) | T01 |
+| ✅ T67 | Página `/archivo`: subida, preview, validación, RGPD | `src/app/[locale]/archivo/page.tsx` | Subo CSV y veo preview | T66 |
+| ✅ T68 | Migrando acepta datos de archivo (localStorage) | `src/app/[locale]/migrando/page.tsx` | Migración sin Spotify | T67 |
+| ✅ T69 | Enlace en Home ("Migrar desde archivo CSV") | `src/app/[locale]/page.tsx`, `messages/es.json` | Veo el enlace en home | T68 |
+| ✅ T70 | Fix navegación OAuth: localStorage + `<a>` nativo | `archivo/page.tsx`, `destino/page.tsx`, `migrando/page.tsx` | OAuth no pierde datos | T68 |
+
+> **Nota de implementación**: Los datos del archivo viajan por `localStorage` (compartido entre pestañas del OAuth) con limpieza explícita al cerrar sesión. El botón de TIDAL usa `<a>` nativo para que la redirección OAuth funcione en la misma pestaña.
+
+---
+
 *Backlog registrado en la bitácora del 2026-09-09 (ver docs/bitacora.md).*

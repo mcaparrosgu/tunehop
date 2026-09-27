@@ -428,3 +428,15 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **NÚMEROS** — 91 tests pasando (80 existentes + 11 nuevos). Build TypeScript limpio. Ruta `/archivo` compilada y desplegable.
 
 - **QUÉ QUEDA PENDIENTE** — (1) Probar con un CSV real de Exportify en producción. (2) Soporte para el JSON oficial de "Descargar tus datos" (sin ISRC → fallback nombre/artista). (3) Puerta 5 (playlist pública vía Client Credentials). (4) Puerta 2 (login propio + guía `/setup`).
+
+## 2026-09-27 · Fix de navegación Puerta 4 (localStorage + enlace nativo)
+
+- **QUÉ SE ROMPIÓ** — Al conectar TIDAL desde `/destino`, los datos del archivo CSV se perdían → `NO_PLAYLISTS` en `/migrando`.
+
+- **CAUSA RAÍZ (cebolla de 3 capas)** — (1) `sessionStorage` es aislada por pestaña; el OAuth de TIDAL abría nueva pestaña → datos perdidos. (2) `<Button href="/api/tidal/auth">` sin `external` usa `<Link>` de Next.js (navegación client-side), que no sigue bien redirecciones 302 a OAuth externo. (3) No se limpiaban los datos en `localStorage` al cerrar sesión.
+
+- **QUÉ SE ARREGLÓ** — (1) `sessionStorage` → `localStorage` para `tunehop:uploadedPlaylist`: los datos viajan entre pestañas del OAuth. (2) Botón TIDAL: `<a href="/api/tidal/auth">` nativo en vez de `<Button href...>` (que renderiza `<Link>`). Navegación completa en la misma pestaña. (3) `handleClearData` ahora borra también `localStorage.removeItem("tunehop:uploadedPlaylist")` y `localStorage.removeItem("tunehop:migratedPlaylists")`.
+
+- **LECCIÓN** — `sessionStorage` no sobrevive a OAuth. Usar `localStorage` con limpieza explícita al cerrar. Rutas API con redirección 302 a externos requieren `<a>` nativo, no `<Link>`.
+
+- **ARCHIVOS TOCADOS** — `archivo/page.tsx` (localStorage), `destino/page.tsx` (<a> nativo), `migrando/page.tsx` (lee localStorage + limpieza).
