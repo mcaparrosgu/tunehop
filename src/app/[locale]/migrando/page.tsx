@@ -10,6 +10,17 @@ interface NotFoundTrack {
   isrc: string;
 }
 
+/** Puerta 4: playlist subida como archivo CSV (Exportify). Vive en sessionStorage. */
+interface UploadedPlaylist {
+  source: "csv";
+  name: string;
+  tracks: Array<{
+    isrc: string | null;
+    name: string;
+    artists: string[];
+  }>;
+}
+
 interface Candidate {
   tidalId: string;
   title: string;
@@ -64,6 +75,18 @@ export default function Migrando() {
   const abortControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
+    // Puerta 4 (archivo): si hay una playlist subida en sesión, migrar desde ahí
+    const uploadedRaw = sessionStorage.getItem("tunehop:uploadedPlaylist");
+    if (uploadedRaw) {
+      try {
+        const uploaded: UploadedPlaylist = JSON.parse(uploadedRaw);
+        runMigration([], uploaded);
+        return;
+      } catch {
+        // Archivo corrupto en sesión: caer a la vía Spotify
+      }
+    }
+
     const selectedIds = JSON.parse(sessionStorage.getItem("selectedPlaylists") || "[]");
     if (selectedIds.length === 0) {
       setProgress({ stage: "error", message: t("migrando.errorNoPlaylists"), current: 0, total: 0, error: "NO_PLAYLISTS" });
@@ -177,15 +200,35 @@ export default function Migrando() {
     }
   };
 
-  const runMigration = async (playlistIds: string[]) => {
+  const runMigration = async (playlistIds: string[], uploaded?: UploadedPlaylist) => {
     abortControllerRef.current = new AbortController();
     const signal = abortControllerRef.current.signal;
 
+    // Puerta 4: título elegido por la usuaria; vía Spotify: título genérico
+    const playlistTitle =
+      uploaded?.name || "Migración Spotify - " + new Date().toLocaleDateString("es-ES");
+
     try {
-      // 1. Obtener tracks de Spotify
-      setProgress({ stage: "fetching", message: t("migrando.fetching"), current: 0, total: playlistIds.length });
+      // 1. Obtener tracks: del archivo subido (puerta 4) o de Spotify
+      setProgress({
+        stage: "fetching",
+        message: uploaded ? t("migrando.loadingFile") : t("migrando.fetching"),
+        current: 0,
+        total: uploaded ? uploaded.tracks.length : playlistIds.length,
+      });
 
       const allTracks: Array<{ isrc: string; name: string; artists: string[] }> = [];
+
+      if (uploaded) {
+        // Puerta 4: las pistas ya están en sesión, no se llama a la API de Spotify
+        allTracks.push(
+          ...uploaded.tracks.map((tr) => ({
+            isrc: tr.isrc ?? "",
+            name: tr.name,
+            artists: tr.artists,
+          }))
+        );
+      }
 
       for (let i = 0; i < playlistIds.length; i++) {
         if (signal.aborted) return;
@@ -294,7 +337,7 @@ export default function Migrando() {
           current: tracksWithISRC.length,
           total: tracksWithISRC.length,
           result: {
-            playlistName: `Migración Spotify - ${new Date().toLocaleDateString("es-ES")}`,
+            playlistName: playlistTitle,
             added: 0,
             manualAdded: 0,
             omitted: tracksWithISRC.length,
@@ -312,7 +355,7 @@ export default function Migrando() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          title: `Migración Spotify - ${new Date().toLocaleDateString("es-ES")}`,
+          title: playlistTitle,
           description: `Migrada desde Spotify con TuneHop. ${tidalMatches.length} tracks encontrados.`,
         }),
       });
@@ -327,7 +370,7 @@ export default function Migrando() {
 
       const createData = await createRes.json();
       playlistIdRef.current = createData.id;
-      playlistNameRef.current = `Migración Spotify - ${new Date().toLocaleDateString("es-ES")}`;
+      playlistNameRef.current = playlistTitle;
 
       // Añadir los que se encontraron automáticamente
       let added = 0;
@@ -350,7 +393,7 @@ export default function Migrando() {
 
       // Sin revisión pendiente: completado
       const notMigrated = items.filter((it) => it.decision === "pending");
-      if (added > 0) {
+      if (added > 0 && !uploaded) {
         markPlaylistsMigrated(playlistIds);
       }
       setProgress({
@@ -391,7 +434,9 @@ export default function Migrando() {
 
       const doneNotMigrated = [...skipped, ...pending].map((it) => ({ name: it.name, artists: it.artists, isrc: it.isrc }));
       saveReviewToStorage();
-      markPlaylistsMigrated(JSON.parse(sessionStorage.getItem("selectedPlaylists") || "[]"));
+      if (!sessionStorage.getItem("tunehop:uploadedPlaylist")) {
+        markPlaylistsMigrated(JSON.parse(sessionStorage.getItem("selectedPlaylists") || "[]"));
+      }
 
       setProgress({
         stage: "done",

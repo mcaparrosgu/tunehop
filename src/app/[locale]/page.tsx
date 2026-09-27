@@ -60,6 +60,18 @@ export default async function Home() {
           </Button>
         </div>
 
+        {/* Puerta 4: migrar desde archivo, sin conectar Spotify */}
+        <div className="mt-6 flex flex-col items-center gap-1">
+          <Link
+            href="/archivo"
+            className="text-sm font-medium text-[var(--color-accent)] underline-offset-2 hover:underline"
+            aria-label={t("home.uploadLinkAria")}
+          >
+            {t("home.uploadLink")}
+          </Link>
+          <p className="text-xs text-[var(--color-fg)]/50">{t("home.uploadDescription")}</p>
+        </div>
+
         {/* Privacy note */}
         <p className="mt-8 text-sm text-[var(--color-fg)]/50">
           {t("home.privacyNote")}{" "}

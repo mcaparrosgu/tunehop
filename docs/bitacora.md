@@ -418,3 +418,13 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **LO QUE NO SE HARÁ** — Copiar el Client ID público de Exportify (depender de cuota ajena). App de escritorio sin tracción. Secretos en git.
 
 - **QUÉ QUEDA PENDIENTE** — (1) Implementar el parser CSV + UI de subida de la puerta 4. (2) Confirmar el esquema exacto del JSON de «Descargar tus datos» de Spotify (¿trae ISRC?). (3) Decidir puerta 5 y 2 tras validar la 4.
+
+## 2026-09-27 · Implementación Puerta 4 (archivo CSV)
+
+- **QUÉ SE HIZO** — Implementada la **Puerta 4**: migrar playlists subiendo un archivo CSV exportado de Spotify (Exportify), sin usar la API de Spotify. Archivos nuevos: `src/lib/csv-parser.ts` (parser CSV con 11 tests), `src/app/[locale]/archivo/page.tsx` (UI de subida con preview y validación). Modificados: `migrando/page.tsx` (acepta `UploadedPlaylist` y omite la llamada a Spotify), `page.tsx` (enlace "Migrar desde archivo CSV" en la home), `messages/es.json` (claves i18n de upload).
+
+- **DECISIONES CLAVE** — (1) **Parsing cliente**: el CSV se lee con `FileReader` en el navegador — cero envío de datos al servidor. (2) **Headers bilingües**: el parser reconoce cabeceras en inglés y español (Exportify usa i18n). (3) **Artistas con comas escapadas**: Exportify escapa comas internas como `\,` — el parser las respeta y divide correctamente. (4) **Reutilización del motor**: la puerta 4 reusa el mismo motor de resolución ISRC + fallback + escritura en TIDAL — una sola cocina, otra puerta.
+
+- **NÚMEROS** — 91 tests pasando (80 existentes + 11 nuevos). Build TypeScript limpio. Ruta `/archivo` compilada y desplegable.
+
+- **QUÉ QUEDA PENDIENTE** — (1) Probar con un CSV real de Exportify en producción. (2) Soporte para el JSON oficial de "Descargar tus datos" (sin ISRC → fallback nombre/artista). (3) Puerta 5 (playlist pública vía Client Credentials). (4) Puerta 2 (login propio + guía `/setup`).

@@ -1,7 +1,7 @@
 # Decisión técnica — Modelo de acceso: un motor, varias puertas
 
 **Fecha**: 24/09/2026
-**Estado**: ✅ VERIFICADO — fuentes oficiales consultadas el mismo día.
+**Estado**: ✅ VERIFICADO — fuentes oficiales consultadas el mismo día. Puerta 4 implementada (2026-09-27).
 **Decisión**: TuneHop se entrega como **un único motor de migración** con varias **puertas de entrada**. La puerta pública principal es la de **archivo** (no usa la API de Spotify).
 
 ---
@@ -53,7 +53,7 @@ Lo único que cambia entre puertas es **por dónde entra la lista**:
 | **1. Beta cerrada** | Login Spotify (5 personas) | Sí (modo desarrollo) | Ya existe |
 | **2. Autoalojado (BYO app)** | Login Spotify, con la app propia de cada persona | Sí (la de cada cual) | Pendiente |
 | **3. App de escritorio** | = puerta 2 empaquetada | Sí | Descartada por ahora |
-| **4. Archivo** ⭐ | Subida de CSV/JSON exportado | **No** | **Pendiente (prioridad)** |
+| **4. Archivo** ⭐ | Subida de CSV/JSON exportado | **No** | **✅ Implementada** |
 | **5. Playlist pública** | Enlace público (`Client Credentials`) | Sí (sin login) | Pendiente |
 | **6. Open source autoalojado** | = puerta 2 + guía de despliegue | Sí | Pendiente |
 
