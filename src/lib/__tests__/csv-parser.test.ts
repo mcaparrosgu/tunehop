@@ -93,4 +93,37 @@ describe("parseExportifyCsv", () => {
     expect(r.tracks[0].name).toBe('Mi "canción", la buena');
     expect(r.tracks[0].artists).toEqual(["A"]);
   });
+
+  // Fixture tomado del propio test de Exportify (PlaylistTable.test.tsx):
+  // cabeceras reales + columnas opcionales (Genres, audio features, Record Label, Copyrights).
+  const cabeceraReal =
+    '"Track URI","Track Name","Artist URI(s)","Artist Name(s)","Album URI","Album Name","Album Artist URI(s)","Album Artist Name(s)","Album Release Date","Album Image URL","Disc Number","Track Number","Track Duration (ms)","Track Preview URL","Explicit","Popularity","ISRC","Added By","Added At","Genres","Danceability","Energy","Key","Loudness","Mode","Speechiness","Acousticness","Instrumentalness","Liveness","Valence","Tempo","Time Signature","Record Label","Copyrights"';
+  const filaRealConIsrc =
+    '"spotify:track:1GrLfs4TEvAZ86HVzXHchS","Crying","spotify:artist:4TXdHyuAOl3rAOFmZ6MeKz","Six by Seven","spotify:album:4iwv7b8gDPKztLkKCbWyhi","Best of Six By Seven","spotify:artist:4TXdHyuAOl3rAOFmZ6MeKz","Six by Seven","2017-02-17","https://i.scdn.co/image/ab67616d0000b273f485821b346237acbbca07ea","1","3","198093","https://p.scdn.co/mp3-preview/daf08df57a49c215c8c53dc5fe88dec5461f15c9?cid=9950ac751e34487dbbe027c4fd7f8e99","false","2","UK4UP1300002","","2020-07-19T09:24:39Z","nottingham indie","0.416","0.971","0","-5.55","1","0.0575","0.00104","0.0391","0.44","0.19","131.988","4","Beggars Banquet","C 2016 Beggars Banquet Records Ltd., P 2016 Beggars Banquet Records Ltd."';
+  const filaRealLocalSinIsrc =
+    '"spotify:local:::my-mix:Track%20Local","Track Local","","Artista Local","","","","","","","1","1","120000","","false","0","","","2021-01-01T00:00:00Z","","","","","","","","","","","","","",""';
+
+  it("parsea el formato real completo de Exportify (con columnas opcionales)", () => {
+    const csv = `${cabeceraReal}\n${filaRealConIsrc}\n${filaRealLocalSinIsrc}\n`;
+    const r = parseExportifyCsv(csv);
+    expect(r.errors).toEqual([]);
+    expect(r.totalRows).toBe(2);
+    expect(r.tracks).toHaveLength(2);
+    const t = r.tracks[0];
+    expect(t.name).toBe("Crying");
+    expect(t.artists).toEqual(["Six by Seven"]);
+    expect(t.album).toBe("Best of Six By Seven");
+    expect(t.isrc).toBe("UK4UP1300002");
+    expect(t.durationMs).toBe(198093);
+    expect(t.uri).toBe("spotify:track:1GrLfs4TEvAZ86HVzXHchS");
+  });
+
+  it("una canción local sin ISRC no rompe el parseo ni genera error", () => {
+    const csv = `${cabeceraReal}\n${filaRealLocalSinIsrc}\n`;
+    const r = parseExportifyCsv(csv);
+    expect(r.errors).toEqual([]);
+    expect(r.tracks).toHaveLength(1);
+    expect(r.tracks[0].name).toBe("Track Local");
+    expect(r.tracks[0].isrc).toBeNull();
+  });
 });

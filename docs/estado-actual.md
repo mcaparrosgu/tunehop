@@ -13,11 +13,22 @@ La app pública funciona sin la API de Spotify: el usuario exporta su playlist a
 | 1. Beta cerrada | Home → Spotify → /playlists → /destino → /migrando | ✅ Funciona (5 usuarios) |
 | 4. Archivo | Home → /archivo → sube CSV → /destino → /migrando | ✅ Funciona |
 
+### Contratos de TIDAL validados contra la API real (2026-09-27)
+
+| Contrato | Resultado |
+|---|---|
+| Batching por ISRC (`filter[isrc]` × N) | ✅ 3/3 ISRC válidos devueltos; inexistente ignorado sin error |
+| Detalles por lote (`filter[id]=a,b,c` + `include=artists`) | ✅ Devuelve título y artista |
+| Búsqueda por texto (`filter[query]`, fallback sin ISRC) | 🔧 **Estaba rota** (ruta + forma de respuesta) → arreglada |
+| Parser con formato real completo de Exportify | ✅ Cubierto por test |
+
+> La verificación se hizo **solo lectura** con token `client_credentials`: no se creó ni modificó nada en TIDAL.
+
 ## Qué queda pendiente (priorizado)
 
 | Prioridad | Qué | Dónde empezar |
 |---|---|---|
-| 1 | Probar Puerta 4 con CSV real de Exportify (no mock) | `/es/archivo` en Vercel |
+| 1 | Probar Puerta 4 con CSV real de Exportify **en el navegador** (parser y contratos TIDAL ya validados) | `/es/archivo` en Vercel |
 | 2 | Paso 19: case study (`docs/case-study.md`) | Skill `paso-19-case-study` |
 | 3 | Paso 20: memoria didáctica (`docs/memoria.md`) | Skill `paso-20-memoria` |
 | 4 | Puerta 5: playlist pública vía Client Credentials | `src/app/[locale]/publica/` |
@@ -41,7 +52,7 @@ Motor único: lista → ISRC/fallback → TIDAL
 - **Producción**: https://tunehop.vercel.app
 - **Ruta Puerta 4**: https://tunehop.vercel.app/es/archivo
 - **CSV de prueba**: `docs/playlist-prueba.csv` (6 canciones, 5 con ISRC)
-- **Tests**: 91 passing (11 del parser CSV)
+- **Tests**: 97 passing (13 del parser CSV + 4 de búsqueda TIDAL)
 - **Build**: TypeScript limpio, Next.js 16.3.4
 
 ## Decisiones recientes (últimos commits)

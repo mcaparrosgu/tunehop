@@ -440,3 +440,22 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **LECCIÓN** — `sessionStorage` no sobrevive a OAuth. Usar `localStorage` con limpieza explícita al cerrar. Rutas API con redirección 302 a externos requieren `<a>` nativo, no `<Link>`.
 
 - **ARCHIVOS TOCADOS** — `archivo/page.tsx` (localStorage), `destino/page.tsx` (<a> nativo), `migrando/page.tsx` (lee localStorage + limpieza).
+
+## 2026-09-27 · Validación Puerta 4 contra TIDAL real + bug del fallback por texto
+
+- **QUÉ SE HIZO** — Antes de la prueba manual con CSV real, se validaron los contratos externos de TIDAL contra su API en vivo (solo lectura, con token `client_credentials`):
+  (1) **Batching por ISRC** (`/tracks?filter[isrc]=…` repetido) → **funciona**: 3 ISRC válidos devuelven 3 tracks; un ISRC inexistente se ignora sin error.
+  (2) **Búsqueda por texto** (`searchText`, el *fallback* para canciones sin ISRC) → **estaba rota por dos motivos**.
+  Además, se añadió una prueba con el **formato real completo de Exportify** (cabeceras y datos copiados del propio test de Exportify, incluidas las columnas opcionales Genres/audio features/Record Label/Copyrights).
+
+- **BUG ENCONTRADO (fallback de búsqueda por texto)** — Dos fallos en la misma función `searchText()` de `src/lib/tidal.ts`, ninguno detectado porque los tests mockeaban `searchTrackByName`/`searchTrackCandidates` y nunca ejercían el HTTP real:
+  1. **Ruta incorrecta**: usaba `/searchResults/{query}` (la query como segmento de ruta) → TIDAL respondía `400 INVALID_RESOURCE_ID`. El SDK oficial de TIDAL genera `GET /searchResults?filter[query]=…`.
+  2. **Forma de respuesta incorrecta**: esperaba `data.relationships.tracks.data` (objeto), pero la API devuelve `data` como **array** de resultados → la ruta correcta habría dado igualmente 0 resultados. Correcto: `data[0].relationships.tracks.data`.
+
+- **QUÉ SE ARREGLÓ** — `searchText()`: ruta con `filter[query]` como parámetro y lectura de `data[0].relationships…`. Verificado en vivo: «Bohemian Rhapsody Queen» → 3 resultados con ISRC; «La Macarena Los del Rio» → match. Se añadió `src/lib/__tests__/tidal-search.test.ts` (4 tests) que mockea `fetch` pero con la **forma auténtica** de TIDAL, para que el fallo no pueda volver sin ser detectado.
+
+- **IMPACTO** — El fallback afecta a las canciones **sin ISRC** (archivos locales, ediciones raras). Hasta ahora esas canciones caían a revisión manual; con el arreglo vuelven a resolverse automáticamente por nombre+artista.
+
+- **LECCIÓN** — Un test que mockea la función que quieres probar no prueba la función: prueba el mock. Los contratos de APIs externas hay que verificarlos contra la API real al menos una vez, y congelarlos después en un test con la forma real de la respuesta.
+
+- **ARCHIVOS TOCADOS** — `src/lib/tidal.ts` (fix), `src/lib/__tests__/tidal-search.test.ts` (nuevo, 4 tests), `src/lib/__tests__/csv-parser.test.ts` (+2 tests con formato real de Exportify). Tests totales: **97** (antes 91).

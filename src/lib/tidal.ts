@@ -65,13 +65,20 @@ async function getTracksByIds(token: string, ids: string[], countryCode = COUNTR
   });
 }
 
-/** Búsqueda por texto en TIDAL v2: /searchResults devuelve refs, luego /tracks por IDs para detalles */
+/**
+ * Búsqueda por texto en TIDAL v2.
+ * La API espera la consulta como parámetro `filter[query]` (no en la ruta) y
+ * devuelve `data` como ARRAY de resultados de búsqueda; los refs de track
+ * viven en `data[0].relationships.tracks.data`. Luego se piden los detalles
+ * por IDs para obtener título y artista.
+ */
 async function searchText(token: string, query: string, limit = 3): Promise<TidalMatch[]> {
   // Limpiar caracteres que TIDAL no acepta en la query
   const cleanQuery = query.replace(/[()\/"..]+/g, " ").trim();
   if (!cleanQuery) return [];
 
-  const searchUrl = `${TIDAL_API}/searchResults/${encodeURIComponent(cleanQuery)}?${new URLSearchParams({
+  const searchUrl = `${TIDAL_API}/searchResults?${new URLSearchParams({
+    "filter[query]": cleanQuery,
     countryCode: COUNTRY_CODE,
     include: "tracks",
   })}`;
@@ -80,9 +87,9 @@ async function searchText(token: string, query: string, limit = 3): Promise<Tida
   if (!res.ok) return [];
 
   const data = await res.json() as {
-    data?: { relationships?: { tracks?: { data?: Array<{ id: string }> } } };
+    data?: Array<{ relationships?: { tracks?: { data?: Array<{ id: string }> } } }>;
   };
-  const trackRefs = data.data?.relationships?.tracks?.data ?? [];
+  const trackRefs = data.data?.[0]?.relationships?.tracks?.data ?? [];
   const ids = trackRefs.slice(0, limit).map((t) => t.id);
   return getTracksByIds(token, ids);
 }
