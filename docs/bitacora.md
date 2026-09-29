@@ -459,3 +459,17 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **LECCIÓN** — Un test que mockea la función que quieres probar no prueba la función: prueba el mock. Los contratos de APIs externas hay que verificarlos contra la API real al menos una vez, y congelarlos después en un test con la forma real de la respuesta.
 
 - **ARCHIVOS TOCADOS** — `src/lib/tidal.ts` (fix), `src/lib/__tests__/tidal-search.test.ts` (nuevo, 4 tests), `src/lib/__tests__/csv-parser.test.ts` (+2 tests con formato real de Exportify). Tests totales: **97** (antes 91).
+
+## 2026-09-27 · Prueba de la Puerta 4 en producción + decisión sobre el historial
+
+- **QUÉ SE HIZO** — La usuaria probó la Puerta 4 (archivo) **de extremo a extremo en producción** con un CSV exportado de verdad con Exportify. **Funciona**: subida → `/destino` → OAuth TIDAL → `/migrando` → playlist creada en TIDAL.
+
+- **VERIFICADO EN CÓDIGO (no en pantalla)** — La restricción «TuneHop solo lee de Spotify» queda probada de tres formas: (1) los permisos del OAuth son `playlist-read-private playlist-read-collaborative` (`spotify-auth.ts`); (2) `fetchWithAuth` usa `fetch` sin `method` → GET (`spotify.ts`); (3) **cero** POST/PUT/DELETE contra la API de Spotify en todo `src/lib/spotify.ts` y `src/app/api/spotify/`. No es una promesa de intenciones: no existe el código que podría modificarla.
+
+- **COMPORTAMIENTO CONFIRMADO** — «Eliminar datos y cerrar» borra cookies, `sessionStorage`, `tunehop:uploadedPlaylist` y `tunehop:migratedPlaylists`, y redirige a la home. El retorno a la página de inicio es el comportamiento diseñado, no un fallo.
+
+- **DECISIÓN: historial de migraciones → NO** — Se estudió la petición de «historial de migraciones + acceso permanente a las canciones no encontradas». Se descartó el historial persistente por tres razones: (1) **Choca con la promesa del proyecto** (`AGENTS.md`: nunca guardar nombres de playlist ni datos de usuario después de la sesión; la política de privacidad promete que los datos se procesan en el navegador y no se suben a ningún servidor). (2) Un historial en servidor exigiría base de datos, cuentas (Puerta 2), base jurídica RGPD, retención y contratos de encargado de tratamiento — coste y riesgo desproporcionados para el MVP. (3) La necesidad **ya está cubierta parcialmente**: la pantalla final permite copiar el resumen, exportar CSV y exportar JSON con las canciones no migradas, y ese fichero es del usuario para siempre. Se descartó también el historial en `localStorage` (viable) porque exigiría reformar `AGENTS.md` y la política de privacidad; se reevaluará si hay usuarios recurrentes.
+
+- **NOTA TÉCNICA** — Los botones de informe (copiar/CSV/JSON) se renderizan **solo** cuando `progress.result.notFoundTracks.length > 0`. Si no hay canciones no migradas no aparece informe, lo cual es coherente (no hay nada que informar).
+
+- **LECCIÓN** — «Siempre accesible» y «sin persistir datos» son incompatibles dentro de la app. La solución que respeta ambos es **sacar el dato fuera de la app**: descargarlo como fichero. Cuando una petición choca con un principio del proyecto, la respuesta correcta no es romper el principio en silencio, sino hacerlo explícito y buscar la vía que lo conserva.

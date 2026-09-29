@@ -11,7 +11,17 @@ La app pública funciona sin la API de Spotify: el usuario exporta su playlist a
 | Puerta | Flujo | Estado |
 |---|---|---|
 | 1. Beta cerrada | Home → Spotify → /playlists → /destino → /migrando | ✅ Funciona (5 usuarios) |
-| 4. Archivo | Home → /archivo → sube CSV → /destino → /migrando | ✅ Funciona |
+| 4. Archivo | Home → /archivo → sube CSV → /destino → /migrando | ✅ **Probada de extremo a extremo en producción** con CSV real de Exportify |
+
+### Garantía de solo lectura en Spotify (verificado en código)
+
+| Prueba | Dónde | Resultado |
+|---|---|---|
+| Permisos pedidos en el OAuth | `spotify-auth.ts` (`SCOPES`) | `playlist-read-private playlist-read-collaborative` → solo lectura |
+| Llamadas a la API de Spotify | `spotify.ts` (`fetchWithAuth`) | `fetch` sin `method` → GET |
+| Métodos de escritura a Spotify | `src/lib/spotify.ts` + `src/app/api/spotify/` | **Cero** POST/PUT/DELETE |
+
+> TuneHop no puede modificar playlists de Spotify: no pide permiso para ello y no existe código que lo intente.
 
 ### Contratos de TIDAL validados contra la API real (2026-09-27)
 
@@ -28,12 +38,19 @@ La app pública funciona sin la API de Spotify: el usuario exporta su playlist a
 
 | Prioridad | Qué | Dónde empezar |
 |---|---|---|
-| 1 | Probar Puerta 4 con CSV real de Exportify **en el navegador** (parser y contratos TIDAL ya validados) | `/es/archivo` en Vercel |
-| 2 | Paso 19: case study (`docs/case-study.md`) | Skill `paso-19-case-study` |
-| 3 | Paso 20: memoria didáctica (`docs/memoria.md`) | Skill `paso-20-memoria` |
-| 4 | Puerta 5: playlist pública vía Client Credentials | `src/app/[locale]/publica/` |
-| 5 | Puerta 2: login propio + guía `/setup` | `src/app/[locale]/setup/` |
-| 6 | JSON oficial "Descargar tus datos" de Spotify | Parser en `csv-parser.ts` |
+| 1 | Paso 19: case study (`docs/case-study.md`) | Skill `paso-19-case-study` |
+| 2 | Paso 20: memoria didáctica (`docs/memoria.md`) | Skill `paso-20-memoria` |
+| 3 | Puerta 5: playlist pública vía Client Credentials | `src/app/[locale]/publica/` |
+| 4 | Puerta 2: login propio + guía `/setup` | `src/app/[locale]/setup/` |
+| 5 | JSON oficial "Descargar tus datos" de Spotify | Parser en `csv-parser.ts` |
+
+### Decisión: historial de migraciones (2026-09-27)
+
+**Decidido: NO se implementa historial persistente (opción A).** El usuario ya puede descargar su informe (copiar resumen, CSV o JSON) con las canciones no migradas; ese fichero es suyo y no depende de TuneHop.
+
+Motivo: un historial en servidor exigiría base de datos, cuentas y base jurídica RGPD, y rompería la promesa principal del proyecto (no persistir datos del usuario). Un historial en el navegador (`localStorage`) sería viable pero requeriría reformar `AGENTS.md` y la política de privacidad — se reevaluará si el producto tiene usuarios recurrentes que lo pidan.
+
+> Nota técnica: los botones de informe (copiar/CSV/JSON) solo aparecen en la pantalla final cuando hay al menos una canción no migrada.
 
 ## Arquitectura de puertas
 
