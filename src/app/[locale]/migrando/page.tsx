@@ -55,6 +55,23 @@ interface MigrationProgress {
   error?: string;
 }
 
+/**
+ * Selección guardada por `/playlists`: `[{ id, name }]`.
+ * Acepta también el formato antiguo (array de ids) por compatibilidad.
+ */
+function readSelectedPlaylists(): Array<{ id: string; name: string }> {
+  try {
+    const raw = JSON.parse(sessionStorage.getItem("selectedPlaylists") || "[]") as unknown[];
+    return raw.map((x) =>
+      typeof x === "string"
+        ? { id: x, name: "" }
+        : { id: (x as { id: string }).id, name: (x as { name?: string }).name ?? "" }
+    );
+  } catch {
+    return [];
+  }
+}
+
 export default function Migrando() {
   const t = useTranslations();
   const [progress, setProgress] = useState<MigrationProgress>({
@@ -91,13 +108,13 @@ export default function Migrando() {
       }
     }
 
-    const selectedIds = JSON.parse(sessionStorage.getItem("selectedPlaylists") || "[]");
-    if (selectedIds.length === 0) {
+    const selectedPlaylists = readSelectedPlaylists();
+    if (selectedPlaylists.length === 0) {
       setProgress({ stage: "error", message: t("migrando.errorNoPlaylists"), current: 0, total: 0, error: "NO_PLAYLISTS" });
       return;
     }
 
-    runMigration(selectedIds);
+    runMigration(selectedPlaylists.map((p) => p.id));
   }, []);
 
   /** Limpia los datos de la Puerta 4 (archivo) tras consumirlos */
@@ -216,9 +233,16 @@ export default function Migrando() {
     abortControllerRef.current = new AbortController();
     const signal = abortControllerRef.current.signal;
 
-    // Puerta 4: título elegido por la usuaria; vía Spotify: título genérico
+    // Puerta 4: título elegido por la usuaria; vía Spotify: el nombre original de la playlist
+    const selection = readSelectedPlaylists();
+    const originalNames = playlistIds
+      .map((id) => selection.find((p) => p.id === id)?.name)
+      .filter((n): n is string => !!n);
     const playlistTitle =
-      uploaded?.name || "Migración Spotify - " + new Date().toLocaleDateString("es-ES");
+      uploaded?.name ||
+      (originalNames.length > 0
+        ? originalNames.join(", ")
+        : "Migración Spotify - " + new Date().toLocaleDateString("es-ES"));
 
     try {
       // 1. Obtener tracks: del archivo subido (puerta 4) o de Spotify
@@ -447,7 +471,7 @@ export default function Migrando() {
       const doneNotMigrated = [...skipped, ...pending].map((it) => ({ name: it.name, artists: it.artists, isrc: it.isrc }));
       saveReviewToStorage();
       if (!sessionStorage.getItem("tunehop:uploadedPlaylist")) {
-        markPlaylistsMigrated(JSON.parse(sessionStorage.getItem("selectedPlaylists") || "[]"));
+        markPlaylistsMigrated(readSelectedPlaylists().map((p) => p.id));
       }
 
       setProgress({

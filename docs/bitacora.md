@@ -485,3 +485,17 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **ARCHIVOS** — `docs/plataformas-alternativas.md` §5, `docs/07-tareas.md` (backlog), `docs/estado-actual.md`, `docs/tech-decision-subsonic.md` (nuevo).
 
 - **LECCIÓN** — «Más mercado» no se consigue sumando destinos, sino ampliando público. Y cuando el destino grande ya regala lo que harías tú, la ventaja no está ahí.
+
+## 2026-10-06 · Fix: la playlist migrada conserva el nombre original de Spotify
+
+- **QUÉ SE ROMPIÓ** — Al migrar por la vía Spotify (OAuth), la playlist creada en TIDAL se llamaba "Migración Spotify - 6/10/2026" en vez del nombre original de la playlist de origen.
+
+- **CAUSA RAÍZ** — `/playlists` guardaba en `sessionStorage` solo los IDs de la selección; `/migrando` no tenía el nombre y usaba un título genérico con fecha. La Puerta 4 (archivo CSV) no fallaba porque el CSV sí trae el nombre.
+
+- **QUÉ SE ARREGLÓ** — La selección se guarda como `[{ id, name }]` y `/migrando` usa el nombre original como título de la playlist (con compatibilidad hacia atrás). Si se seleccionan varias (se fusionan en una sola), los nombres se unen con comas. Detalle en `docs/bugs.md` R11.
+
+- **ARCHIVOS** — `src/app/[locale]/playlists/page.tsx`, `src/app/[locale]/migrando/page.tsx`, `docs/bugs.md`.
+
+- **VERIFICACIÓN** — `tsc --noEmit` limpio; 97 tests pasan.
+
+- **LECCIÓN** — Igual que R7/R8: al pasar datos entre pantallas hay que arrastrar el dato que hace falta para la salida, no solo la clave técnica. Lo que no viaja, se pierde.

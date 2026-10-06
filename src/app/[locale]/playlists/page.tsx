@@ -244,7 +244,10 @@ export default function Playlists() {
               disabled={selected.size === 0}
               aria-label={`${t("playlists.continue")} (${selected.size})`}
               onClick={() => {
-                sessionStorage.setItem("selectedPlaylists", JSON.stringify(Array.from(selected)));
+                const selection = playlists
+                  .filter((p) => selected.has(p.id))
+                  .map((p) => ({ id: p.id, name: p.name }));
+                sessionStorage.setItem("selectedPlaylists", JSON.stringify(selection));
                 window.location.href = "/destino";
               }}
             >

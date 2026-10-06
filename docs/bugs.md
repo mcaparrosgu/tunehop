@@ -3,7 +3,7 @@
 > Documento vivo de roturas, causas raíz y decisiones técnicas. Cuando se rompe algo,
 > se añade una entrada aquí con el diagnóstico y la solución, para no repetir errores
 > y para que otro agente (p. ej. Opus5) pueda dar instrucciones precisas.
-> Ultima actualización: 2026-09-09 (R10 validado en producción).
+> Ultima actualización: 2026-10-06 (R11 arreglado y verificado).
 
 ---
 
@@ -110,6 +110,13 @@ Landing → Consentimiento (checkbox) → /api/spotify/auth (nativo <a>)
 - **Cómo se detectó**: la usuaria reportó "0/18 migradas, ninguna solución de revisión visible". Se buscaron proyectos reales que migran a TIDAL (GitHub) y se comparó su patrón de búsqueda: `searchResults` + detalles por IDs (repo `jjdenhertog/spotify-to-plex`).
 - **Arreglo** (commit `a33ec3b`): nuevos helpers `searchText()` y `getTracksByIds()` en `src/lib/tidal.ts`; limpieza de caracteres prohibidos en la query; parseo correcto.
 - **Validación**: la misma playlist mainstream pasó de 0/18 a 17/18 migradas (1 residual por catálogo: "Ruby Soho — Rancid", cubierto por la revisión manual).**
+
+### R11 — La playlist migrada no conservaba el nombre original de Spotify (RESUELTO 2026-10-06)
+- **Síntoma**: al migrar por la vía Spotify (OAuth), la playlist creada en TIDAL se llamaba "Migración Spotify - 6/10/2026" en vez del nombre original de la playlist de origen.
+- **Causa raíz**: `/playlists` guardaba en `sessionStorage` solo los IDs de la selección (`Array.from(selected)`), y `/migrando` no tenía acceso a los nombres; su fallback era `uploaded?.name || "Migración Spotify - " + fecha`. La Puerta 4 (archivo CSV) sí traía el nombre, por eso solo fallaba la vía Spotify.
+- **Arreglo**: `/playlists` guarda la selección como `[{ id, name }]`; `/migrando` (`readSelectedPlaylists()`) lee el nombre original y lo usa como título. Compatibilidad hacia atrás con el formato antiguo (array de ids). Si se seleccionan varias playlists (se fusionan en una sola), los nombres se unen con comas.
+- **Verificación**: `tsc --noEmit` limpio; 97 tests pasan.
+- **Lección**: al pasar datos entre pantallas hay que arrastrar el dato que hace falta para la salida (el nombre), no solo la clave técnica (el ID). Misma familia que R7/R8: lo que no viaja, se pierde.
 
 ---
 
