@@ -473,3 +473,15 @@ Cuaderno de decisiones del proyecto TuneHop. Cada entrada registra por qué se t
 - **NOTA TÉCNICA** — Los botones de informe (copiar/CSV/JSON) se renderizan **solo** cuando `progress.result.notFoundTracks.length > 0`. Si no hay canciones no migradas no aparece informe, lo cual es coherente (no hay nada que informar).
 
 - **LECCIÓN** — «Siempre accesible» y «sin persistir datos» son incompatibles dentro de la app. La solución que respeta ambos es **sacar el dato fuera de la app**: descargarlo como fichero. Cuando una petición choca con un principio del proyecto, la respuesta correcta no es romper el principio en silencio, sino hacerlo explícito y buscar la vía que lo conserva.
+
+## 2026-10-06 · ¿Abrir TuneHop a Qobuz? Decisión de destinos y apuesta por Subsonic
+
+- **PREGUNTA** — ¿Es viable abrir TuneHop a Qobuz junto a TIDAL para ampliar mercado?
+
+- **HALLAZGO** — No. **Qobuz no tiene API pública de escritura** (misma pared que Deezer). Y el mayor destino por usuarios, **Apple Music** (94 M, Wikipedia ago-2025), **ya ofrece importar playlists de Spotify gratis y de fábrica desde 2025** (herramienta propia con SongShift). Cada servicio de streaming es un jardín cerrado: añadir destinos no amplía mercado.
+
+- **DECISIÓN** — No se abren más servicios de streaming. La palanca de crecimiento es **distribución/marketing**, no destinos. Se documenta el descarte de Qobuz y se estudia el único destino con API común y abierta: **servidores self-hosted vía Subsonic API** (una integración → decenas de programas: Navidrome, Airsonic, gonic, Ampache, Jellyfin…). Plan técnico en `docs/tech-decision-subsonic.md`. Propuesta **v2, no implementada**.
+
+- **ARCHIVOS** — `docs/plataformas-alternativas.md` §5, `docs/07-tareas.md` (backlog), `docs/estado-actual.md`, `docs/tech-decision-subsonic.md` (nuevo).
+
+- **LECCIÓN** — «Más mercado» no se consigue sumando destinos, sino ampliando público. Y cuando el destino grande ya regala lo que harías tú, la ventaja no está ahí.

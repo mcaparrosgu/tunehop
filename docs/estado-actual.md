@@ -43,6 +43,7 @@ La app pública funciona sin la API de Spotify: el usuario exporta su playlist a
 | 3 | Puerta 5: playlist pública vía Client Credentials | `src/app/[locale]/publica/` |
 | 4 | Puerta 2: login propio + guía `/setup` | `src/app/[locale]/setup/` |
 | 5 | JSON oficial "Descargar tus datos" de Spotify | Parser en `csv-parser.ts` |
+| 6 | Destino self-hosted vía Subsonic API (v2, propuesta) | `docs/tech-decision-subsonic.md` |
 
 ### Decisión: historial de migraciones (2026-09-27)
 
@@ -62,6 +63,8 @@ Motor único: lista → ISRC/fallback → TIDAL
   ├── Puerta 5: enlace playlist pública (Client Credentials) — pendiente
   └── Puerta 6: open source + autoalojado — pendiente
 ```
+
+> **Destinos** (a dónde migra). TIDAL implementado. Propuesta v2 (2026-10-06): servidores self-hosted vía **Subsonic API** — plan técnico en `docs/tech-decision-subsonic.md`.
 
 ## Datos clave
 

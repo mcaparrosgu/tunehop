@@ -259,6 +259,8 @@
 |---|---|---|
 | v2 | **Borrado asistido de playlists de Spotify** | Tras una migración exitosa, guiar a la usuaria para que elimine sus playlists de Spotify (con triple confirmación y aviso de irreversibilidad), o integrar el borrado vía API si Spotify lo permite y el usuario da consentimiento explícito |
 | v2 | Gestión de "ya migradas" | Diferenciar por completo playlists migradas/omitidas/ocultas con sincronización entre dispositivos |
+| ❌ descartado | **QOBUZ como segundo destino (junto a TIDAL)** | Evaluado 2026-10-06: **no viable**. Qobuz no tiene API pública de escritura para terceros (sin portal de desarrolladores ni creación de playlists oficial); su API es interna y usarla sería ingeniería inversa, frágil y contra sus ToS — misma situación que Deezer. Además su base de usuarios es mucho menor que la de TIDAL, así que el "más mercado" sería marginal. Reevaluar solo si Qobuz abre una API oficial de escritura. |
+| v2 | **Soporte a servidores self-hosted vía Subsonic API** | Idea 2026-10-06: **una sola integración** alcanza decenas de programas libres (servidores Navidrome, Airsonic, gonic, Ampache, Jellyfin con plugin; clientes Feishin, Symfonium, DSub, Strawberry). Alinea con la ética open-source del proyecto. Buscar por artista/título en la biblioteca del usuario y crear la playlist. Mercado de nicho (técnico), pero es el mayor alcance posible entre apps libres con mínimo mantenimiento. No confundir con los servicios de streaming: ahí no hay API común. → **Plan técnico detallado: `docs/tech-decision-subsonic.md`** (endpoints, auth, batching, diseño de código). |
 
 ---
 

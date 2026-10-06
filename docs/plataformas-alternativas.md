@@ -84,3 +84,32 @@ Para una persona que quiere dejar Spotify sin perder nada:
 - Conocimiento verificado de los proyectos citados.
 
 > Cualquier dato sospechoso de quedar obsoleto: re-verificar antes de usarlo en decisiones.
+
+---
+
+## 5. ¿Abrir TuneHop a más destinos para ganar mercado? (2026-10-06)
+
+Pregunta de la desarrolladora: *"¿es viable abrir TuneHop a Qobuz junto con TIDAL para abrir más mercado?"*.
+Mini-estudio con metodología de negocio (`/asesora-negocio`, Joan).
+
+### 5.1 Candidatos y veredicto
+
+| Destino | Base de usuarios | ¿API pública de escritura? | Veredicto |
+|---|---|---|---|
+| **TIDAL** (ya integrado) | Pequeña (aprox. millones) | ✅ Pública v2 | ✅ Destino actual |
+| **Apple Music** | **94 M** (ago-2025, Wikipedia EN) | ✅ Oficial (crear playlists), pero **Apple Developer Program 99 USD/año** + MusicKit | ⚠️ Grande, pero Apple ya da esto gratis (ver 5.2) |
+| **Qobuz** | Sin cifra pública; 26 países | ❌ Sin API pública de escritura | ❌ No viable |
+| **Deezer** | Aprox. millones (en descenso) | ❌ Registro de apps nuevas cerrado (2024) | ❌ No viable |
+| **YouTube Music / Amazon Music** | Grandes | ❌ Sin API de escritura para terceros | ❌ No viable |
+| **SoundCloud** | Niche (creadores) | ⚠️ API permite crear playlists | ⚠️ Poco solape con el público de "migrar mi Spotify" |
+| **Self-hosted (Navidrome / Subsonic API)** | Niche técnico | ✅ Subsonic API crea playlists | ✅ Gratis y afín a la ética del proyecto, pero mercado pequeño |
+
+### 5.2 El dato que cambia la decisión
+
+**Apple Music ya ofrece importación nativa de playlists de Spotify y YouTube Music desde 2025** (herramienta propia, en colaboración con SongShift; fuente: Wikipedia EN, "Apple Music"). Es decir: el mayor destino por usuarios **ya resuelve el problema gratis y de fábrica**. Añadirlo a TuneHop competiría contra el propio dueño de la plataforma, con coste (99 USD/año + OAuth MusicKit complejo) y sin diferenciación clara para una desarrolladora sola.
+
+### 5.3 Conclusión
+
+**El mercado no se gana añadiendo destinos; se gana ampliando el público.** Los destinos con API abierta que una sola persona puede integrar son TIDAL (hecho), self-hosted (nicho gratuito) y, con coste y complejidad, Apple Music (cuya app ya lo ofrece). Qobuz no es viable (sin API). Si el objetivo es más usuarios, la palanca está en la **distribución / posicionamiento** y en terminar las puertas pendientes, no en más destinos.
+
+> **SUPUESTOS** (a confirmar si el estudio avanza): cifras de TIDAL/Deezer aproximadas, no verificadas con fuente primaria. Cifra de Apple Music (94 M) citada de Wikipedia (ago-2025). Antes de decidir, re-verificar.
